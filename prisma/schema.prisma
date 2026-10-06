@@ -1,0 +1,124 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  PENDIENTE
+  CLIENTE
+  SOCIO
+  FAMILIAR
+  ADMIN
+}
+
+enum SampleStatus {
+  PENDIENTE
+  CERRADO
+}
+
+enum OrderKind {
+  MUESTRA
+  REPLICA
+}
+
+model User {
+  id               String           @id @default(uuid())
+  name             String
+  lastName         String
+  phone            String           @unique
+  passwordHash     String?
+  role             Role             @default(PENDIENTE)
+  isApproved       Boolean          @default(false)
+  lastLoginAt      DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  orders           Order[]
+  sampleDeliveries SampleDelivery[]
+}
+
+model RoleMarkup {
+  id           String  @id @default(uuid())
+  role         Role    @unique
+  markupValue  Float // Porcentaje o monto fijo extra
+  isPercentage Boolean @default(true)
+}
+
+model Product {
+  id            String      @id @default(uuid())
+  codeNumber    Int         @unique
+  name          String
+  description   String
+  imageUrl      String
+  stock         Int         @default(0)
+  baseCostPrice Float
+  isActive      Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  orderItems    OrderItem[]
+}
+
+model Order {
+  id        String      @id @default(uuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  total     Float
+  status    String      @default("PENDIENTE") // PENDIENTE, EN_PROCESO, TERMINADO, CANCELADO
+  kind      OrderKind   @default(REPLICA)
+  note      String?
+  createdAt DateTime    @default(now())
+  items     OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+}
+
+model SampleDelivery {
+  id          String       @id @default(uuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id])
+  productCode Int
+  quantity    Int
+  status      SampleStatus @default(PENDIENTE)
+  createdAt   DateTime     @default(now())
+}
+
+model Supplier {
+  id        String             @id @default(uuid())
+  name      String
+  contact   String?
+  createdAt DateTime           @default(now())
+  purchases SupplierPurchase[]
+}
+
+model SupplierPurchase {
+  id         String   @id @default(uuid())
+  supplierId String
+  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  item       String
+  cost       Float
+  date       DateTime @default(now())
+}
+
+model SiteConfig {
+  id                  String   @id @default("singleton")
+  siteName            String   @default("Cataleya Aromas")
+  tagline             String   @default("Perfumería de autor · Réplicas de alta gama")
+  whatsapp            String   @default("")
+  announcement        String   @default("")
+  announcementEnabled Boolean  @default(false)
+  catalogEnabled      Boolean  @default(true)
+  showDisclaimer      Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}

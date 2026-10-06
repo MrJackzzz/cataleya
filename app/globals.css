@@ -1,0 +1,140 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-jost);
+  --font-display: var(--font-cormorant);
+  --font-heading: var(--font-cormorant);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-gold: #c9a24b;
+  --color-gold-soft: #e6cf9a;
+  --color-gold-deep: #9a7b32;
+  --color-burgundy: #7e1f33;
+  --color-burgundy-deep: #4d1220;
+  --color-ivory: #f3ece1;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #100a0d;
+  --foreground: #f3ece1;
+  --card: #191114;
+  --card-foreground: #f3ece1;
+  --popover: #1c1317;
+  --popover-foreground: #f3ece1;
+  --primary: #7e1f33;
+  --primary-foreground: #fbf4ea;
+  --secondary: #241a1f;
+  --secondary-foreground: #e8dfd2;
+  --muted: #221a1e;
+  --muted-foreground: #a2948e;
+  --accent: #c9a24b;
+  --accent-foreground: #1a1206;
+  --destructive: #d94a4a;
+  --border: rgb(201 162 75 / 16%);
+  --input: rgb(201 162 75 / 22%);
+  --ring: #c9a24b;
+  --chart-1: #c9a24b;
+  --chart-2: #7e1f33;
+  --chart-3: #4d1220;
+  --chart-4: #e6cf9a;
+  --chart-5: #5a7d6f;
+  --radius: 0.75rem;
+  --sidebar: #151013;
+  --sidebar-foreground: #f3ece1;
+  --sidebar-primary: #c9a24b;
+  --sidebar-primary-foreground: #100a0d;
+  --sidebar-accent: #241a1f;
+  --sidebar-accent-foreground: #f3ece1;
+  --sidebar-border: rgb(201 162 75 / 16%);
+  --sidebar-ring: #c9a24b;
+}
+
+.dark {
+  --background: #100a0d;
+  --foreground: #f3ece1;
+  --card: #191114;
+  --card-foreground: #f3ece1;
+  --popover: #1c1317;
+  --popover-foreground: #f3ece1;
+  --primary: #7e1f33;
+  --primary-foreground: #fbf4ea;
+  --secondary: #241a1f;
+  --secondary-foreground: #e8dfd2;
+  --muted: #221a1e;
+  --muted-foreground: #a2948e;
+  --accent: #c9a24b;
+  --accent-foreground: #1a1206;
+  --destructive: #d94a4a;
+  --border: rgb(201 162 75 / 16%);
+  --input: rgb(201 162 75 / 22%);
+  --ring: #c9a24b;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans scroll-smooth;
+  }
+  ::selection {
+    background: rgb(201 162 75 / 35%);
+    color: #f3ece1;
+  }
+}
+
+@utility text-gradient-gold {
+  background-image: linear-gradient(135deg, #e6cf9a 0%, #c9a24b 45%, #9a7b32 100%);
+  background-clip: text;
+  color: transparent;
+}
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
