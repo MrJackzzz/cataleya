@@ -4,7 +4,10 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  const adminPhone = process.env.ADMIN_PHONE ?? "+5491100000000";
+  const adminPhone = (process.env.ADMIN_PHONE ?? "+5491100000000").replace(
+    /\D/g,
+    ""
+  );
   const adminPassword = process.env.ADMIN_PASSWORD ?? "CambiaEstaClave2026!";
   const passwordHash = await bcrypt.hash(adminPassword, 10);
 
