@@ -1,5 +1,12 @@
 export function normalizePhone(value: string): string {
-  return value.replace(/\D/g, "");
+  let digits = value.replace(/\D/g, "");
+  if (digits.length === 11 && digits.startsWith("0")) {
+    digits = digits.slice(1);
+  }
+  if (/^549\d{10}$/.test(digits)) return digits;
+  if (/^54\d{10}$/.test(digits)) return `549${digits.slice(2)}`;
+  if (/^\d{10}$/.test(digits)) return `549${digits}`;
+  return digits;
 }
 
 export function waLink(phone: string, text?: string): string {
