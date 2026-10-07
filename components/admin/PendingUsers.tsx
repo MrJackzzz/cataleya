@@ -32,30 +32,20 @@ type PendingUser = {
   createdAt: string;
 };
 
-function PendingUserCard({ user }: { user: PendingUser }) {
-  const [approveState, approveAction, approvePending] = useActionState(
-    approveUser,
-    null
-  );
-  const [rejectState, rejectAction, rejectPending] = useActionState(
-    rejectUser,
-    null
-  );
+function PendingUserCard({
+  user,
+  approveAction,
+  approvePending,
+  rejectAction,
+  rejectPending,
+}: {
+  user: PendingUser;
+  approveAction: (formData: FormData) => void;
+  approvePending: boolean;
+  rejectAction: (formData: FormData) => void;
+  rejectPending: boolean;
+}) {
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (approveState?.success) {
-      toast.success(approveState.success);
-      setOpen(false);
-    } else if (approveState?.error) {
-      toast.error(approveState.error);
-    }
-  }, [approveState]);
-
-  useEffect(() => {
-    if (rejectState?.success) toast.success(rejectState.success);
-    if (rejectState?.error) toast.error(rejectState.error);
-  }, [rejectState]);
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-gold/20 bg-card p-4">
@@ -149,6 +139,25 @@ function PendingUserCard({ user }: { user: PendingUser }) {
 }
 
 export function PendingUsers({ users }: { users: PendingUser[] }) {
+  const [approveState, approveAction, approvePending] = useActionState(
+    approveUser,
+    null
+  );
+  const [rejectState, rejectAction, rejectPending] = useActionState(
+    rejectUser,
+    null
+  );
+
+  useEffect(() => {
+    if (approveState?.success) toast.success(approveState.success);
+    else if (approveState?.error) toast.error(approveState.error);
+  }, [approveState]);
+
+  useEffect(() => {
+    if (rejectState?.success) toast.success(rejectState.success);
+    else if (rejectState?.error) toast.error(rejectState.error);
+  }, [rejectState]);
+
   if (users.length === 0) {
     return (
       <div className="rounded-xl border border-dashed border-gold/20 bg-card/50 px-5 py-10 text-center">
@@ -163,7 +172,14 @@ export function PendingUsers({ users }: { users: PendingUser[] }) {
   return (
     <div className="space-y-3">
       {users.map((user) => (
-        <PendingUserCard key={user.id} user={user} />
+        <PendingUserCard
+          key={user.id}
+          user={user}
+          approveAction={approveAction}
+          approvePending={approvePending}
+          rejectAction={rejectAction}
+          rejectPending={rejectPending}
+        />
       ))}
     </div>
   );
