@@ -38,7 +38,13 @@ export const productSchema = z.object({
     .positive("Debe ser positivo"),
   name: z.string().trim().min(3, "Ingresá el nombre / equivalencia olfativa").max(120),
   description: z.string().trim().min(10, "Descripción demasiado corta").max(600),
-  imageUrl: z.string().trim().min(1, "Subí una imagen del producto"),
+  imageUrl: z
+    .string()
+    .trim()
+    .min(1, "Subí una imagen del producto")
+    .refine((value) => !value.startsWith("blob:"), {
+      message: "La imagen no se subió correctamente. Volvé a seleccionarla.",
+    }),
   gender: z.enum(["MASCULINO", "FEMENINO", "UNISEX"], {
     error: "Elegí el género del perfume",
   }),

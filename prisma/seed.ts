@@ -90,12 +90,19 @@ async function main() {
     },
   ];
 
+  const freshInstall = (await prisma.product.count()) === 0;
   for (const product of products) {
-    await prisma.product.upsert({
+    const found = await prisma.product.findUnique({
       where: { codeNumber: product.codeNumber },
-      update: product,
-      create: { ...product, imageUrl: "/images/perfume-placeholder.svg" },
+      select: { id: true },
     });
+    if (found) {
+      await prisma.product.update({ where: { id: found.id }, data: product });
+    } else if (freshInstall) {
+      await prisma.product.create({
+        data: { ...product, imageUrl: "/images/perfume-placeholder.svg" },
+      });
+    }
   }
 
   console.log("✓ Seed ejecutado: admin, roles, configuración y catálogo base.");
