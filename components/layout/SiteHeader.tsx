@@ -65,7 +65,6 @@ export async function SiteHeader() {
               <AccessRequestButton
                 label="Solicitar acceso"
                 variant="outline"
-                className="hidden sm:inline-flex"
               />
             </>
           )}

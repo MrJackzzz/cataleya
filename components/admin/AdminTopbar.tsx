@@ -1,7 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Bell, Store, Menu } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Bell, Store, Menu, X, LogOut } from "lucide-react";
+import { logoutAction } from "@/app/actions/auth";
+import { LINKS } from "@/components/admin/AdminSidebar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -25,11 +29,29 @@ export type AdminAlerts = {
 
 export function AdminTopbar({ alerts }: { alerts: AdminAlerts }) {
   const total = alerts.pendingUsers + alerts.newOrders;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between gap-4 border-b border-gold/15 bg-background/85 px-4 py-3 backdrop-blur sm:px-6">
       <div className="flex items-center gap-3 md:hidden">
-        <Menu className="size-5 text-gold" />
+        <button
+          type="button"
+          onClick={() => setMenuOpen(true)}
+          aria-label="Abrir menú del panel"
+          className="flex size-9 items-center justify-center rounded-lg border border-gold/25 text-gold transition-colors hover:bg-gold/10"
+        >
+          <Menu className="size-5" />
+        </button>
         <span className="font-display text-xl text-gradient-gold">Cataleya</span>
       </div>
 
@@ -97,6 +119,68 @@ export function AdminTopbar({ alerts }: { alerts: AdminAlerts }) {
           </Link>
         </Button>
       </div>
+
+      {menuOpen ? (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div
+            className="absolute inset-0 bg-black/70"
+            onClick={() => setMenuOpen(false)}
+            aria-hidden="true"
+          />
+          <aside className="absolute top-0 left-0 flex h-full w-72 flex-col border-r border-gold/20 bg-sidebar">
+            <div className="flex items-center justify-between border-b border-gold/15 px-5 py-4">
+              <span className="font-display text-2xl leading-none text-gradient-gold">
+                Cataleya
+              </span>
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Cerrar menú del panel"
+                className="flex size-9 items-center justify-center rounded-lg border border-gold/25 text-gold transition-colors hover:bg-gold/10"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+
+            <nav className="flex-1 space-y-1 overflow-y-auto p-3">
+              {LINKS.map((link) => {
+                const active =
+                  link.href === "/admin"
+                    ? pathname === "/admin"
+                    : pathname.startsWith(link.href);
+                const Icon = link.icon;
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                      active
+                        ? "border border-gold/30 bg-burgundy-deep/50 text-gold-soft"
+                        : "text-muted-foreground hover:bg-sidebar-accent hover:text-ivory"
+                    }`}
+                  >
+                    <Icon className="size-4" />
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="border-t border-gold/15 p-3">
+              <form action={logoutAction}>
+                <button
+                  type="submit"
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-ivory"
+                >
+                  <LogOut className="size-4" /> Cerrar sesión
+                </button>
+              </form>
+            </div>
+          </aside>
+        </div>
+      ) : null}
     </header>
   );
 }

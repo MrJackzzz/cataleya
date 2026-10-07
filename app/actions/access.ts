@@ -5,6 +5,7 @@ import { accessRequestSchema } from "@/lib/validations";
 import { normalizePhone } from "@/lib/format";
 import type { FormState } from "@/lib/action-state";
 import { revalidatePath } from "next/cache";
+import bcrypt from "bcryptjs";
 
 export async function requestAccess(
   _prev: FormState,
@@ -14,6 +15,8 @@ export async function requestAccess(
     name: formData.get("name"),
     lastName: formData.get("lastName"),
     phone: formData.get("phone"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
   });
 
   if (!parsed.success) {
@@ -35,6 +38,7 @@ export async function requestAccess(
       name: parsed.data.name,
       lastName: parsed.data.lastName,
       phone,
+      passwordHash: await bcrypt.hash(parsed.data.password, 10),
       role: "PENDIENTE",
       isApproved: false,
     },
@@ -43,6 +47,6 @@ export async function requestAccess(
   revalidatePath("/", "layout");
   return {
     success:
-      "Solicitud enviada. Te contactamos por WhatsApp cuando sea aprobada.",
+      "Solicitud enviada. Cuando tu cuenta sea aprobada vas a poder ingresar con tu número y tu contraseña.",
   };
 }

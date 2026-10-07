@@ -34,7 +34,19 @@ export async function approveUser(
   const user = await prisma.user.findUnique({ where: { id: parsed.data.userId } });
   if (!user) return { error: "Usuario no encontrado." };
 
-  const passwordHash = await bcrypt.hash(temporaryPassword, 10);
+  let passwordHash = user.passwordHash;
+  if (temporaryPassword) {
+    if (temporaryPassword.length < 6) {
+      return { error: "La contraseña debe tener al menos 6 caracteres." };
+    }
+    passwordHash = await bcrypt.hash(temporaryPassword, 10);
+  }
+  if (!passwordHash) {
+    return {
+      error:
+        "Esa solicitud no tiene contraseña registrada. Ingresá una para poder aprobarla.",
+    };
+  }
 
   await prisma.user.update({
     where: { id: user.id },

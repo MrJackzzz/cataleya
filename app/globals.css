@@ -43,7 +43,7 @@
   --color-gold: #c9a24b;
   --color-gold-soft: #e6cf9a;
   --color-gold-deep: #9a7b32;
-  --color-burgundy: #7e1f33;
+  --color-burgundy: #8d2540;
   --color-burgundy-deep: #4d1220;
   --color-ivory: #f3ece1;
   --radius-sm: calc(var(--radius) * 0.6);
@@ -56,18 +56,18 @@
 }
 
 :root {
-  --background: #100a0d;
+  --background: #1a1216;
   --foreground: #f3ece1;
-  --card: #191114;
+  --card: #231820;
   --card-foreground: #f3ece1;
-  --popover: #1c1317;
+  --popover: #261b21;
   --popover-foreground: #f3ece1;
-  --primary: #7e1f33;
+  --primary: #8d2540;
   --primary-foreground: #fbf4ea;
-  --secondary: #241a1f;
+  --secondary: #2e2229;
   --secondary-foreground: #e8dfd2;
-  --muted: #221a1e;
-  --muted-foreground: #a2948e;
+  --muted: #2b2128;
+  --muted-foreground: #b6a69e;
   --accent: #c9a24b;
   --accent-foreground: #1a1206;
   --destructive: #d94a4a;
@@ -75,34 +75,34 @@
   --input: rgb(201 162 75 / 22%);
   --ring: #c9a24b;
   --chart-1: #c9a24b;
-  --chart-2: #7e1f33;
+  --chart-2: #8d2540;
   --chart-3: #4d1220;
   --chart-4: #e6cf9a;
   --chart-5: #5a7d6f;
   --radius: 0.75rem;
-  --sidebar: #151013;
+  --sidebar: #1e151a;
   --sidebar-foreground: #f3ece1;
   --sidebar-primary: #c9a24b;
-  --sidebar-primary-foreground: #100a0d;
-  --sidebar-accent: #241a1f;
+  --sidebar-primary-foreground: #1a1216;
+  --sidebar-accent: #2e2229;
   --sidebar-accent-foreground: #f3ece1;
   --sidebar-border: rgb(201 162 75 / 16%);
   --sidebar-ring: #c9a24b;
 }
 
 .dark {
-  --background: #100a0d;
+  --background: #1a1216;
   --foreground: #f3ece1;
-  --card: #191114;
+  --card: #231820;
   --card-foreground: #f3ece1;
-  --popover: #1c1317;
+  --popover: #261b21;
   --popover-foreground: #f3ece1;
-  --primary: #7e1f33;
+  --primary: #8d2540;
   --primary-foreground: #fbf4ea;
-  --secondary: #241a1f;
+  --secondary: #2e2229;
   --secondary-foreground: #e8dfd2;
-  --muted: #221a1e;
-  --muted-foreground: #a2948e;
+  --muted: #2b2128;
+  --muted-foreground: #b6a69e;
   --accent: #c9a24b;
   --accent-foreground: #1a1206;
   --destructive: #d94a4a;
@@ -116,7 +116,10 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-medium;
+  }
+  .font-display {
+    font-weight: 500;
   }
   html {
     @apply font-sans scroll-smooth;
@@ -135,6 +138,7 @@
 
 @utility eyebrow {
   font-size: 0.6875rem;
+  font-weight: 600;
   letter-spacing: 0.32em;
   text-transform: uppercase;
 }

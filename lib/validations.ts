@@ -9,11 +9,21 @@ const phoneField = z
     message: "Ingresá un número de WhatsApp válido",
   });
 
-export const accessRequestSchema = z.object({
-  name: z.string().trim().min(2, "Ingresá tu nombre").max(60),
-  lastName: z.string().trim().min(2, "Ingresá tu apellido").max(60),
-  phone: phoneField,
-});
+export const accessRequestSchema = z
+  .object({
+    name: z.string().trim().min(2, "Ingresá tu nombre").max(60),
+    lastName: z.string().trim().min(2, "Ingresá tu apellido").max(60),
+    phone: phoneField,
+    password: z
+      .string()
+      .min(6, "La contraseña debe tener al menos 6 caracteres")
+      .max(72, "Contraseña demasiado larga"),
+    confirmPassword: z.string().min(1, "Repetí tu contraseña"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Las contraseñas no coinciden",
+    path: ["confirmPassword"],
+  });
 
 export const loginSchema = z.object({
   phone: phoneField,

@@ -55,8 +55,8 @@ export function AccessRequestButton({
             Solicitud de acceso
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Completá tus datos y te habilitamos los precios y la posibilidad de
-            generar pedidos.
+            Completá tus datos y elegí tu contraseña. Cuando aprobemos tu
+            cuenta vas a poder ingresar con tu número y tu contraseña.
           </DialogDescription>
         </DialogHeader>
         <form ref={formRef} action={formAction} className="space-y-4">
@@ -84,6 +84,30 @@ export function AccessRequestButton({
               placeholder="+54 9 11 2345-6789"
               required
             />
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="access-password">Contraseña</Label>
+              <Input
+                id="access-password"
+                name="password"
+                type="password"
+                minLength={6}
+                placeholder="Mínimo 6 caracteres"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="access-confirm">Repetí la contraseña</Label>
+              <Input
+                id="access-confirm"
+                name="confirmPassword"
+                type="password"
+                minLength={6}
+                placeholder="Igual a la anterior"
+                required
+              />
+            </div>
           </div>
           {state?.error ? (
             <p className="text-sm text-destructive">{state.error}</p>

@@ -94,7 +94,8 @@ function PendingUserCard({ user }: { user: PendingUser }) {
                 Aprobar usuario
               </DialogTitle>
               <DialogDescription>
-                Asigná el rol y una contraseña temporal para {user.name}.
+                Asigná el rol para {user.name}. Ya eligió su propia contraseña
+                al registrarse.
               </DialogDescription>
             </DialogHeader>
             <form action={approveAction} className="space-y-4">
@@ -113,13 +114,13 @@ function PendingUserCard({ user }: { user: PendingUser }) {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="temp-password">Contraseña temporal</Label>
+                <Label htmlFor="temp-password">
+                  Redefinir contraseña (opcional)
+                </Label>
                 <Input
                   id="temp-password"
                   name="temporaryPassword"
-                  minLength={6}
-                  required
-                  placeholder="Mínimo 6 caracteres"
+                  placeholder="Vacío = conserva la que eligió el cliente"
                 />
               </div>
               <Button type="submit" className="w-full" disabled={approvePending}>
