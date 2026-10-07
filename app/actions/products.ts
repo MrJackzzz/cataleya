@@ -51,6 +51,7 @@ export async function createProduct(
     name: formData.get("name"),
     description: formData.get("description"),
     imageUrl,
+    gender: formData.get("gender") ?? "UNISEX",
     stock: formData.get("stock"),
     baseCostPrice: formData.get("baseCostPrice"),
   });
@@ -99,6 +100,7 @@ export async function updateProduct(
     name: formData.get("name"),
     description: formData.get("description"),
     imageUrl,
+    gender: formData.get("gender") ?? "UNISEX",
     stock: formData.get("stock"),
     baseCostPrice: formData.get("baseCostPrice"),
   });

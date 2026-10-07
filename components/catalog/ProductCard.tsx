@@ -23,6 +23,7 @@ export type CatalogProduct = {
   name: string;
   description: string;
   imageUrl: string;
+  gender: string;
   stock: number;
 };
 
@@ -52,7 +53,7 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
           alt={product.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          className="object-contain p-4 transition-transform duration-700 group-hover:scale-105"
         />
         <span className="absolute left-4 top-4 rounded-full border border-gold/40 bg-background/75 px-3 py-1 text-[11px] tracking-[0.25em] text-gold-soft backdrop-blur">
           N° {product.codeNumber}
@@ -65,6 +66,9 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-5">
+        <span className="text-[11px] tracking-[0.3em] text-gold uppercase">
+          {product.gender}
+        </span>
         <h3 className="font-display text-2xl leading-tight text-ivory">
           {product.name}
         </h3>

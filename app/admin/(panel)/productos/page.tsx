@@ -54,6 +54,7 @@ export default async function AdminProductsPage() {
                 <TableHead>Imagen</TableHead>
                 <TableHead>N°</TableHead>
                 <TableHead>Perfume</TableHead>
+                <TableHead>Género</TableHead>
                 <TableHead>Stock</TableHead>
                 <TableHead>Costo base</TableHead>
                 <TableHead>Estado</TableHead>
@@ -79,6 +80,11 @@ export default async function AdminProductsPage() {
                     <span className="text-ivory">{product.name}</span>
                     <span className="block max-w-md truncate text-xs text-muted-foreground">
                       {product.description}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="inline-flex items-center rounded-full border border-gold/40 bg-gold/10 px-2.5 py-0.5 text-[11px] tracking-[0.14em] text-gold-soft uppercase">
+                      {product.gender}
                     </span>
                   </TableCell>
                   <TableCell>

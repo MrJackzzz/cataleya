@@ -39,6 +39,9 @@ export const productSchema = z.object({
   name: z.string().trim().min(3, "Ingresá el nombre / equivalencia olfativa").max(120),
   description: z.string().trim().min(10, "Descripción demasiado corta").max(600),
   imageUrl: z.string().trim().min(1, "Subí una imagen del producto"),
+  gender: z.enum(["MASCULINO", "FEMENINO", "UNISEX"], {
+    error: "Elegí el género del perfume",
+  }),
   stock: z.coerce
     .number({ error: "Stock inválido" })
     .int("Stock inválido")

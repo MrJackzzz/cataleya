@@ -1,4 +1,4 @@
-import { PrismaClient, Role } from "@prisma/client";
+import { PrismaClient, Role, Gender } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -44,7 +44,14 @@ async function main() {
     create: { id: "singleton" },
   });
 
-  const products = [
+  const products: {
+    codeNumber: number;
+    name: string;
+    description: string;
+    baseCostPrice: number;
+    stock: number;
+    gender: Gender;
+  }[] = [
     {
       codeNumber: 101,
       name: "Amaderado Ahumado — Inspirado en Ombré Leather",
@@ -52,6 +59,7 @@ async function main() {
         "Cuero sofisticado sobre cedro y ámbar. Una firma intensa para la noche, con estela persistente y carácter.",
       baseCostPrice: 18000,
       stock: 25,
+      gender: Gender.MASCULINO,
     },
     {
       codeNumber: 102,
@@ -60,6 +68,7 @@ async function main() {
         "Bergamota vibrante con fondo de sándalo y jengibre. Frescura elegante para el día a día.",
       baseCostPrice: 16500,
       stock: 40,
+      gender: Gender.MASCULINO,
     },
     {
       codeNumber: 103,
@@ -68,6 +77,7 @@ async function main() {
         "Jazmín y tonka sobre un lecho de vainilla. Dulzor envolvente con remate amaderado.",
       baseCostPrice: 17200,
       stock: 30,
+      gender: Gender.FEMENINO,
     },
     {
       codeNumber: 104,
@@ -76,6 +86,7 @@ async function main() {
         "Azafrán, ámbar y cedro en equilibrio perfecto. Una huella distintiva y memorables.",
       baseCostPrice: 21000,
       stock: 0,
+      gender: Gender.UNISEX,
     },
   ];
 

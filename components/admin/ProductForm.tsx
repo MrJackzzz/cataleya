@@ -9,6 +9,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -24,6 +31,7 @@ export type EditableProduct = {
   name: string;
   description: string;
   imageUrl: string;
+  gender: string;
   stock: number;
   baseCostPrice: number;
 };
@@ -36,6 +44,7 @@ export function ProductForm({ product }: Props) {
   const editing = Boolean(product);
   const [open, setOpen] = useState(false);
   const [preview, setPreview] = useState(product?.imageUrl ?? "");
+  const [gender, setGender] = useState(product?.gender ?? "UNISEX");
   const [state, formAction, pending] = useActionState(
     editing ? updateProduct : createProduct,
     null
@@ -127,17 +136,34 @@ export function ProductForm({ product }: Props) {
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="product-cost">Costo base ($)</Label>
-            <Input
-              id="product-cost"
-              name="baseCostPrice"
-              type="number"
-              min={0}
-              step="0.01"
-              defaultValue={product?.baseCostPrice ?? ""}
-              required
-            />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="product-gender">Género</Label>
+              <Select value={gender} onValueChange={setGender}>
+                <SelectTrigger id="product-gender" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="MASCULINO">Masculino</SelectItem>
+                  <SelectItem value="FEMENINO">Femenino</SelectItem>
+                  <SelectItem value="UNISEX">Unisex</SelectItem>
+                </SelectContent>
+              </Select>
+              <input type="hidden" name="gender" value={gender} />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="product-cost">Costo base ($)</Label>
+              <Input
+                id="product-cost"
+                name="baseCostPrice"
+                type="number"
+                min={0}
+                step="0.01"
+                defaultValue={product?.baseCostPrice ?? ""}
+                required
+              />
+            </div>
           </div>
 
           <div className="space-y-2">

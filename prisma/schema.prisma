@@ -25,6 +25,12 @@ enum OrderKind {
   REPLICA
 }
 
+enum Gender {
+  MASCULINO
+  FEMENINO
+  UNISEX
+}
+
 model User {
   id               String           @id @default(uuid())
   name             String
@@ -53,6 +59,7 @@ model Product {
   name          String
   description   String
   imageUrl      String
+  gender        Gender      @default(UNISEX)
   stock         Int         @default(0)
   baseCostPrice Float
   isActive      Boolean     @default(true)

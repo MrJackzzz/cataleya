@@ -12,6 +12,7 @@ type Props = {
     name: string;
     description: string;
     imageUrl: string;
+    gender: string;
     stock: number;
     baseCostPrice: number;
     isActive: boolean;
