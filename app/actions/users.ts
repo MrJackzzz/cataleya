@@ -27,9 +27,6 @@ export async function approveUser(
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "Revisá los datos." };
   }
-  if (temporaryPassword.length < 6) {
-    return { error: "La contraseña temporal debe tener al menos 6 caracteres." };
-  }
 
   const user = await prisma.user.findUnique({ where: { id: parsed.data.userId } });
   if (!user) return { error: "Usuario no encontrado." };
