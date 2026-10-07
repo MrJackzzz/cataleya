@@ -13,6 +13,7 @@ type Props = {
     description: string;
     imageUrl: string;
     gender: string;
+    olfactoryFamily: string;
     stock: number;
     baseCostPrice: number;
     isActive: boolean;

@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { DisclaimerBanner } from "@/components/catalog/DisclaimerBanner";
 import { AccessRequestButton } from "@/components/catalog/AccessRequestButton";
-import { ProductCard } from "@/components/catalog/ProductCard";
+import { CatalogGrid } from "@/components/catalog/CatalogGrid";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -93,19 +93,16 @@ export default async function HomePage() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {products.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  displayPrice={
-                    canOrder ? priceForRole(product.baseCostPrice, markups, role!) : null
-                  }
-                  canOrder={canOrder}
-                  isPending={isPending}
-                />
-              ))}
-            </div>
+            <CatalogGrid
+              items={products.map((product) => ({
+                product,
+                displayPrice: canOrder
+                  ? priceForRole(product.baseCostPrice, markups, role!)
+                  : null,
+              }))}
+              canOrder={canOrder}
+              isPending={isPending}
+            />
           )}
         </section>
       </main>

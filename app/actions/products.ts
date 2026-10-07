@@ -52,6 +52,7 @@ export async function createProduct(
     description: formData.get("description"),
     imageUrl,
     gender: formData.get("gender") ?? "UNISEX",
+    olfactoryFamily: formData.get("olfactoryFamily") ?? "",
     stock: formData.get("stock"),
     baseCostPrice: formData.get("baseCostPrice"),
   });
@@ -101,6 +102,7 @@ export async function updateProduct(
     description: formData.get("description"),
     imageUrl,
     gender: formData.get("gender") ?? "UNISEX",
+    olfactoryFamily: formData.get("olfactoryFamily") ?? "",
     stock: formData.get("stock"),
     baseCostPrice: formData.get("baseCostPrice"),
   });

@@ -48,6 +48,11 @@ export const productSchema = z.object({
   gender: z.enum(["MASCULINO", "FEMENINO", "UNISEX"], {
     error: "Elegí el género del perfume",
   }),
+  olfactoryFamily: z
+    .string()
+    .trim()
+    .max(40, "Familia olfativa demasiado larga")
+    .default(""),
   stock: z.coerce
     .number({ error: "Stock inválido" })
     .int("Stock inválido")

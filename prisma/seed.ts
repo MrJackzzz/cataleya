@@ -51,6 +51,7 @@ async function main() {
     baseCostPrice: number;
     stock: number;
     gender: Gender;
+    olfactoryFamily: string;
   }[] = [
     {
       codeNumber: 101,
@@ -60,6 +61,7 @@ async function main() {
       baseCostPrice: 18000,
       stock: 25,
       gender: Gender.MASCULINO,
+      olfactoryFamily: "Amaderado",
     },
     {
       codeNumber: 102,
@@ -69,6 +71,7 @@ async function main() {
       baseCostPrice: 16500,
       stock: 40,
       gender: Gender.MASCULINO,
+      olfactoryFamily: "Cítrico",
     },
     {
       codeNumber: 103,
@@ -78,6 +81,7 @@ async function main() {
       baseCostPrice: 17200,
       stock: 30,
       gender: Gender.FEMENINO,
+      olfactoryFamily: "Floral",
     },
     {
       codeNumber: 104,
@@ -87,18 +91,13 @@ async function main() {
       baseCostPrice: 21000,
       stock: 0,
       gender: Gender.UNISEX,
+      olfactoryFamily: "Ámbar",
     },
   ];
 
   const freshInstall = (await prisma.product.count()) === 0;
-  for (const product of products) {
-    const found = await prisma.product.findUnique({
-      where: { codeNumber: product.codeNumber },
-      select: { id: true },
-    });
-    if (found) {
-      await prisma.product.update({ where: { id: found.id }, data: product });
-    } else if (freshInstall) {
+  if (freshInstall) {
+    for (const product of products) {
       await prisma.product.create({
         data: { ...product, imageUrl: "/images/perfume-placeholder.svg" },
       });

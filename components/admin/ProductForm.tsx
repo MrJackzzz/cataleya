@@ -32,6 +32,7 @@ export type EditableProduct = {
   description: string;
   imageUrl: string;
   gender: string;
+  olfactoryFamily: string;
   stock: number;
   baseCostPrice: number;
 };
@@ -153,17 +154,28 @@ export function ProductForm({ product }: Props) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="product-cost">Costo base ($)</Label>
+              <Label htmlFor="product-family">Familia olfativa</Label>
               <Input
-                id="product-cost"
-                name="baseCostPrice"
-                type="number"
-                min={0}
-                step="0.01"
-                defaultValue={product?.baseCostPrice ?? ""}
-                required
+                id="product-family"
+                name="olfactoryFamily"
+                defaultValue={product?.olfactoryFamily ?? ""}
+                placeholder="Ej.: Amaderado, Cítrico, Floral…"
+                maxLength={40}
               />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="product-cost">Costo base ($)</Label>
+            <Input
+              id="product-cost"
+              name="baseCostPrice"
+              type="number"
+              min={0}
+              step="0.01"
+              defaultValue={product?.baseCostPrice ?? ""}
+              required
+            />
           </div>
 
           <div className="space-y-2">
