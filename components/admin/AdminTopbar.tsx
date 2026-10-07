@@ -42,7 +42,8 @@ export function AdminTopbar({ alerts }: { alerts: AdminAlerts }) {
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between gap-4 border-b border-gold/15 bg-background/85 px-4 py-3 backdrop-blur sm:px-6">
+    <>
+      <header className="sticky top-0 z-30 flex items-center justify-between gap-4 border-b border-gold/15 bg-background/85 px-4 py-3 backdrop-blur sm:px-6">
       <div className="flex items-center gap-3 md:hidden">
         <button
           type="button"
@@ -119,6 +120,7 @@ export function AdminTopbar({ alerts }: { alerts: AdminAlerts }) {
           </Link>
         </Button>
       </div>
+    </header>
 
       {menuOpen ? (
         <div className="fixed inset-0 z-50 md:hidden">
@@ -181,6 +183,6 @@ export function AdminTopbar({ alerts }: { alerts: AdminAlerts }) {
           </aside>
         </div>
       ) : null}
-    </header>
+    </>
   );
 }
