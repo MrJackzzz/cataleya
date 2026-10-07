@@ -29,13 +29,17 @@ export function formatMoney(value: number): string {
 const dateTime = new Intl.DateTimeFormat("es-AR", {
   dateStyle: "medium",
   timeStyle: "short",
+  timeZone: "America/Argentina/Buenos_Aires",
 });
 
 export function formatDateTime(date: Date | string): string {
   return dateTime.format(typeof date === "string" ? new Date(date) : date);
 }
 
-const dateOnly = new Intl.DateTimeFormat("es-AR", { dateStyle: "medium" });
+const dateOnly = new Intl.DateTimeFormat("es-AR", {
+  dateStyle: "medium",
+  timeZone: "America/Argentina/Buenos_Aires",
+});
 
 export function formatDate(date: Date | string): string {
   return dateOnly.format(typeof date === "string" ? new Date(date) : date);
