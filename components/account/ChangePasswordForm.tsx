@@ -38,7 +38,7 @@ export function ChangePasswordForm() {
         <p className="text-sm text-destructive">{state.error}</p>
       ) : null}
       {state?.success ? (
-        <p className="text-sm text-emerald-300">{state.success}</p>
+        <p className="text-sm text-leaf">{state.success}</p>
       ) : null}
 
       <Button type="submit" variant="outline" disabled={pending}>

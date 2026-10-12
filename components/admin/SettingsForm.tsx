@@ -120,7 +120,7 @@ export function SettingsForm({ initial }: { initial: SiteConfigValues }) {
         <p className="text-sm text-destructive">{state.error}</p>
       ) : null}
       {state?.success ? (
-        <p className="text-sm text-emerald-300">{state.success}</p>
+        <p className="text-sm text-leaf">{state.success}</p>
       ) : null}
 
       <Button type="submit" disabled={pending}>

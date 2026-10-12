@@ -52,7 +52,7 @@ export function OrderStatusControl({
       </select>
       <button
         type="submit"
-        className="text-xs text-gold underline-offset-2 transition-colors hover:text-gold-soft hover:underline disabled:opacity-50"
+        className="text-xs text-gold-deep underline-offset-2 transition-colors hover:text-gold-soft hover:underline disabled:opacity-50"
         disabled={pending}
       >
         {pending ? "…" : "Guardar"}

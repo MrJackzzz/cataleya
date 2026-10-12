@@ -57,7 +57,7 @@ export default async function MyAccountPage() {
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-12 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="eyebrow text-gold">Historial de cliente</p>
+            <p className="eyebrow text-gold-deep">Historial de cliente</p>
             <h1 className="mt-2 font-display text-4xl text-ivory sm:text-5xl">
               {user.name} {user.lastName}
             </h1>
@@ -95,19 +95,19 @@ export default async function MyAccountPage() {
 
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           <div className="rounded-xl border border-gold/15 bg-card p-5">
-            <Package className="size-4 text-gold" />
+            <Package className="size-4 text-gold-deep" />
             <p className="mt-3 text-sm text-muted-foreground">Pedidos totales</p>
             <p className="font-display text-3xl text-ivory">{orders.length}</p>
           </div>
           <div className="rounded-xl border border-gold/15 bg-card p-5">
-            <FlaskConical className="size-4 text-gold" />
+            <FlaskConical className="size-4 text-gold-deep" />
             <p className="mt-3 text-sm text-muted-foreground">Muestras entregadas</p>
             <p className="font-display text-3xl text-ivory">
               {samples.reduce((sum, sample) => sum + sample.quantity, 0)}
             </p>
           </div>
           <div className="rounded-xl border border-gold/15 bg-card p-5">
-            <User className="size-4 text-gold" />
+            <User className="size-4 text-gold-deep" />
             <p className="mt-3 text-sm text-muted-foreground">Total abonado</p>
             <p className="font-display text-3xl text-gold-soft">
               {formatMoney(totalComprado)}
@@ -117,7 +117,7 @@ export default async function MyAccountPage() {
 
         <section className="mt-10">
           <h2 className="font-display text-3xl text-ivory">Mis pedidos</h2>
-          <div className="mt-4 overflow-hidden rounded-xl border border-gold/15 bg-card">
+          <div className="mt-4 overflow-x-auto rounded-xl border border-gold/15 bg-card">
             {orders.length === 0 ? (
               <p className="px-5 py-10 text-center text-sm text-muted-foreground">
                 Todavía no tenés pedidos.{" "}
@@ -170,7 +170,7 @@ export default async function MyAccountPage() {
           <h2 className="font-display text-3xl text-ivory">
             Muestras entregadas
           </h2>
-          <div className="mt-4 overflow-hidden rounded-xl border border-gold/15 bg-card">
+          <div className="mt-4 overflow-x-auto rounded-xl border border-gold/15 bg-card">
             {samples.length === 0 ? (
               <p className="px-5 py-10 text-center text-sm text-muted-foreground">
                 No registramos muestras a tu nombre.

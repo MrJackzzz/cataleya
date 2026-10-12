@@ -38,7 +38,7 @@ export function CostCalculator({ markups }: { markups: Markup[] }) {
   return (
     <div className="rounded-xl border border-gold/20 bg-card p-6">
       <div className="flex items-center gap-2">
-        <Calculator className="size-4 text-gold" />
+        <Calculator className="size-4 text-gold-deep" />
         <h2 className="font-display text-2xl text-ivory">
           Calculadora de precio de costo
         </h2>

@@ -33,7 +33,7 @@ export default async function AdminSuppliersPage() {
   return (
     <div className="space-y-10">
       <div>
-        <p className="eyebrow text-gold">Materia prima</p>
+        <p className="eyebrow text-gold-deep">Materia prima</p>
         <h1 className="mt-1 font-display text-4xl text-ivory">
           Proveedores y costos
         </h1>

@@ -16,12 +16,12 @@ export async function SiteFooter() {
         </div>
 
         <div className="text-sm text-muted-foreground">
-          <p className="eyebrow mb-2 text-gold">Aviso legal</p>
+          <p className="eyebrow mb-2 text-gold-deep">Aviso legal</p>
           <p className="leading-relaxed">{DISCLAIMER_TEXT}</p>
         </div>
 
         <div className="space-y-2 text-sm text-muted-foreground">
-          <p className="eyebrow mb-2 text-gold">Accesos</p>
+          <p className="eyebrow mb-2 text-gold-deep">Accesos</p>
           <p>
             <Link href="/login" className="transition-colors hover:text-gold-soft">
               Iniciar sesión

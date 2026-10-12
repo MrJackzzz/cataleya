@@ -45,7 +45,7 @@ export default async function AdminUsersPage() {
   return (
     <div className="space-y-10">
       <div>
-        <p className="eyebrow text-gold">Aprobaciones</p>
+        <p className="eyebrow text-gold-deep">Aprobaciones</p>
         <h1 className="mt-1 font-display text-4xl text-ivory">
           Usuarios y roles
         </h1>
@@ -86,10 +86,10 @@ export default async function AdminUsersPage() {
         <h2 className="mb-3 font-display text-2xl text-ivory">
           Clientes activos
         </h2>
-        <div className="overflow-hidden rounded-xl border border-gold/15 bg-card">
+        <div className="overflow-x-auto rounded-xl border border-gold/15 bg-card">
           {approvedUsers.length === 0 ? (
             <p className="px-5 py-10 text-center text-sm text-muted-foreground">
-              Todavía hay usuarios aprobados.
+              Todavía no hay usuarios aprobados.
             </p>
           ) : (
             <Table>
@@ -134,7 +134,7 @@ export default async function AdminUsersPage() {
                             )}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-gold transition-colors hover:text-gold-soft"
+                            className="text-xs text-gold-deep transition-colors hover:text-gold-soft"
                           >
                             WhatsApp
                           </a>

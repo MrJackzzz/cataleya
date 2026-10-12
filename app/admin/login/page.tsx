@@ -16,8 +16,8 @@ export default function AdminLoginPage() {
         <p className="eyebrow mt-1 text-muted-foreground">Panel de administración</p>
       </Link>
 
-      <div className="w-full max-w-md rounded-2xl border border-gold/25 bg-card p-8 shadow-[0_0_100px_-40px_rgba(201,162,75,0.6)]">
-        <p className="eyebrow text-gold">Acceso restringido</p>
+      <div className="w-full max-w-md rounded-2xl border border-gold/25 bg-card p-8 shadow-lift">
+        <p className="eyebrow text-gold-deep">Acceso restringido</p>
         <h1 className="mt-2 font-display text-4xl text-ivory">Ingresar al panel</h1>
         <p className="mt-2 mb-6 text-sm text-muted-foreground">
           Este acceso es exclusivo para el administrador de Cataleya Aromas.

@@ -34,9 +34,10 @@ export default async function HomePage() {
 
       <main className="flex-1">
         <section className="relative overflow-hidden border-b border-gold/15">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(126,31,51,0.35),transparent_55%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(113,51,79,0.14),transparent_55%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(88,96,68,0.10),transparent_50%)]" />
           <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
-            <p className="eyebrow text-gold">Contratipos de alta gama</p>
+            <p className="eyebrow text-gold-deep">Contratipos de alta gama</p>
             <h1 className="mt-4 max-w-3xl font-display text-5xl leading-[1.05] text-ivory sm:text-7xl">
               Los grandes clásicos, <span className="text-gradient-gold">reinterpretados</span> en tu piel.
             </h1>
@@ -71,7 +72,7 @@ export default async function HomePage() {
         <section id="perfumes" className="mx-auto max-w-7xl scroll-mt-28 px-4 py-14 sm:px-6">
           <div className="mb-8 flex items-end justify-between gap-4">
             <div>
-              <p className="eyebrow text-gold">Catálogo</p>
+              <p className="eyebrow text-gold-deep">Catálogo</p>
               <h2 className="mt-2 font-display text-4xl text-ivory sm:text-5xl">
                 Fragancias disponibles
               </h2>

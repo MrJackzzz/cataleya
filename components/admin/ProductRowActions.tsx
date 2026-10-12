@@ -38,7 +38,7 @@ export function ProductRowActions({ product }: Props) {
           title={product.isActive ? "Ocultar del catálogo" : "Mostrar en catálogo"}
         >
           {product.isActive ? (
-            <Eye className="size-4 text-gold" />
+            <Eye className="size-4 text-gold-deep" />
           ) : (
             <EyeOff className="size-4 text-muted-foreground" />
           )}

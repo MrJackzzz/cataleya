@@ -79,7 +79,7 @@ export function SampleForm({
         <p className="text-sm text-destructive md:col-span-4">{state.error}</p>
       ) : null}
       {state?.success ? (
-        <p className="text-sm text-emerald-300 md:col-span-4">{state.success}</p>
+        <p className="text-sm text-leaf md:col-span-4">{state.success}</p>
       ) : null}
     </form>
   );
@@ -108,7 +108,7 @@ export function SampleStatusControl({
       </Select>
       <button
         type="submit"
-        className="text-xs text-gold underline-offset-2 transition-colors hover:text-gold-soft hover:underline disabled:opacity-50"
+        className="text-xs text-gold-deep underline-offset-2 transition-colors hover:text-gold-soft hover:underline disabled:opacity-50"
         disabled={pending}
       >
         {pending ? "…" : state?.error ? "Reintentar" : "Guardar"}

@@ -23,7 +23,7 @@ export function SupplierForm() {
       className="rounded-xl border border-gold/20 bg-card p-6"
     >
       <div className="flex items-center gap-2">
-        <Truck className="size-4 text-gold" />
+        <Truck className="size-4 text-gold-deep" />
         <h2 className="font-display text-2xl text-ivory">Nuevo proveedor</h2>
       </div>
 
@@ -42,7 +42,7 @@ export function SupplierForm() {
         <p className="mt-3 text-sm text-destructive">{state.error}</p>
       ) : null}
       {state?.success ? (
-        <p className="mt-3 text-sm text-emerald-300">{state.success}</p>
+        <p className="mt-3 text-sm text-leaf">{state.success}</p>
       ) : null}
 
       <Button type="submit" className="mt-4 w-full" disabled={pending}>
@@ -67,7 +67,7 @@ export function PurchaseForm({
       className="rounded-xl border border-gold/20 bg-card p-6"
     >
       <div className="flex items-center gap-2">
-        <PackagePlus className="size-4 text-gold" />
+        <PackagePlus className="size-4 text-gold-deep" />
         <h2 className="font-display text-2xl text-ivory">Registrar compra</h2>
       </div>
 
@@ -105,7 +105,7 @@ export function PurchaseForm({
         <p className="mt-3 text-sm text-destructive">{state.error}</p>
       ) : null}
       {state?.success ? (
-        <p className="mt-3 text-sm text-emerald-300">{state.success}</p>
+        <p className="mt-3 text-sm text-leaf">{state.success}</p>
       ) : null}
 
       <Button type="submit" className="mt-4" disabled={pending}>

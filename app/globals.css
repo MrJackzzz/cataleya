@@ -28,6 +28,7 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -40,12 +41,19 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-gold: #c9a24b;
-  --color-gold-soft: #e6cf9a;
-  --color-gold-deep: #9a7b32;
-  --color-burgundy: #8d2540;
-  --color-burgundy-deep: #4d1220;
-  --color-ivory: #f3ece1;
+  --color-gold: #c88b28;
+  --color-gold-soft: #8f6414;
+  --color-gold-deep: #7a5410;
+  --color-burgundy: #71334f;
+  --color-burgundy-deep: #5e2a44;
+  --color-ivory: #292720;
+  --color-olive: #586044;
+  --color-leaf: #344d3a;
+  --color-plum: #71334f;
+  --color-mauve: #d7b5c0;
+  --color-sand: #ede3d5;
+  --color-cream: #fffdfa;
+  --color-ink: #292720;
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -55,60 +63,67 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+@theme {
+  --shadow-soft: 0 3px 12px rgb(41 39 32 / 0.06);
+  --shadow-lift: 0 10px 30px -12px rgb(41 39 32 / 0.18);
+}
+
 :root {
-  --background: #1a1216;
-  --foreground: #f3ece1;
-  --card: #231820;
-  --card-foreground: #f3ece1;
-  --popover: #261b21;
-  --popover-foreground: #f3ece1;
-  --primary: #8d2540;
-  --primary-foreground: #fbf4ea;
-  --secondary: #2e2229;
-  --secondary-foreground: #e8dfd2;
-  --muted: #2b2128;
-  --muted-foreground: #b6a69e;
-  --accent: #c9a24b;
-  --accent-foreground: #1a1206;
-  --destructive: #d94a4a;
-  --border: rgb(201 162 75 / 16%);
-  --input: rgb(201 162 75 / 22%);
-  --ring: #c9a24b;
-  --chart-1: #c9a24b;
-  --chart-2: #8d2540;
-  --chart-3: #4d1220;
-  --chart-4: #e6cf9a;
-  --chart-5: #5a7d6f;
+  --background: #faf7f0;
+  --foreground: #292720;
+  --card: #fffdfa;
+  --card-foreground: #292720;
+  --popover: #fffdfa;
+  --popover-foreground: #292720;
+  --primary: #344d3a;
+  --primary-foreground: #fffdfa;
+  --secondary: #ede3d5;
+  --secondary-foreground: #292720;
+  --muted: #f0e9dd;
+  --muted-foreground: #77736c;
+  --accent: #ede3d5;
+  --accent-foreground: #292720;
+  --destructive: #b23a3a;
+  --destructive-foreground: #fffdfa;
+  --border: #e6ded3;
+  --input: #dcd2c2;
+  --ring: #586044;
+  --chart-1: #586044;
+  --chart-2: #71334f;
+  --chart-3: #c88b28;
+  --chart-4: #344d3a;
+  --chart-5: #d7b5c0;
   --radius: 0.75rem;
-  --sidebar: #1e151a;
-  --sidebar-foreground: #f3ece1;
-  --sidebar-primary: #c9a24b;
-  --sidebar-primary-foreground: #1a1216;
-  --sidebar-accent: #2e2229;
-  --sidebar-accent-foreground: #f3ece1;
-  --sidebar-border: rgb(201 162 75 / 16%);
-  --sidebar-ring: #c9a24b;
+  --sidebar: #fffdfa;
+  --sidebar-foreground: #292720;
+  --sidebar-primary: #344d3a;
+  --sidebar-primary-foreground: #fffdfa;
+  --sidebar-accent: #f0e9dd;
+  --sidebar-accent-foreground: #292720;
+  --sidebar-border: #e6ded3;
+  --sidebar-ring: #586044;
 }
 
 .dark {
-  --background: #1a1216;
-  --foreground: #f3ece1;
-  --card: #231820;
-  --card-foreground: #f3ece1;
-  --popover: #261b21;
-  --popover-foreground: #f3ece1;
-  --primary: #8d2540;
-  --primary-foreground: #fbf4ea;
-  --secondary: #2e2229;
-  --secondary-foreground: #e8dfd2;
-  --muted: #2b2128;
-  --muted-foreground: #b6a69e;
-  --accent: #c9a24b;
-  --accent-foreground: #1a1206;
-  --destructive: #d94a4a;
-  --border: rgb(201 162 75 / 16%);
-  --input: rgb(201 162 75 / 22%);
-  --ring: #c9a24b;
+  --background: #faf7f0;
+  --foreground: #292720;
+  --card: #fffdfa;
+  --card-foreground: #292720;
+  --popover: #fffdfa;
+  --popover-foreground: #292720;
+  --primary: #344d3a;
+  --primary-foreground: #fffdfa;
+  --secondary: #ede3d5;
+  --secondary-foreground: #292720;
+  --muted: #f0e9dd;
+  --muted-foreground: #77736c;
+  --accent: #ede3d5;
+  --accent-foreground: #292720;
+  --destructive: #b23a3a;
+  --destructive-foreground: #fffdfa;
+  --border: #e6ded3;
+  --input: #dcd2c2;
+  --ring: #586044;
 }
 
 @layer base {
@@ -118,20 +133,20 @@
   body {
     @apply bg-background text-foreground font-medium;
   }
-  .font-display {
-    font-weight: 500;
-  }
   html {
     @apply font-sans scroll-smooth;
   }
+  .font-display {
+    font-weight: 500;
+  }
   ::selection {
-    background: rgb(201 162 75 / 35%);
-    color: #f3ece1;
+    background: #ede3d5;
+    color: #292720;
   }
 }
 
 @utility text-gradient-gold {
-  background-image: linear-gradient(135deg, #e6cf9a 0%, #c9a24b 45%, #9a7b32 100%);
+  background-image: linear-gradient(135deg, #71334f 0%, #a66e1f 55%, #c88b28 100%);
   background-clip: text;
   color: transparent;
 }
@@ -139,6 +154,6 @@
 @utility eyebrow {
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
 }
