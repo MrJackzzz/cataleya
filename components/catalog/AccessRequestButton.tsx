@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, KeyRound } from "lucide-react";
 import { requestAccess } from "@/app/actions/access";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -45,7 +45,7 @@ export function AccessRequestButton({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant={variant} className={className}>
-          <Sparkles className="size-4" />
+          <KeyRound className="size-4" />
           {label}
         </Button>
       </DialogTrigger>

@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-jost);
-  --font-display: var(--font-cormorant);
-  --font-heading: var(--font-cormorant);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-fraunces);
+  --font-heading: var(--font-fraunces);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -54,6 +54,8 @@
   --color-sand: #ede3d5;
   --color-cream: #fffdfa;
   --color-ink: #292720;
+  --color-charcoal: #23211d;
+  --color-clay: #a8a093;
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -69,17 +71,17 @@
 }
 
 :root {
-  --background: #faf7f0;
+  --background: #fdfcf8;
   --foreground: #292720;
-  --card: #fffdfa;
+  --card: #ffffff;
   --card-foreground: #292720;
-  --popover: #fffdfa;
+  --popover: #ffffff;
   --popover-foreground: #292720;
   --primary: #344d3a;
   --primary-foreground: #fffdfa;
   --secondary: #ede3d5;
   --secondary-foreground: #292720;
-  --muted: #f0e9dd;
+  --muted: #f1ece2;
   --muted-foreground: #77736c;
   --accent: #ede3d5;
   --accent-foreground: #292720;
@@ -94,28 +96,28 @@
   --chart-4: #344d3a;
   --chart-5: #d7b5c0;
   --radius: 0.75rem;
-  --sidebar: #fffdfa;
+  --sidebar: #ffffff;
   --sidebar-foreground: #292720;
   --sidebar-primary: #344d3a;
   --sidebar-primary-foreground: #fffdfa;
-  --sidebar-accent: #f0e9dd;
+  --sidebar-accent: #f1ece2;
   --sidebar-accent-foreground: #292720;
   --sidebar-border: #e6ded3;
   --sidebar-ring: #586044;
 }
 
 .dark {
-  --background: #faf7f0;
+  --background: #fdfcf8;
   --foreground: #292720;
-  --card: #fffdfa;
+  --card: #ffffff;
   --card-foreground: #292720;
-  --popover: #fffdfa;
+  --popover: #ffffff;
   --popover-foreground: #292720;
   --primary: #344d3a;
   --primary-foreground: #fffdfa;
   --secondary: #ede3d5;
   --secondary-foreground: #292720;
-  --muted: #f0e9dd;
+  --muted: #f1ece2;
   --muted-foreground: #77736c;
   --accent: #ede3d5;
   --accent-foreground: #292720;
@@ -131,7 +133,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-medium;
+    @apply bg-background text-foreground font-normal;
   }
   html {
     @apply font-sans scroll-smooth;

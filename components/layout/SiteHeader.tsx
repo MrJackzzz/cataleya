@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone } from "lucide-react";
+import { Phone, KeyRound } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { logoutAction } from "@/app/actions/auth";
@@ -60,7 +60,10 @@ export async function SiteHeader() {
           ) : (
             <>
               <Button asChild variant="ghost" size="sm">
-                <Link href="/login">Iniciar sesión</Link>
+                <Link href="/login">
+                  <KeyRound className="size-4" />
+                  Iniciar sesión
+                </Link>
               </Button>
               <AccessRequestButton
                 label="Solicitar acceso"

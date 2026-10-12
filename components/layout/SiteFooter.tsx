@@ -8,27 +8,27 @@ export async function SiteFooter() {
   });
 
   return (
-    <footer className="mt-16 border-t border-gold/15 bg-card/60">
+    <footer className="mt-16 border-t border-charcoal bg-charcoal text-cream">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-3">
         <div>
-          <p className="font-display text-2xl text-gradient-gold">Cataleya Aromas</p>
-          <p className="mt-2 text-sm text-muted-foreground">{config?.tagline}</p>
+          <p className="font-display text-2xl text-cream">Cataleya Aromas</p>
+          <p className="mt-2 text-sm text-clay">{config?.tagline}</p>
         </div>
 
-        <div className="text-sm text-muted-foreground">
-          <p className="eyebrow mb-2 text-gold-deep">Aviso legal</p>
+        <div className="text-sm text-clay">
+          <p className="eyebrow mb-2 text-gold">Aviso legal</p>
           <p className="leading-relaxed">{DISCLAIMER_TEXT}</p>
         </div>
 
-        <div className="space-y-2 text-sm text-muted-foreground">
-          <p className="eyebrow mb-2 text-gold-deep">Accesos</p>
+        <div className="space-y-2 text-sm text-clay">
+          <p className="eyebrow mb-2 text-gold">Accesos</p>
           <p>
-            <Link href="/login" className="transition-colors hover:text-gold-soft">
+            <Link href="/login" className="transition-colors hover:text-cream">
               Iniciar sesión
             </Link>
           </p>
           <p>
-            <Link href="/mi-cuenta" className="transition-colors hover:text-gold-soft">
+            <Link href="/mi-cuenta" className="transition-colors hover:text-cream">
               Mi cuenta
             </Link>
           </p>
@@ -37,7 +37,7 @@ export async function SiteFooter() {
               href={`https://wa.me/${config.whatsapp.replace(/\D/g, "")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors hover:text-gold-soft"
+              className="transition-colors hover:text-cream"
             >
               Contacto WhatsApp
             </a>
@@ -45,7 +45,7 @@ export async function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t border-gold/10 px-4 py-4 text-center text-xs text-muted-foreground">
+      <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-clay">
         © {new Date().getFullYear()} Cataleya Aromas · Todos los derechos reservados
       </div>
     </footer>

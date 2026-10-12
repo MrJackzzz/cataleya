@@ -5,6 +5,7 @@ import { useActionState, useEffect, useState } from "react";
 import { Loader2, ShoppingBag } from "lucide-react";
 import { createOrder } from "@/app/actions/orders";
 import { AccessRequestButton } from "./AccessRequestButton";
+import { ProductDetailModal } from "./ProductDetailModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,6 +27,7 @@ export type CatalogProduct = {
   imageUrl: string;
   gender: string;
   stock: number;
+  olfactoryFamily: string;
 };
 
 type Props = {
@@ -39,6 +41,7 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
   const [state, formAction, pending] = useActionState(createOrder, null);
   const [quantity, setQuantity] = useState(1);
   const [kind, setKind] = useState<"REPLICA" | "MUESTRA">("REPLICA");
+  const [detailOpen, setDetailOpen] = useState(false);
   const outOfStock = product.stock <= 0;
 
   useEffect(() => {
@@ -47,14 +50,19 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
   }, [state]);
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-gold/15 bg-card shadow-soft transition-all hover:border-gold/40 hover:shadow-lift">
-      <div className="relative aspect-4/5 overflow-hidden bg-gradient-to-b from-sand via-cream to-card">
+    <article className="relative flex flex-col overflow-hidden rounded-2xl border border-gold/15 bg-card shadow-soft transition-colors hover:border-gold/40">
+      <button
+        type="button"
+        onClick={() => setDetailOpen(true)}
+        aria-label={`Ver detalle de ${product.name}`}
+        className="relative block aspect-4/5 w-full cursor-pointer overflow-hidden bg-gradient-to-b from-sand via-cream to-card"
+      >
         <Image
           src={product.imageUrl}
           alt={product.name}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-contain p-4 transition-transform duration-700 group-hover:scale-105"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+          className="object-contain p-4"
         />
         <span className="absolute left-4 top-4 rounded-full border border-gold/40 bg-background/75 px-3 py-1 text-[11px] tracking-[0.25em] text-gold-soft backdrop-blur">
           N° {product.codeNumber}
@@ -64,15 +72,21 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
             SIN STOCK
           </span>
         ) : null}
-      </div>
+      </button>
 
-      <div className="flex flex-1 flex-col gap-3 p-5">
+      <div className="flex flex-1 flex-col gap-2 p-3 sm:gap-3 sm:p-5">
         <span className="text-[11px] tracking-[0.3em] text-gold uppercase">
           {product.gender}
         </span>
-        <h3 className="font-display text-2xl leading-tight text-ivory">
-          {product.name}
-        </h3>
+        <button
+          type="button"
+          onClick={() => setDetailOpen(true)}
+          className="cursor-pointer text-left"
+        >
+          <h3 className="font-display text-lg leading-tight text-ivory sm:text-2xl">
+            {product.name}
+          </h3>
+        </button>
         {product.designer ? (
           <p className="-mt-1.5 text-sm font-medium text-gold-soft">
             {product.designer}
@@ -95,7 +109,7 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
               <div className="flex items-end justify-between gap-3">
                 <div>
                   <span className="eyebrow block text-gold-deep">Precio</span>
-                  <span className="font-display text-3xl text-gold-soft">
+                  <span className="font-display text-2xl text-gold-soft sm:text-3xl">
                     {formatMoney(displayPrice)}
                   </span>
                 </div>
@@ -152,6 +166,12 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
           )}
         </div>
       </div>
+      <ProductDetailModal
+        product={product}
+        displayPrice={displayPrice}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+      />
     </article>
   );
 }
