@@ -4,6 +4,7 @@ import { formatDateTime, formatMoney, waLink } from "@/lib/format";
 import { ORDER_KIND_LABELS } from "@/lib/constants";
 import { StatusBadge, RoleBadge } from "@/components/StatusBadge";
 import { OrderStatusControl } from "@/components/admin/OrderStatusControl";
+import { OrderDeleteButton } from "@/components/admin/OrderDeleteButton";
 import {
   Table,
   TableBody,
@@ -105,11 +106,12 @@ export default async function AdminOrdersPage() {
                     <StatusBadge status={order.status} />
                   </TableCell>
                   <TableCell>
-                    <div className="flex justify-end">
+                    <div className="flex items-center justify-end gap-1">
                       <OrderStatusControl
                         orderId={order.id}
                         status={order.status}
                       />
+                      <OrderDeleteButton orderId={order.id} />
                     </div>
                   </TableCell>
                 </TableRow>

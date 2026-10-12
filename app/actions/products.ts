@@ -141,17 +141,29 @@ export async function toggleProductActive(formData: FormData) {
   revalidatePath("/", "layout");
 }
 
-export async function deleteProduct(formData: FormData) {
+export async function deleteProduct(
+  _prev: FormState,
+  formData: FormData
+): Promise<FormState> {
   await requireAdmin();
 
   const id = String(formData.get("id") ?? "");
-  if (!id) return;
+  if (!id) return { error: "Producto no encontrado." };
 
   try {
     await prisma.product.delete({ where: { id } });
-  } catch {
-    await prisma.product.update({ where: { id }, data: { isActive: false } });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2003") {
+      const count = await prisma.orderItem
+        .count({ where: { productId: id } })
+        .catch(() => 0);
+      return {
+        error: `No se puede eliminar: este perfume está en ${count} pedido(s). Eliminá esos pedidos primero y volvé a intentarlo.`,
+      };
+    }
+    throw error;
   }
 
   revalidatePath("/", "layout");
+  return { success: "Perfume eliminado definitivamente." };
 }

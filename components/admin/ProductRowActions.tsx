@@ -1,6 +1,8 @@
 "use client";
 
-import { Eye, EyeOff, Trash2 } from "lucide-react";
+import { useActionState, useEffect } from "react";
+import { Eye, EyeOff, Trash2, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { toggleProductActive, deleteProduct } from "@/app/actions/products";
 import { ProductForm } from "./ProductForm";
 import { Button } from "@/components/ui/button";
@@ -21,6 +23,16 @@ type Props = {
 };
 
 export function ProductRowActions({ product }: Props) {
+  const [deleteState, deleteAction, deletePending] = useActionState(
+    deleteProduct,
+    null
+  );
+
+  useEffect(() => {
+    if (deleteState?.success) toast.success(deleteState.success);
+    else if (deleteState?.error) toast.error(deleteState.error);
+  }, [deleteState]);
+
   return (
     <div className="flex items-center justify-end gap-1">
       <ProductForm product={product} />
@@ -45,10 +57,10 @@ export function ProductRowActions({ product }: Props) {
         action={async (formData: FormData) => {
           if (
             window.confirm(
-              "¿Eliminar este perfume? Si tiene pedidos asociados se desactivará en su lugar."
+              "¿Eliminar este perfume definitivamente? Esta acción no se puede deshacer."
             )
           ) {
-            await deleteProduct(formData);
+            deleteAction(formData);
           }
         }}
       >
@@ -59,8 +71,13 @@ export function ProductRowActions({ product }: Props) {
           size="icon-sm"
           title="Eliminar"
           className="text-destructive"
+          disabled={deletePending}
         >
-          <Trash2 className="size-4" />
+          {deletePending ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <Trash2 className="size-4" />
+          )}
         </Button>
       </form>
     </div>

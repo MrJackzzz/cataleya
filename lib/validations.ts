@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PLACEHOLDER_IMAGE } from "./constants";
 
 const phoneField = z
   .string()
@@ -51,10 +52,11 @@ export const productSchema = z.object({
   imageUrl: z
     .string()
     .trim()
-    .min(1, "Subí una imagen del producto")
-    .refine((value) => !value.startsWith("blob:"), {
+    .default("")
+    .refine((value) => value === "" || !value.startsWith("blob:"), {
       message: "La imagen no se subió correctamente. Volvé a seleccionarla.",
-    }),
+    })
+    .transform((value) => (value === "" ? PLACEHOLDER_IMAGE : value)),
   gender: z.enum(["MASCULINO", "FEMENINO", "UNISEX"], {
     error: "Elegí el género del perfume",
   }),
@@ -129,6 +131,10 @@ export const purchaseSchema = z.object({
 export const orderStatusSchema = z.object({
   orderId: z.string().min(1),
   status: z.enum(["PENDIENTE", "EN_PROCESO", "TERMINADO", "CANCELADO"]),
+});
+
+export const deleteOrderSchema = z.object({
+  orderId: z.string().min(1),
 });
 
 export const siteConfigSchema = z.object({

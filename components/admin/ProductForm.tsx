@@ -206,7 +206,8 @@ export function ProductForm({ product }: Props) {
               )}
             </div>
             <p className="text-xs text-muted-foreground">
-              La imagen se sube a Cloudflare R2 al guardar.
+              Opcional. Si no subís imagen se usa la genérica. Con R2
+              configurado, la imagen elegida se sube a la nube al guardar.
             </p>
           </div>
 

@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { requireApprovedClient, requireAdmin } from "@/lib/guards";
-import { createOrderSchema, orderStatusSchema } from "@/lib/validations";
+import { createOrderSchema, orderStatusSchema, deleteOrderSchema } from "@/lib/validations";
 import { priceForRole, roundMoney } from "@/lib/pricing";
 import type { FormState } from "@/lib/action-state";
 import { revalidatePath } from "next/cache";
@@ -123,4 +123,39 @@ export async function setOrderStatus(
 
   revalidatePath("/", "layout");
   return { success: "Estado del pedido actualizado." };
+}
+
+export async function deleteOrder(
+  _prev: FormState,
+  formData: FormData
+): Promise<FormState> {
+  await requireAdmin();
+
+  const parsed = deleteOrderSchema.safeParse({ orderId: formData.get("orderId") });
+  if (!parsed.success) return { error: "Pedido no encontrado." };
+
+  const order = await prisma.order.findUnique({
+    where: { id: parsed.data.orderId },
+    include: { items: true },
+  });
+  if (!order) return { error: "Pedido no encontrado." };
+
+  const ops = [];
+  if (order.status !== "CANCELADO") {
+    for (const item of order.items) {
+      ops.push(
+        prisma.product.update({
+          where: { id: item.productId },
+          data: { stock: { increment: item.quantity } },
+        })
+      );
+    }
+  }
+  ops.push(prisma.orderItem.deleteMany({ where: { orderId: order.id } }));
+  ops.push(prisma.order.delete({ where: { id: order.id } }));
+
+  await prisma.$transaction(ops);
+
+  revalidatePath("/", "layout");
+  return { success: "Pedido eliminado y stock devuelto." };
 }
