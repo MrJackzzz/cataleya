@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { DEFAULT_LOGO } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { priceForRole } from "@/lib/pricing";
@@ -71,7 +72,7 @@ export default async function HomePage() {
               />
               <div className="relative rounded-[2rem] border border-gold/20 bg-white/70 p-8 shadow-lift backdrop-blur sm:p-12">
                 <Image
-                  src="/images/cataleya-emblema.svg"
+                  src={config?.logoUrl || DEFAULT_LOGO}
                   alt="Emblema Cataleya Aromas"
                   width={480}
                   height={480}

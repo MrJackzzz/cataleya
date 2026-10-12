@@ -126,6 +126,7 @@ model SiteConfig {
   whatsapp            String   @default("")
   announcement        String   @default("")
   announcementEnabled Boolean  @default(false)
+  logoUrl             String   @default("")
   catalogEnabled      Boolean  @default(true)
   showDisclaimer      Boolean  @default(true)
   createdAt           DateTime @default(now())

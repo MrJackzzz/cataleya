@@ -146,6 +146,7 @@ export const siteConfigSchema = z.object({
   announcementEnabled: z.boolean(),
   catalogEnabled: z.boolean(),
   showDisclaimer: z.boolean(),
+  logoUrl: z.string().trim().max(300).default(""),
 });
 
 export const earningsFilterSchema = z.object({

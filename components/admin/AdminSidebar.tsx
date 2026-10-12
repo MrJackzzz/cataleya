@@ -27,7 +27,7 @@ export const LINKS = [
   { href: "/admin/configuracion", label: "Configuración", icon: Settings },
 ];
 
-export function AdminSidebar() {
+export function AdminSidebar({ logoUrl }: { logoUrl?: string }) {
   const pathname = usePathname();
 
   return (
@@ -38,6 +38,7 @@ export function AdminSidebar() {
           tagline="Panel admin"
           emblemSize={36}
           titleClassName="font-display text-2xl leading-none"
+          logoUrl={logoUrl}
         />
       </div>
 

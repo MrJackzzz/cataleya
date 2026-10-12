@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { DEFAULT_LOGO } from "@/lib/constants";
 
 type Props = {
   href?: string;
@@ -7,6 +8,7 @@ type Props = {
   title?: string;
   tagline?: string;
   titleClassName?: string;
+  logoUrl?: string;
 };
 
 export function BrandLockup({
@@ -15,11 +17,12 @@ export function BrandLockup({
   title = "Cataleya Aromas",
   tagline = "Perfumería de autor",
   titleClassName = "font-display text-2xl tracking-wide",
+  logoUrl,
 }: Props) {
   return (
     <Link href={href} className="group flex items-center gap-3 leading-none">
       <Image
-        src="/images/cataleya-emblema.svg"
+        src={logoUrl || DEFAULT_LOGO}
         alt="Emblema Cataleya Aromas"
         width={emblemSize}
         height={emblemSize}

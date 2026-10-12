@@ -3,6 +3,8 @@ import { Fraunces, Inter, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
+import { prisma } from "@/lib/prisma";
+import { DEFAULT_LOGO } from "@/lib/constants";
 import "./globals.css";
 
 const display = Fraunces({
@@ -20,14 +22,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Cataleya Aromas · Perfumería de autor",
-    template: "%s · Cataleya Aromas",
-  },
-  description:
-    "Réplicas de alta calidad inspiradas en las marcas originales. Perfumería premium con identificación olfativa numerada.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await prisma.siteConfig
+    .findUnique({ where: { id: "singleton" } })
+    .catch(() => null);
+  return {
+    title: {
+      default: "Cataleya Aromas · Perfumería de autor",
+      template: "%s · Cataleya Aromas",
+    },
+    description:
+      "Réplicas de alta calidad inspiradas en las marcas originales. Perfumería premium con identificación olfativa numerada.",
+    icons: { icon: config?.logoUrl || DEFAULT_LOGO },
+  };
+}
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

@@ -1,8 +1,10 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
+import Image from "next/image";
 import { Loader2, Save } from "lucide-react";
 import { upsertSiteConfig } from "@/app/actions/settings";
+import { DEFAULT_LOGO } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +19,7 @@ export type SiteConfigValues = {
   announcementEnabled: boolean;
   catalogEnabled: boolean;
   showDisclaimer: boolean;
+  logoUrl: string;
 };
 
 export function SettingsForm({ initial }: { initial: SiteConfigValues }) {
@@ -26,6 +29,8 @@ export function SettingsForm({ initial }: { initial: SiteConfigValues }) {
   );
   const [catalogEnabled, setCatalogEnabled] = useState(initial.catalogEnabled);
   const [showDisclaimer, setShowDisclaimer] = useState(initial.showDisclaimer);
+  const [logoPreview, setLogoPreview] = useState(initial.logoUrl || DEFAULT_LOGO);
+  const logoFileRef = useRef<HTMLInputElement>(null);
 
   return (
     <form action={formAction} className="space-y-6">
@@ -48,6 +53,49 @@ export function SettingsForm({ initial }: { initial: SiteConfigValues }) {
       <div className="space-y-2">
         <Label htmlFor="site-tagline">Bajada / tagline</Label>
         <Input id="site-tagline" name="tagline" defaultValue={initial.tagline} />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="site-logo">Logo de la marca (header, portada y pestaña)</Label>
+        <input type="hidden" name="logoUrl" value={logoPreview} />
+        <div className="flex flex-wrap items-center gap-4">
+          <Image
+            src={logoPreview || DEFAULT_LOGO}
+            alt="Vista previa del logo"
+            width={64}
+            height={64}
+            unoptimized
+            className="size-16 rounded-full border border-gold/25 bg-card object-contain"
+          />
+          <div className="min-w-52 flex-1 space-y-2">
+            <Input
+              id="site-logo"
+              ref={logoFileRef}
+              name="logoFile"
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/svg+xml"
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                if (file) setLogoPreview(URL.createObjectURL(file));
+              }}
+            />
+            <p className="text-xs text-muted-foreground">
+              PNG con fondo transparente o SVG. Si lo dejás vacío se usa el
+              emblema original.
+            </p>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              if (logoFileRef.current) logoFileRef.current.value = "";
+              setLogoPreview("");
+            }}
+          >
+            Restablecer emblema
+          </Button>
+        </div>
       </div>
 
       <div className="space-y-2">

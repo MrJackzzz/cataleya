@@ -26,7 +26,10 @@ export async function SiteHeader() {
       ) : null}
 
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
-        <BrandLockup titleClassName="font-display text-2xl tracking-wide sm:text-3xl" />
+        <BrandLockup
+          titleClassName="font-display text-2xl tracking-wide sm:text-3xl"
+          logoUrl={config?.logoUrl}
+        />
 
         <nav className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Link

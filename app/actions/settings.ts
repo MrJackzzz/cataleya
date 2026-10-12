@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/guards";
 import { siteConfigSchema } from "@/lib/validations";
+import { uploadImageToR2 } from "@/lib/r2";
 import type { FormState } from "@/lib/action-state";
 import { revalidatePath } from "next/cache";
 
@@ -12,6 +13,19 @@ export async function upsertSiteConfig(
 ): Promise<FormState> {
   await requireAdmin();
 
+  let logoUrl = String(formData.get("logoUrl") ?? "");
+  const logoFile = formData.get("logoFile");
+
+  if (logoFile instanceof File && logoFile.size > 0) {
+    try {
+      logoUrl = await uploadImageToR2(logoFile);
+    } catch (error) {
+      return {
+        error: error instanceof Error ? error.message : "No se pudo subir el logo.",
+      };
+    }
+  }
+
   const parsed = siteConfigSchema.safeParse({
     siteName: formData.get("siteName"),
     tagline: formData.get("tagline"),
@@ -20,6 +34,7 @@ export async function upsertSiteConfig(
     announcementEnabled: formData.get("announcementEnabled") === "on",
     catalogEnabled: formData.get("catalogEnabled") === "on",
     showDisclaimer: formData.get("showDisclaimer") === "on",
+    logoUrl,
   });
 
   if (!parsed.success) {

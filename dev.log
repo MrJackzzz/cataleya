@@ -1,0 +1,50 @@
+
+> cataleya-aromas@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.27
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.39:3000
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · serverActions
+
+ ✓ Starting...
+ ✓ Ready in 12.6s
+ ○ Compiling / ...
+ ✓ Compiled / in 36.2s (1597 modules)
+ GET / 200 in 14686ms
+ GET / 200 in 7106ms
+ GET / 200 in 1471ms
+ GET / 200 in 3237ms
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 11.2s (224 modules)
+ ○ Compiling /admin/login ...
+ ✓ Compiled /admin/login in 19.3s (1275 modules)
+ GET /admin/login 200 in 27669ms
+ ○ Compiling /admin ...
+ POST /admin/login 303 in 10868ms
+ ✓ Compiled /admin in 14.2s (1528 modules)
+ GET /admin 200 in 23706ms
+ GET /admin/login 200 in 6218ms
+ GET /admin 200 in 1901ms
+ POST /admin/login 303 in 6135ms
+ ○ Compiling /admin/configuracion ...
+ ✓ Compiled /admin/configuracion in 34.4s (1551 modules)
+ ✓ Compiled in 12s (456 modules)
+ ✓ Compiled in 11s (456 modules)
+ GET /admin/login 200 in 1735ms
+ GET /admin 200 in 1190ms
+ POST /admin/login 303 in 5882ms
+ GET /admin/configuracion 200 in 2176ms
+ POST /admin/configuracion 200 in 6057ms
+ ○ Compiling / ...
+ ✓ Compiled /favicon.ico in 30s (1257 modules)
+ ✓ Compiled (1262 modules)
+ GET /favicon.ico 200 in 51920ms
+ GET / 200 in 63664ms
+ GET /favicon.ico 200 in 448ms
+ GET /admin/configuracion 200 in 1849ms
+ GET /favicon.ico 200 in 63ms
+ POST /admin/configuracion 200 in 2142ms
+ GET / 200 in 2436ms

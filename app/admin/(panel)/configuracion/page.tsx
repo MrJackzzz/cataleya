@@ -19,6 +19,7 @@ export default async function AdminSettingsPage() {
     announcementEnabled: config?.announcementEnabled ?? false,
     catalogEnabled: config?.catalogEnabled ?? true,
     showDisclaimer: config?.showDisclaimer ?? true,
+    logoUrl: config?.logoUrl ?? "",
   };
 
   return (

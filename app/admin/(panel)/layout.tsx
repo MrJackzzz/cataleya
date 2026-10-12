@@ -16,7 +16,7 @@ export default async function AdminPanelLayout({
 
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-  const [pendingUsers, newOrders, recentLogins] = await Promise.all([
+  const [pendingUsers, newOrders, recentLogins, config] = await Promise.all([
     prisma.user.count({ where: { role: "PENDIENTE", isApproved: false } }),
     prisma.order.count({ where: { createdAt: { gte: since } } }),
     prisma.user.findMany({
@@ -30,6 +30,7 @@ export default async function AdminPanelLayout({
         lastLoginAt: true,
       },
     }),
+    prisma.siteConfig.findUnique({ where: { id: "singleton" } }),
   ]);
 
   const alerts: AdminAlerts = {
@@ -45,7 +46,7 @@ export default async function AdminPanelLayout({
 
   return (
     <div className="flex min-h-screen bg-background">
-      <AdminSidebar />
+      <AdminSidebar logoUrl={config?.logoUrl} />
       <div className="flex min-w-0 flex-1 flex-col">
         <AdminTopbar alerts={alerts} />
         <main className="flex-1 px-4 py-6 sm:px-6">

@@ -2,6 +2,8 @@ export const APPROVED_ROLES = ["CLIENTE", "SOCIO", "FAMILIAR"] as const;
 
 export const PLACEHOLDER_IMAGE = "/images/perfume-placeholder.svg";
 
+export const DEFAULT_LOGO = "/images/cataleya-emblema.svg";
+
 export const ORDER_STATUSES = [
   "PENDIENTE",
   "EN_PROCESO",

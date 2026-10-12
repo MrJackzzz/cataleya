@@ -55,16 +55,16 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
         type="button"
         onClick={() => setDetailOpen(true)}
         aria-label={`Ver detalle de ${product.name}`}
-        className="relative block aspect-4/5 w-full cursor-pointer overflow-hidden bg-gradient-to-b from-sand via-cream to-card"
+        className="group relative block aspect-4/5 w-full cursor-pointer overflow-hidden bg-gradient-to-b from-sand via-cream to-card"
       >
         <Image
           src={product.imageUrl}
           alt={product.name}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover"
+          className="object-contain p-6 transition-transform duration-300 group-hover:scale-[1.03]"
         />
-        <span className="absolute left-4 top-4 rounded-full border border-gold/40 bg-background/75 px-3 py-1 text-[11px] tracking-[0.25em] text-gold-soft backdrop-blur">
+        <span className="absolute left-4 top-4 rounded-full border border-gold-deep/50 bg-cream/90 px-3 py-1 text-[11px] font-semibold tracking-[0.25em] text-gold-deep backdrop-blur">
           N° {product.codeNumber}
         </span>
         {outOfStock ? (
