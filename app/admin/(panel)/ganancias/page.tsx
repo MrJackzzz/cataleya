@@ -160,7 +160,7 @@ export default async function AdminEarningsPage({
             {formatMoney(report.summary.cost)}
           </p>
         </div>
-        <div className="rounded-xl border border-gold/25 bg-gradient-to-br from-burgundy-deep/50 to-card p-5">
+        <div className="rounded-xl border border-gold/30 bg-gradient-to-br from-sand via-cream to-card p-5 shadow-soft">
           <p className="text-sm text-muted-foreground">Ganancia neta</p>
           <p className="mt-1 font-display text-3xl text-gold-soft">
             {formatMoney(report.summary.profit)}

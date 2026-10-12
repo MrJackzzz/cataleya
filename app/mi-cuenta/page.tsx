@@ -210,8 +210,7 @@ export default async function MyAccountPage() {
               Cambiar contraseña
             </h2>
             <p className="mb-4 mt-1 text-sm text-muted-foreground">
-              Usá la contraseña temporal que te dio el administrador para
-              definir la tuya.
+              Elegí una nueva contraseña para tu cuenta.
             </p>
             <ChangePasswordForm />
           </div>
