@@ -39,7 +39,7 @@ export function ProductDetailModal({ product, displayPrice, open, onOpenChange }
         </DialogHeader>
 
         <div className="grid gap-6 sm:grid-cols-2">
-          <div className="relative aspect-square overflow-hidden rounded-xl border border-gold/15 bg-gradient-to-b from-sand via-cream to-card">
+          <div className="relative aspect-square overflow-hidden rounded-xl border border-gold/15 bg-[#FBF9F5]">
             <Image
               src={product.imageUrl}
               alt={product.name}

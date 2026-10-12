@@ -54,15 +54,17 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
         type="button"
         onClick={() => setDetailOpen(true)}
         aria-label={`Ver detalle de ${product.name}`}
-        className="group relative block aspect-4/5 w-full cursor-pointer overflow-hidden bg-gradient-to-b from-sand via-cream to-card"
+        className="group relative block aspect-4/5 w-full cursor-pointer overflow-hidden bg-[#FBF9F5]"
       >
-        <Image
-          src={product.imageUrl}
-          alt={product.name}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-contain p-6 transition-transform duration-300 group-hover:scale-[1.03]"
-        />
+        <span className="absolute inset-x-0 bottom-4 top-[12%] block">
+          <Image
+            src={product.imageUrl}
+            alt={product.name}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+            className="object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+          />
+        </span>
         <span className="absolute left-4 top-4 rounded-full border border-gold-deep/50 bg-cream/90 px-3 py-1 text-[11px] font-semibold tracking-[0.25em] text-gold-deep backdrop-blur">
           N° {product.codeNumber}
         </span>

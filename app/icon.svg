@@ -1,28 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Emblema Cataleya Aromas">
-  <!-- aro exterior bronce -->
-  <circle cx="60" cy="60" r="55" fill="none" stroke="#C88B28" stroke-width="2.5" opacity="0.75"/>
-  <circle cx="60" cy="60" r="50.5" fill="none" stroke="#C88B28" stroke-width="1" opacity="0.4"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Cataleya Aromas">
+  <g transform="translate(60 62) scale(1.2) translate(-60 -62)">
+    <!-- tallo -->
+    <path d="M60 110 C60 102 60 97 60 91" fill="none" stroke="#344D3A" stroke-width="5" stroke-linecap="round"/>
 
-  <!-- tallo -->
-  <path d="M60 110 C60 102 60 97 60 91" fill="none" stroke="#344D3A" stroke-width="4" stroke-linecap="round"/>
+    <!-- hojas oliva / verde hoja -->
+    <path d="M57 99 C46 97 34 100 25 108 C37 109 50 105 57 99 Z" fill="#586044"/>
+    <path d="M63 99 C74 97 86 100 95 108 C83 109 70 105 63 99 Z" fill="#344D3A"/>
 
-  <!-- hojas oliva / verde hoja -->
-  <path d="M57 99 C46 97 34 100 25 108 C37 109 50 105 57 99 Z" fill="#586044"/>
-  <path d="M63 99 C74 97 86 100 95 108 C83 109 70 105 63 99 Z" fill="#344D3A"/>
+    <!-- sépalos vino -->
+    <ellipse cx="60" cy="36" rx="13" ry="21" fill="#71334F"/>
+    <ellipse cx="39" cy="47" rx="11" ry="18" fill="#71334F" transform="rotate(-28 39 47)"/>
+    <ellipse cx="81" cy="47" rx="11" ry="18" fill="#71334F" transform="rotate(28 81 47)"/>
 
-  <!-- sépalos vino -->
-  <ellipse cx="60" cy="36" rx="12" ry="20" fill="#71334F"/>
-  <ellipse cx="39" cy="47" rx="10" ry="17" fill="#71334F" transform="rotate(-28 39 47)"/>
-  <ellipse cx="81" cy="47" rx="10" ry="17" fill="#71334F" transform="rotate(28 81 47)"/>
+    <!-- pétalos malva -->
+    <ellipse cx="33" cy="67" rx="12" ry="17" fill="#D7B5C0" transform="rotate(-32 33 67)"/>
+    <ellipse cx="87" cy="67" rx="12" ry="17" fill="#D7B5C0" transform="rotate(32 87 67)"/>
 
-  <!-- pétalos malva -->
-  <ellipse cx="33" cy="67" rx="11" ry="16" fill="#D7B5C0" transform="rotate(-32 33 67)"/>
-  <ellipse cx="87" cy="67" rx="11" ry="16" fill="#D7B5C0" transform="rotate(32 87 67)"/>
+    <!-- labelo dorado -->
+    <path d="M60 56 C52 64 49 77 53 89 C55 96 65 96 67 89 C71 77 68 64 60 56 Z" fill="#C88B28"/>
 
-  <!-- labelo dorado -->
-  <path d="M60 56 C52 64 49 77 53 89 C55 96 65 96 67 89 C71 77 68 64 60 56 Z" fill="#C88B28"/>
-  <path d="M60 62 C56 68 55 77 57 86" fill="none" stroke="#7A5410" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
-
-  <!-- corazón -->
-  <circle cx="60" cy="70" r="4" fill="#FFFDFA"/>
+    <!-- corazón -->
+    <circle cx="60" cy="70" r="5" fill="#FFFDFA"/>
+  </g>
 </svg>
