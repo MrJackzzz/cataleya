@@ -57,6 +57,7 @@ export function CostCalculator({ markups }: { markups: Markup[] }) {
               min={0}
               step="0.01"
               value={values[field.key]}
+              onFocus={(event) => event.currentTarget.select()}
               onChange={(event) =>
                 setValues((current) => ({
                   ...current,
@@ -70,14 +71,15 @@ export function CostCalculator({ markups }: { markups: Markup[] }) {
 
       <div className="mt-4 space-y-2">
         <Label htmlFor="cost-margin">Margen sobre costo (%)</Label>
-        <Input
-          id="cost-margin"
-          type="number"
-          min={0}
-          step="1"
-          value={margin}
-          onChange={(event) => setMargin(Number(event.target.value))}
-        />
+          <Input
+            id="cost-margin"
+            type="number"
+            min={0}
+            step="1"
+            value={margin}
+            onFocus={(event) => event.currentTarget.select()}
+            onChange={(event) => setMargin(Number(event.target.value))}
+          />
       </div>
 
       <div className="mt-5 space-y-2 rounded-lg border border-gold/20 bg-burgundy-deep/25 p-4">

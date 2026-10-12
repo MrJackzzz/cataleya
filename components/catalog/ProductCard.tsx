@@ -7,7 +7,7 @@ import { createOrder } from "@/app/actions/orders";
 import { AccessRequestButton } from "./AccessRequestButton";
 import { ProductDetailModal } from "./ProductDetailModal";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { QtyStepper } from "@/components/ui/qty-stepper";
 import {
   Select,
   SelectContent,
@@ -39,7 +39,6 @@ type Props = {
 
 export function ProductCard({ product, displayPrice, canOrder, isPending }: Props) {
   const [state, formAction, pending] = useActionState(createOrder, null);
-  const [quantity, setQuantity] = useState(1);
   const [kind, setKind] = useState<"REPLICA" | "MUESTRA">("REPLICA");
   const [detailOpen, setDetailOpen] = useState(false);
   const outOfStock = product.stock <= 0;
@@ -101,11 +100,6 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
             <form action={formAction} className="space-y-3">
               <input type="hidden" name="productId" value={product.id} />
               <input type="hidden" name="kind" value={kind} />
-              <input
-                type="hidden"
-                name="quantity"
-                value={Math.min(Math.max(quantity, 1), Math.max(product.stock, 1))}
-              />
               <div className="flex items-end justify-between gap-3">
                 <div>
                   <span className="eyebrow block text-gold-deep">Precio</span>
@@ -118,14 +112,11 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
                 </span>
               </div>
               <div className="flex gap-2">
-                <Input
-                  type="number"
+                <QtyStepper
+                  name="quantity"
+                  defaultValue={1}
                   min={1}
                   max={Math.max(product.stock, 1)}
-                  value={quantity}
-                  onChange={(event) => setQuantity(Number(event.target.value))}
-                  className="w-16 text-center"
-                  aria-label="Cantidad"
                   disabled={outOfStock}
                 />
                 <Select

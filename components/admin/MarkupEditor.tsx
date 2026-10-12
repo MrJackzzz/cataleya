@@ -5,7 +5,7 @@ import { Percent } from "lucide-react";
 import { upsertRoleMarkup } from "@/app/actions/users";
 import { ROLE_LABELS } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { MoneyInput } from "@/components/ui/money-input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
@@ -43,12 +43,9 @@ function MarkupForm({ markup }: { markup: Markup }) {
       <div className="mt-4 flex items-end gap-3">
         <div className="flex-1 space-y-2">
           <Label htmlFor={`markup-${markup.role}`}>Valor</Label>
-          <Input
+          <MoneyInput
             id={`markup-${markup.role}`}
             name="markupValue"
-            type="number"
-            min={0}
-            step="0.5"
             defaultValue={markup.markupValue}
             required
           />

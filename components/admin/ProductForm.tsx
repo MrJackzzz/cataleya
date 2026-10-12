@@ -6,6 +6,7 @@ import { Loader2, Plus, UploadCloud } from "lucide-react";
 import { createProduct, updateProduct } from "@/app/actions/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MoneyInput } from "@/components/ui/money-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -100,6 +101,7 @@ export function ProductForm({ product }: Props) {
                 min={1}
                 defaultValue={product?.codeNumber ?? ""}
                 required
+                onFocus={(event) => event.currentTarget.select()}
               />
             </div>
             <div className="space-y-2">
@@ -111,6 +113,7 @@ export function ProductForm({ product }: Props) {
                 min={0}
                 defaultValue={product?.stock ?? 0}
                 required
+                onFocus={(event) => event.currentTarget.select()}
               />
             </div>
           </div>
@@ -180,12 +183,9 @@ export function ProductForm({ product }: Props) {
 
           <div className="space-y-2">
             <Label htmlFor="product-cost">Costo base ($)</Label>
-            <Input
+            <MoneyInput
               id="product-cost"
               name="baseCostPrice"
-              type="number"
-              min={0}
-              step="0.01"
               defaultValue={product?.baseCostPrice ?? ""}
               required
             />

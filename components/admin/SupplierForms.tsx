@@ -5,6 +5,7 @@ import { Loader2, PackagePlus, Truck } from "lucide-react";
 import { createSupplier, createPurchase } from "@/app/actions/suppliers";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MoneyInput } from "@/components/ui/money-input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -93,7 +94,7 @@ export function PurchaseForm({
         </div>
         <div className="space-y-2">
           <Label htmlFor="purchase-cost">Monto ($)</Label>
-          <Input id="purchase-cost" name="cost" type="number" min={0} step="0.01" required />
+          <MoneyInput id="purchase-cost" name="cost" required />
         </div>
         <div className="space-y-2">
           <Label htmlFor="purchase-date">Fecha</Label>

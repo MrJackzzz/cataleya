@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import { Loader2, FlaskConical } from "lucide-react";
 import { createSampleDelivery, setSampleStatus } from "@/app/actions/samples";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { QtyStepper } from "@/components/ui/qty-stepper";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -65,7 +65,7 @@ export function SampleForm({
 
       <div className="space-y-2">
         <Label htmlFor="sample-quantity">Cantidad</Label>
-        <Input id="sample-quantity" name="quantity" type="number" min={1} defaultValue={1} />
+        <QtyStepper name="quantity" defaultValue={1} min={1} />
       </div>
 
       <div className="flex items-end">

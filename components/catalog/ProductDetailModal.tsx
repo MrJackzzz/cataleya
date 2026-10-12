@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { formatMoney } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,9 @@ type Props = {
 };
 
 export function ProductDetailModal({ product, displayPrice, open, onOpenChange }: Props) {
+  const [size, setSize] = useState<"60" | "5">("60");
+  const isSample = size === "5";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto border-gold/25 bg-card sm:max-w-2xl">
@@ -44,6 +48,38 @@ export function ProductDetailModal({ product, displayPrice, open, onOpenChange }
           </div>
 
           <div className="flex flex-col gap-4">
+            <div
+              role="group"
+              aria-label="Elegir presentación"
+              className="grid grid-cols-2 gap-2 rounded-xl border border-gold/20 bg-background/60 p-1.5"
+            >
+              {(
+                [
+                  { value: "60", title: "Envase completo", sub: "60 ml" },
+                  { value: "5", title: "Muestra", sub: "5 ml" },
+                ] as const
+              ).map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setSize(option.value)}
+                  aria-pressed={size === option.value}
+                  className={`rounded-lg px-3 py-2 text-center transition-colors ${
+                    size === option.value
+                      ? "bg-leaf font-semibold text-cream shadow-soft"
+                      : "text-muted-foreground hover:text-ivory"
+                  }`}
+                >
+                  <span className="block text-sm leading-tight">{option.title}</span>
+                  <span
+                    className={`block text-xs ${size === option.value ? "text-cream/85" : "text-muted-foreground"}`}
+                  >
+                    {option.sub}
+                  </span>
+                </button>
+              ))}
+            </div>
+
             <dl className="grid grid-cols-2 gap-3 text-base">
               <div className="rounded-lg border border-gold/15 px-3 py-2">
                 <dt className="eyebrow text-gold-deep">Género</dt>
@@ -64,7 +100,11 @@ export function ProductDetailModal({ product, displayPrice, open, onOpenChange }
               <div className="rounded-lg border border-gold/15 px-3 py-2">
                 <dt className="eyebrow text-gold-deep">Precio</dt>
                 <dd className="mt-1 font-display text-2xl text-gold-soft">
-                  {displayPrice !== null ? formatMoney(displayPrice) : "Reservado"}
+                  {isSample
+                    ? "A consultar"
+                    : displayPrice !== null
+                      ? formatMoney(displayPrice)
+                      : "Reservado"}
                 </dd>
               </div>
             </dl>
@@ -73,7 +113,12 @@ export function ProductDetailModal({ product, displayPrice, open, onOpenChange }
               {product.description}
             </p>
 
-            {displayPrice === null ? (
+            {isSample ? (
+              <p className="text-sm text-muted-foreground">
+                La muestra de 5 ml te permite probar la fragancia. Coordinamos
+                su precio por WhatsApp.
+              </p>
+            ) : displayPrice === null ? (
               <p className="text-sm text-muted-foreground">
                 Los precios y pedidos están reservados para clientes con acceso
                 aprobado.
