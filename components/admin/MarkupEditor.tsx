@@ -34,7 +34,7 @@ function MarkupForm({ markup }: { markup: Markup }) {
         <p className="font-display text-2xl text-ivory">
           {ROLE_LABELS[markup.role]}
         </p>
-        <Percent className="size-4 text-gold" />
+        <Percent className="size-4 text-gold-deep" />
       </div>
       <p className="mt-1 text-xs text-muted-foreground">
         Recargo aplicado sobre el costo base del perfume.
@@ -69,7 +69,7 @@ function MarkupForm({ markup }: { markup: Markup }) {
         <p className="mt-2 text-sm text-destructive">{state.error}</p>
       ) : null}
       {state?.success ? (
-        <p className="mt-2 text-sm text-emerald-300">{state.success}</p>
+        <p className="mt-2 text-sm text-leaf">{state.success}</p>
       ) : null}
 
       <Button type="submit" size="sm" className="mt-4 w-full" disabled={pending}>

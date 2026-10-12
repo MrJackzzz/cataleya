@@ -34,7 +34,7 @@ export default async function AdminOrdersPage() {
   return (
     <div className="space-y-8">
       <div>
-        <p className="eyebrow text-gold">Órdenes</p>
+        <p className="eyebrow text-gold-deep">Órdenes</p>
         <h1 className="mt-1 font-display text-4xl text-ivory">
           Pedidos ingresados
           {pending > 0 ? (
@@ -45,7 +45,7 @@ export default async function AdminOrdersPage() {
         </h1>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-gold/15 bg-card">
+      <div className="overflow-x-auto rounded-xl border border-gold/15 bg-card">
         {orders.length === 0 ? (
           <p className="px-5 py-12 text-center text-sm text-muted-foreground">
             No hay pedidos registrados todavía.

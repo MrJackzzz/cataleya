@@ -47,8 +47,8 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
   }, [state]);
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-gold/15 bg-card transition-colors hover:border-gold/40">
-      <div className="relative aspect-4/5 overflow-hidden bg-gradient-to-b from-burgundy-deep/50 to-card">
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-gold/15 bg-card shadow-soft transition-all hover:border-gold/40 hover:shadow-lift">
+      <div className="relative aspect-4/5 overflow-hidden bg-gradient-to-b from-sand via-cream to-card">
         <Image
           src={product.imageUrl}
           alt={product.name}
@@ -94,7 +94,7 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
               />
               <div className="flex items-end justify-between gap-3">
                 <div>
-                  <span className="eyebrow block text-gold">Precio</span>
+                  <span className="eyebrow block text-gold-deep">Precio</span>
                   <span className="font-display text-3xl text-gold-soft">
                     {formatMoney(displayPrice)}
                   </span>

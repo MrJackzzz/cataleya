@@ -121,7 +121,7 @@ export function CatalogGrid({ items, canOrder, isPending }: Props) {
             <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Buscar por diseñador o fragancia…"
+              placeholder="Diseñador o fragancia…"
               aria-label="Buscar por diseñador o fragancia"
               className="min-w-[230px] pr-9 pl-9"
             />

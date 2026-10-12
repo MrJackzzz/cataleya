@@ -2,10 +2,10 @@ import { ORDER_STATUS_LABELS, SAMPLE_STATUS_LABELS, ROLE_LABELS } from "@/lib/co
 
 const STATUS_STYLES: Record<string, string> = {
   PENDIENTE: "border-gold/40 bg-gold/10 text-gold-soft",
-  EN_PROCESO: "border-sky-400/40 bg-sky-400/10 text-sky-300",
-  TERMINADO: "border-emerald-400/40 bg-emerald-400/10 text-emerald-300",
+  EN_PROCESO: "border-olive/40 bg-olive/10 text-leaf",
+  TERMINADO: "border-leaf/40 bg-leaf/10 text-leaf",
   CANCELADO: "border-destructive/40 bg-destructive/10 text-destructive",
-  CERRADO: "border-emerald-400/40 bg-emerald-400/10 text-emerald-300",
+  CERRADO: "border-leaf/40 bg-leaf/10 text-leaf",
 };
 
 export function StatusBadge({ status }: { status: string }) {

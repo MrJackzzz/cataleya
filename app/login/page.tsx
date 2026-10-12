@@ -15,8 +15,8 @@ export default async function LoginPage() {
       <SiteHeader />
       <main className="flex flex-1 items-center justify-center px-4 py-16">
         <div className="w-full max-w-md">
-          <div className="rounded-2xl border border-gold/20 bg-card p-8 shadow-[0_0_80px_-40px_rgba(201,162,75,0.5)]">
-            <p className="eyebrow text-gold">Acceso de clientes</p>
+          <div className="rounded-2xl border border-gold/20 bg-card p-8 shadow-lift">
+            <p className="eyebrow text-gold-deep">Acceso de clientes</p>
             <h1 className="mt-2 font-display text-4xl text-ivory">
               Iniciar sesión
             </h1>

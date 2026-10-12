@@ -92,7 +92,7 @@ export default async function AdminEarningsPage({
   return (
     <div className="space-y-8">
       <div>
-        <p className="eyebrow text-gold">Reportes</p>
+        <p className="eyebrow text-gold-deep">Reportes</p>
         <h1 className="mt-1 font-display text-4xl text-ivory">
           Ganancias y facturación
         </h1>
@@ -160,7 +160,7 @@ export default async function AdminEarningsPage({
             {formatMoney(report.summary.cost)}
           </p>
         </div>
-        <div className="rounded-xl border border-gold/25 bg-gradient-to-br from-burgundy-deep/50 to-card p-5">
+        <div className="rounded-xl border border-gold/30 bg-gradient-to-br from-sand via-cream to-card p-5 shadow-soft">
           <p className="text-sm text-muted-foreground">Ganancia neta</p>
           <p className="mt-1 font-display text-3xl text-gold-soft">
             {formatMoney(report.summary.profit)}
@@ -177,7 +177,7 @@ export default async function AdminEarningsPage({
       {report.byDay.length > 0 ? (
         <section>
           <h2 className="mb-3 font-display text-2xl text-ivory">Resumen por día</h2>
-          <div className="overflow-hidden rounded-xl border border-gold/15 bg-card">
+          <div className="overflow-x-auto rounded-xl border border-gold/15 bg-card">
             <Table>
               <TableHeader>
                 <TableRow className="border-gold/15 hover:bg-transparent">
@@ -216,7 +216,7 @@ export default async function AdminEarningsPage({
         <h2 className="mb-3 font-display text-2xl text-ivory">
           Detalle de pedidos
         </h2>
-        <div className="overflow-hidden rounded-xl border border-gold/15 bg-card">
+        <div className="overflow-x-auto rounded-xl border border-gold/15 bg-card">
           {report.rows.length === 0 ? (
             <p className="px-5 py-10 text-center text-sm text-muted-foreground">
               No hay pedidos en este período.

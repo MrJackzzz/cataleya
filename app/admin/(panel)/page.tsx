@@ -70,7 +70,7 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <p className="eyebrow text-gold">Resumen</p>
+        <p className="eyebrow text-gold-deep">Resumen</p>
         <h1 className="mt-1 font-display text-4xl text-ivory">Dashboard</h1>
       </div>
 
@@ -94,7 +94,7 @@ export default async function AdminDashboardPage() {
               <Link href="/admin/pedidos">Ver todos</Link>
             </Button>
           </div>
-          <div className="overflow-hidden rounded-xl border border-gold/15 bg-card">
+          <div className="overflow-x-auto rounded-xl border border-gold/15 bg-card">
             <Table>
               <TableHeader>
                 <TableRow className="border-gold/15 hover:bg-transparent">

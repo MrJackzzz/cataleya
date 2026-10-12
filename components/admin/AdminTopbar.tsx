@@ -64,7 +64,7 @@ export function AdminTopbar({ alerts }: { alerts: AdminAlerts }) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="relative">
-              <Bell className="size-4 text-gold" />
+              <Bell className="size-4 text-gold-deep" />
               <span className="eyebrow ml-1 hidden sm:inline">Alertas</span>
               {total > 0 ? (
                 <span className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
@@ -74,7 +74,7 @@ export function AdminTopbar({ alerts }: { alerts: AdminAlerts }) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-72 border-gold/25">
-            <DropdownMenuLabel className="eyebrow text-gold">
+            <DropdownMenuLabel className="eyebrow text-gold-deep">
               Notificaciones
             </DropdownMenuLabel>
             <DropdownMenuSeparator />

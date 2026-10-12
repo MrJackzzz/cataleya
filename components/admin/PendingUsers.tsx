@@ -161,7 +161,7 @@ export function PendingUsers({ users }: { users: PendingUser[] }) {
   if (users.length === 0) {
     return (
       <div className="rounded-xl border border-dashed border-gold/20 bg-card/50 px-5 py-10 text-center">
-        <Check className="mx-auto size-5 text-emerald-300" />
+        <Check className="mx-auto size-5 text-leaf" />
         <p className="mt-2 text-sm text-muted-foreground">
           No hay solicitudes pendientes.
         </p>

@@ -19,7 +19,7 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-gold/15 bg-background/85 backdrop-blur">
       {config?.announcementEnabled && config.announcement ? (
-        <div className="border-b border-gold/10 bg-burgundy-deep/40 px-4 py-2 text-center text-xs tracking-[0.18em] text-gold-soft uppercase">
+        <div className="border-b border-plum/15 bg-plum/10 px-4 py-2 text-center text-xs tracking-[0.18em] text-plum uppercase">
           {config.announcement}
         </div>
       ) : null}
@@ -77,7 +77,7 @@ export async function SiteHeader() {
                 rel="noopener noreferrer"
                 aria-label="Contactar por WhatsApp"
               >
-                <Phone className="size-4 text-gold" />
+                <Phone className="size-4 text-gold-deep" />
               </a>
             </Button>
           ) : null}

@@ -38,7 +38,7 @@ export default async function AdminProductsPage() {
     <div className="space-y-10">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="eyebrow text-gold">Catálogo</p>
+          <p className="eyebrow text-gold-deep">Catálogo</p>
           <h1 className="mt-1 font-display text-4xl text-ivory">
             Perfumes, stock y muestras
           </h1>
@@ -47,7 +47,7 @@ export default async function AdminProductsPage() {
       </div>
 
       <section>
-        <div className="overflow-hidden rounded-xl border border-gold/15 bg-card">
+        <div className="overflow-x-auto rounded-xl border border-gold/15 bg-card">
           <Table>
             <TableHeader>
               <TableRow className="border-gold/15 hover:bg-transparent">
@@ -98,7 +98,7 @@ export default async function AdminProductsPage() {
                           ? "border-destructive/40 text-destructive"
                           : product.stock <= 5
                             ? "border-gold/40 text-gold-soft"
-                            : "border-emerald-400/30 text-emerald-300"
+                            : "border-leaf/30 text-leaf"
                       }`}
                     >
                       {product.stock} u.
@@ -111,7 +111,7 @@ export default async function AdminProductsPage() {
                     <span
                       className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] tracking-[0.14em] uppercase ${
                         product.isActive
-                          ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
+                          ? "border-leaf/40 bg-leaf/10 text-leaf"
                           : "border-border bg-muted text-muted-foreground"
                       }`}
                     >
@@ -135,7 +135,7 @@ export default async function AdminProductsPage() {
 
       <section className="space-y-4">
         <div>
-          <p className="eyebrow text-gold">Control de muestras</p>
+          <p className="eyebrow text-gold-deep">Control de muestras</p>
           <h2 className="mt-1 font-display text-3xl text-ivory">
             Registrar entrega de muestra
           </h2>
@@ -152,7 +152,7 @@ export default async function AdminProductsPage() {
           }))}
         />
 
-        <div className="overflow-hidden rounded-xl border border-gold/15 bg-card">
+        <div className="overflow-x-auto rounded-xl border border-gold/15 bg-card">
           {samples.length === 0 ? (
             <p className="px-5 py-10 text-center text-sm text-muted-foreground">
               No hay muestras registradas.
