@@ -29,6 +29,7 @@ export type EditableProduct = {
   id: string;
   codeNumber: number;
   name: string;
+  designer: string;
   description: string;
   imageUrl: string;
   gender: string;
@@ -114,15 +115,27 @@ export function ProductForm({ product }: Props) {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="product-name">Nombre / equivalencia olfativa</Label>
-            <Input
-              id="product-name"
-              name="name"
-              defaultValue={product?.name ?? ""}
-              placeholder="Ej.: Amaderado Ahumado — Inspirado en Ombré Leather"
-              required
-            />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="product-name">Fragancia</Label>
+              <Input
+                id="product-name"
+                name="name"
+                defaultValue={product?.name ?? ""}
+                placeholder="Ej.: Bleu de Chanel"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="product-designer">Diseñador</Label>
+              <Input
+                id="product-designer"
+                name="designer"
+                defaultValue={product?.designer ?? ""}
+                placeholder="Ej.: Chanel"
+                maxLength={60}
+              />
+            </div>
           </div>
 
           <div className="space-y-2">

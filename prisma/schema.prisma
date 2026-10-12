@@ -57,6 +57,7 @@ model Product {
   id               String      @id @default(uuid())
   codeNumber       Int         @unique
   name             String
+  designer         String      @default("")
   description      String
   imageUrl         String
   gender           Gender      @default(UNISEX)

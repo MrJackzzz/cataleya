@@ -49,6 +49,7 @@ export async function createProduct(
   const parsed = productSchema.safeParse({
     codeNumber: formData.get("codeNumber"),
     name: formData.get("name"),
+    designer: formData.get("designer") ?? "",
     description: formData.get("description"),
     imageUrl,
     gender: formData.get("gender") ?? "UNISEX",
@@ -99,6 +100,7 @@ export async function updateProduct(
   const parsed = productSchema.safeParse({
     codeNumber: formData.get("codeNumber"),
     name: formData.get("name"),
+    designer: formData.get("designer") ?? "",
     description: formData.get("description"),
     imageUrl,
     gender: formData.get("gender") ?? "UNISEX",

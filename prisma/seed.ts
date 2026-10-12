@@ -47,6 +47,7 @@ async function main() {
   const products: {
     codeNumber: number;
     name: string;
+    designer: string;
     description: string;
     baseCostPrice: number;
     stock: number;
@@ -56,6 +57,7 @@ async function main() {
     {
       codeNumber: 101,
       name: "Amaderado Ahumado — Inspirado en Ombré Leather",
+      designer: "Tom Ford",
       description:
         "Cuero sofisticado sobre cedro y ámbar. Una firma intensa para la noche, con estela persistente y carácter.",
       baseCostPrice: 18000,
@@ -66,6 +68,7 @@ async function main() {
     {
       codeNumber: 102,
       name: "Cítrico Aromático — Inspirado en Bleu de Chanel",
+      designer: "Chanel",
       description:
         "Bergamota vibrante con fondo de sándalo y jengibre. Frescura elegante para el día a día.",
       baseCostPrice: 16500,
@@ -76,6 +79,7 @@ async function main() {
     {
       codeNumber: 103,
       name: "Floral Oriental — Inspirado en Good Girl",
+      designer: "Carolina Herrera",
       description:
         "Jazmín y tonka sobre un lecho de vainilla. Dulzor envolvente con remate amaderado.",
       baseCostPrice: 17200,
@@ -86,6 +90,7 @@ async function main() {
     {
       codeNumber: 104,
       name: "Ámbar Dulce — Inspirado en Baccarat Rouge 540",
+      designer: "Maison Francis Kurkdjian",
       description:
         "Azafrán, ámbar y cedro en equilibrio perfecto. Una huella distintiva y memorables.",
       baseCostPrice: 21000,

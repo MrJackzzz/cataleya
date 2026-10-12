@@ -47,7 +47,8 @@ export const productSchema = z.object({
     .number({ error: "Número identificador inválido" })
     .int("Debe ser un número entero")
     .positive("Debe ser positivo"),
-  name: z.string().trim().min(3, "Ingresá el nombre / equivalencia olfativa").max(120),
+  name: z.string().trim().min(3, "Ingresá la fragancia").max(120),
+  designer: z.string().trim().max(60, "Diseñador demasiado largo").default(""),
   description: z.string().trim().min(10, "Descripción demasiado corta").max(600),
   imageUrl: z
     .string()

@@ -11,6 +11,7 @@ type Props = {
     id: string;
     codeNumber: number;
     name: string;
+    designer: string;
     description: string;
     imageUrl: string;
     gender: string;

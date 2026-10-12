@@ -56,7 +56,7 @@ export function CatalogGrid({ items, canOrder, isPending }: Props) {
       if (family !== "TODAS" && product.olfactoryFamily !== family) return false;
       if (tokens.length > 0) {
         const haystack = norm(
-          `${product.name} ${product.description} ${product.olfactoryFamily}`
+          `${product.name} ${product.designer} ${product.description} ${product.olfactoryFamily}`
         );
         if (!tokens.every((token) => haystack.includes(token))) return false;
       }
@@ -121,8 +121,8 @@ export function CatalogGrid({ items, canOrder, isPending }: Props) {
             <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Buscar fragancia…"
-              aria-label="Buscar fragancia por nombre"
+              placeholder="Buscar por diseñador o fragancia…"
+              aria-label="Buscar por diseñador o fragancia"
               className="min-w-[230px] pr-9 pl-9"
             />
             {query ? (

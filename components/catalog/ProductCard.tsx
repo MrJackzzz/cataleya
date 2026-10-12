@@ -21,6 +21,7 @@ export type CatalogProduct = {
   id: string;
   codeNumber: number;
   name: string;
+  designer: string;
   description: string;
   imageUrl: string;
   gender: string;
@@ -72,6 +73,11 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
         <h3 className="font-display text-2xl leading-tight text-ivory">
           {product.name}
         </h3>
+        {product.designer ? (
+          <p className="-mt-1.5 text-sm font-medium text-gold-soft">
+            {product.designer}
+          </p>
+        ) : null}
         <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">
           {product.description}
         </p>
