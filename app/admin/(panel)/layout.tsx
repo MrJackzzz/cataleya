@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/guards";
 import { prisma } from "@/lib/prisma";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminTopbar, type AdminAlerts } from "@/components/admin/AdminTopbar";
+import { ActionToastHost } from "@/components/admin/ActionToastHost";
 import { formatDateTime } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -47,7 +48,9 @@ export default async function AdminPanelLayout({
       <AdminSidebar />
       <div className="flex min-w-0 flex-1 flex-col">
         <AdminTopbar alerts={alerts} />
-        <main className="flex-1 px-4 py-6 sm:px-6">{children}</main>
+        <main className="flex-1 px-4 py-6 sm:px-6">
+          <ActionToastHost>{children}</ActionToastHost>
+        </main>
       </div>
     </div>
   );
