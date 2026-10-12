@@ -62,7 +62,7 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
           alt={product.name}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-contain p-4"
+          className="object-cover"
         />
         <span className="absolute left-4 top-4 rounded-full border border-gold/40 bg-background/75 px-3 py-1 text-[11px] tracking-[0.25em] text-gold-soft backdrop-blur">
           N° {product.codeNumber}

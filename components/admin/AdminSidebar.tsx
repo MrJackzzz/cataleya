@@ -14,6 +14,7 @@ import {
   Store,
 } from "lucide-react";
 import { logoutAction } from "@/app/actions/auth";
+import { BrandLockup } from "@/components/layout/BrandLockup";
 import { Button } from "@/components/ui/button";
 
 export const LINKS = [
@@ -32,14 +33,12 @@ export function AdminSidebar() {
   return (
     <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-gold/15 bg-sidebar md:flex">
       <div className="border-b border-gold/15 px-5 py-5">
-        <Link href="/" className="block">
-          <span className="font-display text-2xl leading-none text-gradient-gold">
-            Cataleya
-          </span>
-          <span className="eyebrow mt-1 block text-muted-foreground">
-            Panel admin
-          </span>
-        </Link>
+        <BrandLockup
+          title="Cataleya"
+          tagline="Panel admin"
+          emblemSize={36}
+          titleClassName="font-display text-2xl leading-none"
+        />
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto p-3">

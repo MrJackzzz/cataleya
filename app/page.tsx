@@ -1,5 +1,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import Image from "next/image";
+import Link from "next/link";
 import { priceForRole } from "@/lib/pricing";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -7,7 +9,6 @@ import { DisclaimerBanner } from "@/components/catalog/DisclaimerBanner";
 import { AccessRequestButton } from "@/components/catalog/AccessRequestButton";
 import { CatalogGrid } from "@/components/catalog/CatalogGrid";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -36,37 +37,59 @@ export default async function HomePage() {
         <section className="relative overflow-hidden border-b border-gold/15">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(113,51,79,0.14),transparent_55%)]" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(88,96,68,0.10),transparent_50%)]" />
-          <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
-            <p className="eyebrow text-gold-deep">Contratipos de alta gama</p>
-            <h1 className="mt-4 max-w-3xl font-display text-5xl leading-[1.05] text-ivory sm:text-7xl">
-              Los grandes clásicos, <span className="text-gradient-gold">reinterpretados</span> en tu piel.
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Réplicas de alta calidad con numeración olfativa propia. Elegí tu
-              fragancia, consultá tu precio según tu membresía y generá tu pedido
-              directo desde el catálogo.
-            </p>
+          <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-2">
+            <div>
+              <p className="eyebrow text-gold-deep">Contratipos de alta gama</p>
+              <h1 className="mt-4 font-display text-5xl leading-[1.05] text-ivory sm:text-6xl">
+                Los grandes clásicos, <span className="text-gradient-gold">reinterpretados</span> en tu piel.
+              </h1>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                Réplicas de alta calidad con numeración olfativa propia. Elegí tu
+                fragancia, consultá tu precio según tu membresía y generá tu pedido
+                directo desde el catálogo.
+              </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button asChild>
-                <Link href="#perfumes">Ver catálogo</Link>
-              </Button>
-              {!canOrder && !isPending ? (
-                <AccessRequestButton variant="outline" />
-              ) : null}
-              {canOrder ? (
-                <Button asChild variant="outline">
-                  <Link href="/mi-cuenta">Mi cuenta</Link>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Button asChild>
+                  <Link href="#perfumes">Ver catálogo</Link>
                 </Button>
-              ) : null}
+                {!canOrder && !isPending ? (
+                  <AccessRequestButton variant="outline" />
+                ) : null}
+                {canOrder ? (
+                  <Button asChild variant="outline">
+                    <Link href="/mi-cuenta">Mi cuenta</Link>
+                  </Button>
+                ) : null}
+              </div>
             </div>
 
-            {config?.showDisclaimer !== false ? (
-              <div className="mt-10 max-w-3xl">
+            <div className="relative mx-auto w-full max-w-md">
+              <div
+                aria-hidden="true"
+                className="absolute -inset-6 rounded-[2.5rem] bg-[radial-gradient(closest-side,rgba(215,181,192,0.35),transparent)] blur-2xl"
+              />
+              <div className="relative rounded-[2rem] border border-gold/20 bg-white/70 p-8 shadow-lift backdrop-blur sm:p-12">
+                <Image
+                  src="/images/cataleya-emblema.svg"
+                  alt="Emblema Cataleya Aromas"
+                  width={480}
+                  height={480}
+                  sizes="(max-width: 1024px) 90vw, 480px"
+                  className="mx-auto h-auto w-full"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+
+          {config?.showDisclaimer !== false ? (
+            <div className="relative mx-auto max-w-7xl px-4 pb-14 sm:px-6">
+              <div className="max-w-3xl">
                 <DisclaimerBanner />
               </div>
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </section>
 
         <section id="perfumes" className="mx-auto max-w-7xl scroll-mt-28 px-4 py-14 sm:px-6">

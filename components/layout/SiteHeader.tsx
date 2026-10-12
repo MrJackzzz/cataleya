@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { logoutAction } from "@/app/actions/auth";
 import { AccessRequestButton } from "@/components/catalog/AccessRequestButton";
+import { BrandLockup } from "@/components/layout/BrandLockup";
 import { Button } from "@/components/ui/button";
 
 export async function SiteHeader() {
@@ -25,14 +26,7 @@ export async function SiteHeader() {
       ) : null}
 
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
-        <Link href="/" className="group flex flex-col leading-none">
-          <span className="font-display text-3xl tracking-wide text-gradient-gold">
-            Cataleya Aromas
-          </span>
-          <span className="eyebrow mt-1 text-muted-foreground">
-            Perfumería de autor
-          </span>
-        </Link>
+        <BrandLockup titleClassName="font-display text-2xl tracking-wide sm:text-3xl" />
 
         <nav className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Link
