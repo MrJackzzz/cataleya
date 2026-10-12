@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { useDialogBackButton } from "@/components/ui/use-dialog-back-button";
 
 type PendingUser = {
   id: string;
@@ -46,6 +47,7 @@ function PendingUserCard({
   rejectPending: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  useDialogBackButton(open, setOpen);
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-gold/20 bg-card p-4">

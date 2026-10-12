@@ -1,7 +1,5 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { DEFAULT_LOGO } from "@/lib/constants";
-import Image from "next/image";
 import Link from "next/link";
 import { priceForRole } from "@/lib/pricing";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -38,13 +36,13 @@ export default async function HomePage() {
         <section className="relative overflow-hidden border-b border-gold/15">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(113,51,79,0.14),transparent_55%)]" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(88,96,68,0.10),transparent_50%)]" />
-          <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-2">
+          <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
             <div>
               <p className="eyebrow text-gold-deep">Contratipos de alta gama</p>
-              <h1 className="mt-4 font-display text-5xl leading-[1.05] text-ivory sm:text-6xl">
+              <h1 className="mt-4 max-w-3xl font-display text-5xl leading-[1.05] text-ivory sm:text-6xl">
                 Los grandes clásicos, <span className="text-gradient-gold">reinterpretados</span> en tu piel.
               </h1>
-              <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
                 Réplicas de alta calidad con numeración olfativa propia. Elegí tu
                 fragancia, consultá tu precio según tu membresía y generá tu pedido
                 directo desde el catálogo.
@@ -62,24 +60,6 @@ export default async function HomePage() {
                     <Link href="/mi-cuenta">Mi cuenta</Link>
                   </Button>
                 ) : null}
-              </div>
-            </div>
-
-            <div className="relative mx-auto w-full max-w-md">
-              <div
-                aria-hidden="true"
-                className="absolute -inset-6 rounded-[2.5rem] bg-[radial-gradient(closest-side,rgba(215,181,192,0.35),transparent)] blur-2xl"
-              />
-              <div className="relative rounded-[2rem] border border-gold/20 bg-white/70 p-8 shadow-lift backdrop-blur sm:p-12">
-                <Image
-                  src={config?.logoUrl || DEFAULT_LOGO}
-                  alt="Emblema Cataleya Aromas"
-                  width={480}
-                  height={480}
-                  sizes="(max-width: 1024px) 90vw, 480px"
-                  className="mx-auto h-auto w-full"
-                  priority
-                />
               </div>
             </div>
           </div>

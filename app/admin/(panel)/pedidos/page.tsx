@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import { roundMoney } from "@/lib/pricing";
 import { formatDateTime, formatMoney, waLink } from "@/lib/format";
 import { ORDER_KIND_LABELS } from "@/lib/constants";
 import { StatusBadge, RoleBadge } from "@/components/StatusBadge";
@@ -26,6 +27,7 @@ export default async function AdminOrdersPage() {
     include: {
       user: { select: { name: true, lastName: true, phone: true, role: true } },
       items: { include: { product: true } },
+      payments: { select: { amount: true } },
     },
   });
 
@@ -58,8 +60,9 @@ export default async function AdminOrdersPage() {
                 <TableHead>Cliente</TableHead>
                 <TableHead>Detalle</TableHead>
                 <TableHead>Tipo</TableHead>
-                <TableHead className="text-right">Total</TableHead>
-                <TableHead>Estado</TableHead>
+                  <TableHead className="text-right">Total</TableHead>
+                  <TableHead>Abonado</TableHead>
+                  <TableHead>Estado</TableHead>
                 <TableHead className="text-right">Acciones</TableHead>
               </TableRow>
             </TableHeader>
@@ -101,6 +104,23 @@ export default async function AdminOrdersPage() {
                   <TableCell>{ORDER_KIND_LABELS[order.kind]}</TableCell>
                   <TableCell className="text-right text-gold-soft">
                     {formatMoney(order.total)}
+                  </TableCell>
+                  <TableCell>
+                    {(() => {
+                      const paid = roundMoney(
+                        order.payments.reduce((sum, entry) => sum + entry.amount, 0)
+                      );
+                      const payStatus =
+                        paid <= 0 ? "PENDIENTE" : paid >= order.total ? "PAGADO" : "PARCIAL";
+                      return (
+                        <>
+                          <StatusBadge status={payStatus} />
+                          <span className="mt-1 block text-xs text-muted-foreground">
+                            {formatMoney(paid)} de {formatMoney(order.total)}
+                          </span>
+                        </>
+                      );
+                    })()}
                   </TableCell>
                   <TableCell>
                     <StatusBadge status={order.status} />

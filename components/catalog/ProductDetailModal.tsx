@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { formatMoney } from "@/lib/format";
+import { useDialogBackButton } from "@/components/ui/use-dialog-back-button";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,6 +24,7 @@ type Props = {
 export function ProductDetailModal({ product, displayPrice, open, onOpenChange }: Props) {
   const [size, setSize] = useState<"60" | "5">("60");
   const isSample = size === "5";
+  useDialogBackButton(open, onOpenChange);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

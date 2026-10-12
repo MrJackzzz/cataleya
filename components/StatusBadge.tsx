@@ -2,6 +2,8 @@ import { ORDER_STATUS_LABELS, SAMPLE_STATUS_LABELS, ROLE_LABELS } from "@/lib/co
 
 const STATUS_STYLES: Record<string, string> = {
   PENDIENTE: "border-gold/40 bg-gold/10 text-gold-soft",
+  PARCIAL: "border-gold/50 bg-gold/15 text-gold-deep",
+  PAGADO: "border-leaf/40 bg-leaf/10 text-leaf",
   EN_PROCESO: "border-olive/40 bg-olive/10 text-leaf",
   TERMINADO: "border-leaf/40 bg-leaf/10 text-leaf",
   CANCELADO: "border-destructive/40 bg-destructive/10 text-destructive",

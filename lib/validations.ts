@@ -138,6 +138,31 @@ export const deleteOrderSchema = z.object({
   orderId: z.string().min(1),
 });
 
+export const paymentSchema = z.object({
+  orderId: z.string().min(1, "Seleccioná un pedido"),
+  amount: z.coerce
+    .number({ error: "Monto inválido" })
+    .positive("El monto debe ser mayor a 0"),
+  note: z.string().trim().max(200).optional().or(z.literal("")),
+  date: z
+    .string()
+    .min(1, "Ingresá la fecha")
+    .refine((value) => !Number.isNaN(Date.parse(value)), {
+      message: "Fecha inválida",
+    }),
+});
+
+export const deletePaymentSchema = z.object({
+  paymentId: z.string().min(1),
+});
+
+export const paymentsFilterSchema = z.object({
+  from: z.string().optional(),
+  to: z.string().optional(),
+  client: z.string().trim().max(60).optional().default(""),
+  status: z.enum(["TODOS", "PENDIENTE", "PARCIAL", "PAGADO"]).default("TODOS"),
+});
+
 export const siteConfigSchema = z.object({
   siteName: z.string().trim().min(2).max(60),
   tagline: z.string().trim().max(120),

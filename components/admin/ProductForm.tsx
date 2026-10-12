@@ -25,6 +25,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { useDialogBackButton } from "@/components/ui/use-dialog-back-button";
 
 export type EditableProduct = {
   id: string;
@@ -46,6 +47,7 @@ type Props = {
 export function ProductForm({ product }: Props) {
   const editing = Boolean(product);
   const [open, setOpen] = useState(false);
+  useDialogBackButton(open, setOpen);
   const [preview, setPreview] = useState(product?.imageUrl ?? "");
   const [gender, setGender] = useState(product?.gender ?? "UNISEX");
   const [state, formAction, pending] = useActionState(

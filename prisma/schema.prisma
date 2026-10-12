@@ -80,6 +80,17 @@ model Order {
   note      String?
   createdAt DateTime    @default(now())
   items     OrderItem[]
+  payments  Payment[]
+}
+
+model Payment {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  amount    Float
+  note      String?
+  date      DateTime @default(now())
+  createdAt DateTime @default(now())
 }
 
 model OrderItem {

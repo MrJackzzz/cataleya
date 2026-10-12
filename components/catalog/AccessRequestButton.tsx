@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { useDialogBackButton } from "@/components/ui/use-dialog-back-button";
 
 type Props = {
   label?: string;
@@ -28,6 +29,7 @@ export function AccessRequestButton({
   className,
 }: Props) {
   const [open, setOpen] = useState(false);
+  useDialogBackButton(open, setOpen);
   const [state, formAction, pending] = useActionState(requestAccess, null);
   const formRef = useRef<HTMLFormElement>(null);
 
