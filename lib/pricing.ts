@@ -1,10 +1,16 @@
 import type { Role, RoleMarkup } from "@prisma/client";
 
+export type MarkupRate = {
+  role: string;
+  markupValue: number;
+  isPercentage: boolean;
+};
+
 export function roundMoney(value: number): number {
   return Math.round(value * 100) / 100;
 }
 
-export function calcSellPrice(baseCost: number, markup?: RoleMarkup | null): number {
+export function calcSellPrice(baseCost: number, markup?: MarkupRate | null): number {
   if (!markup) return roundMoney(baseCost);
   const value = markup.markupValue ?? 0;
   const price = markup.isPercentage
@@ -14,15 +20,15 @@ export function calcSellPrice(baseCost: number, markup?: RoleMarkup | null): num
 }
 
 export function findMarkup(
-  markups: RoleMarkup[],
+  markups: MarkupRate[],
   role: Role | string
-): RoleMarkup | null {
+): MarkupRate | null {
   return markups.find((markup) => markup.role === role) ?? null;
 }
 
 export function priceForRole(
   baseCost: number,
-  markups: RoleMarkup[],
+  markups: MarkupRate[],
   role: Role | string
 ): number {
   return calcSellPrice(baseCost, findMarkup(markups, role));

@@ -152,6 +152,37 @@ export const adminOrderSchema = z.object({
   kind: z.enum(["MUESTRA", "REPLICA"]),
 });
 
+export const cartItemSchema = z.object({
+  productId: z.string().min(1),
+  quantity: z.number().int().min(1).max(99),
+});
+
+export const adminCartOrderSchema = z.object({
+  userId: z.string().optional().or(z.literal("")),
+  newName: z.string().trim().max(60).optional().or(z.literal("")),
+  newLastName: z.string().trim().max(60).optional().or(z.literal("")),
+  newPhone: z.string().trim().max(20).optional().or(z.literal("")),
+  kind: z.enum(["MUESTRA", "REPLICA"]),
+  items: z
+    .string()
+    .min(1, "Agregá al menos un artículo")
+    .transform((raw, ctx) => {
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(raw);
+      } catch {
+        ctx.addIssue({ code: "custom", message: "Artículos inválidos" });
+        return z.NEVER;
+      }
+      const result = z.array(cartItemSchema).min(1, "Agregá al menos un artículo").max(20).safeParse(parsed);
+      if (!result.success) {
+        ctx.addIssue({ code: "custom", message: "Artículos inválidos" });
+        return z.NEVER;
+      }
+      return result.data;
+    }),
+});
+
 export const orderItemQtySchema = z.object({
   itemId: z.string().min(1),
   quantity: z.coerce

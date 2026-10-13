@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminOrdersPage() {
-  const [orders, clients, products] = await Promise.all([
+  const [orders, clients, products, markups] = await Promise.all([
     prisma.order.findMany({
       orderBy: { createdAt: "desc" },
       include: {
@@ -42,7 +42,10 @@ export default async function AdminOrdersPage() {
     prisma.product.findMany({
       where: { isActive: true },
       orderBy: { codeNumber: "asc" },
-      select: { id: true, codeNumber: true, name: true, stock: true },
+      select: { id: true, codeNumber: true, name: true, stock: true, baseCostPrice: true },
+    }),
+    prisma.roleMarkup.findMany({
+      select: { role: true, markupValue: true, isPercentage: true },
     }),
   ]);
 
@@ -71,11 +74,15 @@ export default async function AdminOrdersPage() {
           clients={clients.map((client) => ({
             id: client.id,
             label: `${client.name} ${client.lastName} · ${client.phone} (${ROLE_LABELS[client.role] ?? client.role})`,
+            role: client.role,
           }))}
           products={products.map((product) => ({
             id: product.id,
             label: `N° ${product.codeNumber} · ${product.name} (stock ${product.stock})`,
+            stock: product.stock,
+            baseCostPrice: product.baseCostPrice,
           }))}
+          markups={markups}
         />
       </section>
 

@@ -8,6 +8,7 @@ import {
   orderStatusSchema,
   deleteOrderSchema,
   adminOrderSchema,
+  adminCartOrderSchema,
   orderItemQtySchema,
   orderItemReturnSchema,
 } from "@/lib/validations";
@@ -455,5 +456,117 @@ export async function returnOrderItem(
   );
   return {
     success: `Devolución registrada. Nuevo total: ${formatMoney(newTotal)}.`,
+  };
+}
+
+export async function createAdminCartOrder(
+  _prev: FormState,
+  formData: FormData
+): Promise<FormState> {
+  await requireAdmin();
+
+  const parsed = adminCartOrderSchema.safeParse({
+    userId: formData.get("userId") || undefined,
+    newName: formData.get("newName") || undefined,
+    newLastName: formData.get("newLastName") || undefined,
+    newPhone: formData.get("newPhone") || undefined,
+    kind: formData.get("kind"),
+    items: formData.get("items"),
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Revisá el pedido." };
+  }
+
+  const { userId, newName, newLastName, newPhone, kind, items } = parsed.data;
+
+  let user;
+  if (newName?.trim()) {
+    if (!newLastName?.trim() || !newPhone?.trim()) {
+      return { error: "Completá nombre, apellido y WhatsApp del nuevo cliente." };
+    }
+    const phone = normalizePhone(newPhone);
+    const existing = await prisma.user.findUnique({ where: { phone } });
+    if (existing) {
+      return { error: "Ese número ya tiene cuenta. Seleccionalo en la lista." };
+    }
+    user = await prisma.user.create({
+      data: {
+        name: newName.trim(),
+        lastName: newLastName.trim(),
+        phone,
+        role: "PENDIENTE",
+        isApproved: false,
+      },
+    });
+  } else {
+    if (!userId) return { error: "Seleccioná un cliente." };
+    user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user || user.role === "ADMIN") {
+      return { error: "Cliente inválido." };
+    }
+  }
+
+  const combined = new Map<string, number>();
+  for (const line of items) {
+    combined.set(line.productId, (combined.get(line.productId) ?? 0) + line.quantity);
+  }
+
+  const markups = await prisma.roleMarkup.findMany();
+  const lines: { productId: string; quantity: number; price: number; code: number }[] = [];
+  for (const [productId, quantity] of combined) {
+    const product = await prisma.product.findUnique({ where: { id: productId } });
+    if (!product || !product.isActive) {
+      return { error: "Un perfume ya no está disponible. Revisá el carrito." };
+    }
+    if (product.stock < quantity) {
+      return {
+        error: `Stock insuficiente de N° ${product.codeNumber}. Disponible: ${product.stock}.`,
+      };
+    }
+    lines.push({
+      productId: product.id,
+      quantity,
+      price: priceForRole(product.baseCostPrice, markups, user.role),
+      code: product.codeNumber,
+    });
+  }
+
+  const total = roundMoney(
+    lines.reduce((sum, line) => sum + line.price * line.quantity, 0)
+  );
+
+  await prisma.$transaction([
+    prisma.order.create({
+      data: {
+        userId: user.id,
+        total,
+        kind,
+        status: "PENDIENTE",
+        items: {
+          create: lines.map(({ productId, quantity, price }) => ({
+            productId,
+            quantity,
+            price,
+          })),
+        },
+      },
+    }),
+    ...lines.map((line) =>
+      prisma.product.update({
+        where: { id: line.productId },
+        data: { stock: { decrement: line.quantity } },
+      })
+    ),
+  ]);
+
+  revalidatePath("/", "layout");
+  const codes = lines.map((line) => line.code).join(" + ");
+  await logMovement(
+    "PEDIDO",
+    `Pedido N° ${codes} creado para ${user.name} ${user.lastName} (${lines.length} artículo(s)).`
+  );
+  return {
+    success: `Pedido creado para ${user.name} ${user.lastName}: ${lines.length} artículo(s) · total ${formatMoney(total)}.`,
   };
 }
