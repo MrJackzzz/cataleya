@@ -93,6 +93,13 @@ model Payment {
   createdAt DateTime @default(now())
 }
 
+model Movement {
+  id        String   @id @default(uuid())
+  type      String
+  detail    String
+  createdAt DateTime @default(now())
+}
+
 model OrderItem {
   id        String  @id @default(uuid())
   orderId   String
@@ -109,6 +116,7 @@ model SampleDelivery {
   user        User         @relation(fields: [userId], references: [id])
   productCode Int
   quantity    Int
+  returned    Int          @default(0)
   status      SampleStatus @default(PENDIENTE)
   createdAt   DateTime     @default(now())
 }

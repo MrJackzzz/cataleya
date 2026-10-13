@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { roundMoney } from "@/lib/pricing";
 import { formatDateTime, formatMoney, waLink } from "@/lib/format";
-import { ORDER_KIND_LABELS } from "@/lib/constants";
+import { ORDER_KIND_LABELS, ROLE_LABELS } from "@/lib/constants";
 import { StatusBadge, RoleBadge } from "@/components/StatusBadge";
 import { OrderStatusControl } from "@/components/admin/OrderStatusControl";
 import { OrderDeleteButton } from "@/components/admin/OrderDeleteButton";
+import { AdminOrderForm } from "@/components/admin/AdminOrderForm";
+import { OrderItemEditor } from "@/components/orders/OrderItemEditor";
+import { OrderItemReturnForm } from "@/components/orders/OrderItemReturnForm";
 import {
   Table,
   TableBody,
@@ -22,14 +25,26 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminOrdersPage() {
-  const orders = await prisma.order.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      user: { select: { name: true, lastName: true, phone: true, role: true } },
-      items: { include: { product: true } },
-      payments: { select: { amount: true } },
-    },
-  });
+  const [orders, clients, products] = await Promise.all([
+    prisma.order.findMany({
+      orderBy: { createdAt: "desc" },
+      include: {
+        user: { select: { name: true, lastName: true, phone: true, role: true } },
+        items: { include: { product: true } },
+        payments: { select: { amount: true } },
+      },
+    }),
+    prisma.user.findMany({
+      where: { role: { in: ["PENDIENTE", "CLIENTE", "SOCIO", "FAMILIAR"] } },
+      orderBy: [{ name: "asc" }, { lastName: "asc" }],
+      select: { id: true, name: true, lastName: true, phone: true, role: true },
+    }),
+    prisma.product.findMany({
+      where: { isActive: true },
+      orderBy: { codeNumber: "asc" },
+      select: { id: true, codeNumber: true, name: true, stock: true },
+    }),
+  ]);
 
   const pending = orders.filter((order) => order.status === "PENDIENTE").length;
 
@@ -46,6 +61,23 @@ export default async function AdminOrdersPage() {
           ) : null}
         </h1>
       </div>
+
+      <section className="rounded-xl border border-gold/15 bg-card p-5">
+        <h2 className="font-display text-2xl text-ivory">Nuevo pedido</h2>
+        <p className="mb-4 mt-1 text-sm text-muted-foreground">
+          Para un cliente registrado o uno nuevo (se crea como pendiente).
+        </p>
+        <AdminOrderForm
+          clients={clients.map((client) => ({
+            id: client.id,
+            label: `${client.name} ${client.lastName} · ${client.phone} (${ROLE_LABELS[client.role] ?? client.role})`,
+          }))}
+          products={products.map((product) => ({
+            id: product.id,
+            label: `N° ${product.codeNumber} · ${product.name} (stock ${product.stock})`,
+          }))}
+        />
+      </section>
 
       <div className="overflow-x-auto rounded-xl border border-gold/15 bg-card">
         {orders.length === 0 ? (
@@ -90,10 +122,30 @@ export default async function AdminOrdersPage() {
                   </TableCell>
                   <TableCell>
                     {order.items.map((item) => (
-                      <p key={item.id} className="text-sm text-muted-foreground">
-                        N° {item.product.codeNumber} · {item.quantity} ×{" "}
-                        {formatMoney(item.price)}
-                      </p>
+                      <div key={item.id} className="mb-2 last:mb-0">
+                        <p className="text-sm text-muted-foreground">
+                          N° {item.product.codeNumber} · {item.quantity} ×{" "}
+                          {formatMoney(item.price)}
+                        </p>
+                        {order.status === "PENDIENTE" ||
+                        order.status === "EN_PROCESO" ? (
+                          <div className="mt-1">
+                            <OrderItemEditor
+                              itemId={item.id}
+                              quantity={item.quantity}
+                              max={item.product.stock + item.quantity}
+                            />
+                          </div>
+                        ) : null}
+                        {order.status !== "CANCELADO" ? (
+                          <div className="mt-1">
+                            <OrderItemReturnForm
+                              itemId={item.id}
+                              max={item.quantity}
+                            />
+                          </div>
+                        ) : null}
+                      </div>
                     ))}
                     {order.note ? (
                       <p className="mt-1 max-w-52 text-xs text-gold-soft">

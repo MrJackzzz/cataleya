@@ -34,7 +34,7 @@ export function OrderStatusControl({
   }, [state, status]);
 
   return (
-    <form action={formAction} className="flex items-center gap-2">
+    <form action={formAction} aria-label="Cambiar estado" className="flex items-center gap-2">
       <input type="hidden" name="orderId" value={orderId} />
       <input type="hidden" name="status" value={value} />
       <select

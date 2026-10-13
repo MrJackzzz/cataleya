@@ -9,6 +9,7 @@ import {
   roleMarkupSchema,
 } from "@/lib/validations";
 import type { FormState } from "@/lib/action-state";
+import { logMovement } from "@/lib/movements";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 
@@ -55,6 +56,10 @@ export async function approveUser(
   });
 
   revalidatePath("/", "layout");
+  await logMovement(
+    "USUARIO",
+    `${user.name} ${user.lastName} aprobado como ${parsed.data.role}.`
+  );
   return {
     success: `${user.name} ${user.lastName} aprobado como ${parsed.data.role}.`,
   };
@@ -86,6 +91,7 @@ export async function rejectUser(
   }
 
   revalidatePath("/", "layout");
+  await logMovement("USUARIO", `Solicitud de ${user.name} ${user.lastName} rechazada.`);
   return { success: `Solicitud de ${user.name} ${user.lastName} rechazada.` };
 }
 

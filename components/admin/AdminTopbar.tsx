@@ -25,12 +25,37 @@ export type AdminAlerts = {
     lastName: string;
     at: string;
   }[];
+  latestActivity?: string;
 };
+
+const SEEN_KEY = "cataleya-alerts-seen";
 
 export function AdminTopbar({ alerts }: { alerts: AdminAlerts }) {
   const total = alerts.pendingUsers + alerts.newOrders;
   const [menuOpen, setMenuOpen] = useState(false);
+  const [seenAt, setSeenAt] = useState<string | null>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    try {
+      setSeenAt(window.localStorage.getItem(SEEN_KEY));
+    } catch {
+      setSeenAt(null);
+    }
+  }, []);
+
+  const hasUnseen =
+    total > 0 && (!seenAt || !alerts.latestActivity || alerts.latestActivity > seenAt);
+
+  const markSeen = () => {
+    const now = new Date().toISOString();
+    try {
+      window.localStorage.setItem(SEEN_KEY, now);
+    } catch {
+      // sin almacenamiento: igual se oculta en esta sesión
+    }
+    setSeenAt(now);
+  };
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -61,12 +86,16 @@ export function AdminTopbar({ alerts }: { alerts: AdminAlerts }) {
       </p>
 
       <div className="flex items-center gap-2">
-        <DropdownMenu>
+        <DropdownMenu
+          onOpenChange={(open) => {
+            if (open) markSeen();
+          }}
+        >
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="relative">
               <Bell className="size-4 text-gold-deep" />
               <span className="eyebrow ml-1 hidden sm:inline">Alertas</span>
-              {total > 0 ? (
+              {hasUnseen ? (
                 <span className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
                   {total > 9 ? "9+" : total}
                 </span>

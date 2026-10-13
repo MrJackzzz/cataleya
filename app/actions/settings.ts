@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/guards";
 import { siteConfigSchema } from "@/lib/validations";
 import { uploadImageToR2 } from "@/lib/r2";
 import type { FormState } from "@/lib/action-state";
+import { logMovement } from "@/lib/movements";
 import { revalidatePath } from "next/cache";
 
 export async function upsertSiteConfig(
@@ -48,5 +49,6 @@ export async function upsertSiteConfig(
   });
 
   revalidatePath("/", "layout");
+  await logMovement("CONFIG", "Configuración del sitio actualizada.");
   return { success: "Configuración del sitio actualizada." };
 }

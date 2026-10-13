@@ -138,6 +138,47 @@ export const deleteOrderSchema = z.object({
   orderId: z.string().min(1),
 });
 
+export const adminOrderSchema = z.object({
+  userId: z.string().optional().or(z.literal("")),
+  newName: z.string().trim().max(60).optional().or(z.literal("")),
+  newLastName: z.string().trim().max(60).optional().or(z.literal("")),
+  newPhone: z.string().trim().max(20).optional().or(z.literal("")),
+  productId: z.string().min(1, "Seleccioná un perfume"),
+  quantity: z.coerce
+    .number({ error: "Cantidad inválida" })
+    .int("Cantidad inválida")
+    .min(1, "Mínimo 1 unidad")
+    .max(99, "Máximo 99 unidades"),
+  kind: z.enum(["MUESTRA", "REPLICA"]),
+});
+
+export const orderItemQtySchema = z.object({
+  itemId: z.string().min(1),
+  quantity: z.coerce
+    .number({ error: "Cantidad inválida" })
+    .int("Cantidad inválida")
+    .min(0, "Cantidad inválida")
+    .max(99, "Máximo 99 unidades"),
+});
+
+export const orderItemReturnSchema = z.object({
+  itemId: z.string().min(1),
+  quantity: z.coerce
+    .number({ error: "Cantidad inválida" })
+    .int("Cantidad inválida")
+    .min(1, "Mínimo 1 unidad")
+    .max(99, "Máximo 99 unidades"),
+});
+
+export const sampleReturnSchema = z.object({
+  sampleId: z.string().min(1),
+  quantity: z.coerce
+    .number({ error: "Cantidad inválida" })
+    .int("Cantidad inválida")
+    .min(1, "Mínimo 1 unidad")
+    .max(99, "Máximo 99 unidades"),
+});
+
 export const paymentSchema = z.object({
   orderId: z.string().min(1, "Seleccioná un pedido"),
   amount: z.coerce
@@ -161,6 +202,15 @@ export const paymentsFilterSchema = z.object({
   to: z.string().optional(),
   client: z.string().trim().max(60).optional().default(""),
   status: z.enum(["TODOS", "PENDIENTE", "PARCIAL", "PAGADO"]).default("TODOS"),
+});
+
+export const historyFilterSchema = z.object({
+  from: z.string().optional(),
+  to: z.string().optional(),
+  type: z
+    .enum(["TODOS", "PEDIDO", "PAGO", "MUESTRA", "PRODUCTO", "USUARIO", "CONFIG"])
+    .default("TODOS"),
+  q: z.string().trim().max(80).optional().default(""),
 });
 
 export const siteConfigSchema = z.object({

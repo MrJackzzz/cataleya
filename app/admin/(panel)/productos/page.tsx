@@ -5,6 +5,7 @@ import { formatDateTime, formatMoney } from "@/lib/format";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { ProductRowActions } from "@/components/admin/ProductRowActions";
 import { SampleForm, SampleStatusControl } from "@/components/admin/SampleForms";
+import { SampleReturnForm } from "@/components/admin/SampleReturnForm";
 import {
   Table,
   TableBody,
@@ -165,6 +166,7 @@ export default async function AdminProductsPage() {
                   <TableHead>Cliente</TableHead>
                   <TableHead>Fragancia</TableHead>
                   <TableHead>Cantidad</TableHead>
+                  <TableHead>Devolución</TableHead>
                   <TableHead className="text-right">Estado</TableHead>
                 </TableRow>
               </TableHeader>
@@ -178,7 +180,24 @@ export default async function AdminProductsPage() {
                       {sample.user.name} {sample.user.lastName}
                     </TableCell>
                     <TableCell>N° {sample.productCode}</TableCell>
-                    <TableCell>{sample.quantity}</TableCell>
+                    <TableCell>
+                      {sample.quantity} u.
+                      {sample.returned > 0 ? (
+                        <span className="block text-xs text-muted-foreground">
+                          dev. {sample.returned}
+                        </span>
+                      ) : null}
+                    </TableCell>
+                    <TableCell>
+                      {sample.quantity - sample.returned > 0 ? (
+                        <SampleReturnForm
+                          sampleId={sample.id}
+                          max={sample.quantity - sample.returned}
+                        />
+                      ) : (
+                        <span className="text-xs text-muted-foreground">Completa</span>
+                      )}
+                    </TableCell>
                     <TableCell>
                       <div className="flex justify-end">
                         <SampleStatusControl

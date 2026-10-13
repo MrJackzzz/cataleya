@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/guards";
 import { paymentSchema, deletePaymentSchema } from "@/lib/validations";
 import { roundMoney } from "@/lib/pricing";
 import { formatMoney } from "@/lib/format";
+import { logMovement } from "@/lib/movements";
 import type { FormState } from "@/lib/action-state";
 import { revalidatePath } from "next/cache";
 
@@ -27,7 +28,11 @@ export async function registerPayment(
 
   const order = await prisma.order.findUnique({
     where: { id: parsed.data.orderId },
-    include: { payments: true },
+    include: {
+      payments: true,
+      items: { include: { product: { select: { codeNumber: true } } } },
+      user: { select: { name: true, lastName: true } },
+    },
   });
   if (!order) return { error: "Pedido no encontrado." };
   if (order.status === "CANCELADO") {
@@ -56,7 +61,10 @@ export async function registerPayment(
   });
 
   revalidatePath("/", "layout");
+  const codes = order.items.map((item) => item.product.codeNumber).join(" + ") || "—";
+  const who = `${order.user.name} ${order.user.lastName}`;
   const newRemaining = roundMoney(remaining - amount);
+  await logMovement("PAGO", `Pago ${formatMoney(amount)} pedido N° ${codes} (${who}).`);
   return {
     success:
       newRemaining <= 0
@@ -74,12 +82,14 @@ export async function deletePayment(
   const parsed = deletePaymentSchema.safeParse({ paymentId: formData.get("paymentId") });
   if (!parsed.success) return { error: "Pago no encontrado." };
 
-  try {
-    await prisma.payment.delete({ where: { id: parsed.data.paymentId } });
-  } catch {
-    return { error: "Pago no encontrado." };
-  }
+  const payment = await prisma.payment.findUnique({
+    where: { id: parsed.data.paymentId },
+  });
+  if (!payment) return { error: "Pago no encontrado." };
+
+  await prisma.payment.delete({ where: { id: payment.id } });
 
   revalidatePath("/", "layout");
+  await logMovement("PAGO", `Pago ${formatMoney(payment.amount)} eliminado.`);
   return { success: "Pago eliminado." };
 }

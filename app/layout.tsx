@@ -3,6 +3,7 @@ import { Fraunces, Inter, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
+import { ActionToastHost } from "@/components/admin/ActionToastHost";
 import { prisma } from "@/lib/prisma";
 import "./globals.css";
 
@@ -45,7 +46,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-          <TooltipProvider delayDuration={200}>{children}</TooltipProvider>
+          <TooltipProvider delayDuration={200}>
+            <ActionToastHost>{children}</ActionToastHost>
+          </TooltipProvider>
           <Toaster position="top-center" richColors />
         </ThemeProvider>
       </body>

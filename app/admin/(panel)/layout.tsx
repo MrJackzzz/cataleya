@@ -16,22 +16,38 @@ export default async function AdminPanelLayout({
 
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-  const [pendingUsers, newOrders, recentLogins, config] = await Promise.all([
-    prisma.user.count({ where: { role: "PENDIENTE", isApproved: false } }),
-    prisma.order.count({ where: { createdAt: { gte: since } } }),
-    prisma.user.findMany({
-      where: { lastLoginAt: { gte: since }, role: { not: "ADMIN" } },
-      orderBy: { lastLoginAt: "desc" },
-      take: 5,
-      select: {
-        id: true,
-        name: true,
-        lastName: true,
-        lastLoginAt: true,
-      },
-    }),
-    prisma.siteConfig.findUnique({ where: { id: "singleton" } }),
-  ]);
+  const [pendingUsers, newOrders, recentLogins, config, latestPending, latestOrder] =
+    await Promise.all([
+      prisma.user.count({ where: { role: "PENDIENTE", isApproved: false } }),
+      prisma.order.count({ where: { createdAt: { gte: since } } }),
+      prisma.user.findMany({
+        where: { lastLoginAt: { gte: since }, role: { not: "ADMIN" } },
+        orderBy: { lastLoginAt: "desc" },
+        take: 5,
+        select: {
+          id: true,
+          name: true,
+          lastName: true,
+          lastLoginAt: true,
+        },
+      }),
+      prisma.siteConfig.findUnique({ where: { id: "singleton" } }),
+      prisma.user.findFirst({
+        where: { role: "PENDIENTE", isApproved: false },
+        orderBy: { createdAt: "desc" },
+        select: { createdAt: true },
+      }),
+      prisma.order.findFirst({
+        orderBy: { createdAt: "desc" },
+        select: { createdAt: true },
+      }),
+    ]);
+
+  const latestActivity = [latestPending?.createdAt, latestOrder?.createdAt]
+    .filter((date): date is Date => Boolean(date))
+    .map((date) => date.toISOString())
+    .sort()
+    .pop();
 
   const alerts: AdminAlerts = {
     pendingUsers,
@@ -42,6 +58,7 @@ export default async function AdminPanelLayout({
       lastName: user.lastName,
       at: user.lastLoginAt ? formatDateTime(user.lastLoginAt) : "",
     })),
+    latestActivity,
   };
 
   return (

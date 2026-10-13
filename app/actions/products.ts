@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/guards";
 import { productSchema } from "@/lib/validations";
 import { uploadImageToR2 } from "@/lib/r2";
+import { logMovement } from "@/lib/movements";
 import type { FormState, UploadState } from "@/lib/action-state";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
@@ -72,6 +73,7 @@ export async function createProduct(
   }
 
   revalidatePath("/", "layout");
+  await logMovement("PRODUCTO", `Perfume N° ${parsed.data.codeNumber} creado.`);
   return { success: "Perfume agregado al catálogo." };
 }
 
@@ -123,6 +125,7 @@ export async function updateProduct(
   }
 
   revalidatePath("/", "layout");
+  await logMovement("PRODUCTO", `Perfume N° ${parsed.data.codeNumber} actualizado.`);
   return { success: "Perfume actualizado." };
 }
 
@@ -152,6 +155,11 @@ export async function deleteProduct(
   const id = String(formData.get("id") ?? "");
   if (!id) return { error: "Producto no encontrado." };
 
+  const existing = await prisma.product.findUnique({
+    where: { id },
+    select: { codeNumber: true, name: true },
+  });
+
   try {
     await prisma.product.delete({ where: { id } });
   } catch (error) {
@@ -167,5 +175,9 @@ export async function deleteProduct(
   }
 
   revalidatePath("/", "layout");
+  await logMovement(
+    "PRODUCTO",
+    `Perfume N° ${existing?.codeNumber ?? "?"} eliminado.`
+  );
   return { success: "Perfume eliminado definitivamente." };
 }

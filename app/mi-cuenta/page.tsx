@@ -10,6 +10,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { StatusBadge, RoleBadge } from "@/components/StatusBadge";
 import { ChangePasswordForm } from "@/components/account/ChangePasswordForm";
+import { OrderItemEditor } from "@/components/orders/OrderItemEditor";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -146,10 +147,21 @@ export default async function MyAccountPage() {
                       <TableCell>{ORDER_KIND_LABELS[order.kind]}</TableCell>
                       <TableCell>
                         {order.items.map((item) => (
-                          <p key={item.id} className="text-sm">
-                            N° {item.product.codeNumber} · {item.product.name} ×
-                            {item.quantity}
-                          </p>
+                          <div key={item.id} className="mb-2 last:mb-0">
+                            <p className="text-sm">
+                              N° {item.product.codeNumber} · {item.product.name} ×
+                              {item.quantity}
+                            </p>
+                            {order.status === "PENDIENTE" ? (
+                              <div className="mt-1">
+                                <OrderItemEditor
+                                  itemId={item.id}
+                                  quantity={item.quantity}
+                                  max={item.product.stock + item.quantity}
+                                />
+                              </div>
+                            ) : null}
+                          </div>
                         ))}
                       </TableCell>
                       <TableCell className="text-right font-medium text-gold-soft">
@@ -192,7 +204,14 @@ export default async function MyAccountPage() {
                         {formatDateTime(sample.createdAt)}
                       </TableCell>
                       <TableCell>N° {sample.productCode}</TableCell>
-                      <TableCell>{sample.quantity}</TableCell>
+                      <TableCell>
+                        {sample.quantity}
+                        {sample.returned > 0 ? (
+                          <span className="block text-xs text-muted-foreground">
+                            devueltas: {sample.returned}
+                          </span>
+                        ) : null}
+                      </TableCell>
                       <TableCell className="text-right">
                         <StatusBadge status={sample.status} />
                       </TableCell>

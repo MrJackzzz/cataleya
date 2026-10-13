@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { accessRequestSchema } from "@/lib/validations";
 import { normalizePhone } from "@/lib/format";
 import type { FormState } from "@/lib/action-state";
+import { logMovement } from "@/lib/movements";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 
@@ -45,6 +46,10 @@ export async function requestAccess(
   });
 
   revalidatePath("/", "layout");
+  await logMovement(
+    "USUARIO",
+    `Solicitud de acceso de ${parsed.data.name} ${parsed.data.lastName}.`
+  );
   return {
     success:
       "Solicitud enviada. Cuando tu cuenta sea aprobada vas a poder ingresar con tu número y tu contraseña.",
