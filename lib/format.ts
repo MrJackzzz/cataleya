@@ -1,7 +1,12 @@
 export function normalizePhone(value: string): string {
   let digits = value.replace(/\D/g, "");
-  if (digits.length === 11 && digits.startsWith("0")) {
+  // Si empieza con 0, removerlo (ej: 011... -> 11...)
+  if (digits.length >= 11 && digits.startsWith("0")) {
     digits = digits.slice(1);
+  }
+  // Si ingresan 11 seguido de 15 y 8 dígitos (total 12 dígitos)
+  if (digits.length === 12 && digits.startsWith("1115")) {
+    digits = `11${digits.slice(4)}`;
   }
   if (/^549\d{10}$/.test(digits)) return digits;
   if (/^54\d{10}$/.test(digits)) return `549${digits.slice(2)}`;

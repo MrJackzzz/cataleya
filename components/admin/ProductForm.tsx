@@ -4,6 +4,8 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Loader2, Plus, UploadCloud } from "lucide-react";
 import { createProduct, updateProduct } from "@/app/actions/products";
+import { priceForRole, findMarkup, formatMarkupLabel, type MarkupRate } from "@/lib/pricing";
+import { formatMoney } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MoneyInput } from "@/components/ui/money-input";
@@ -42,19 +44,29 @@ export type EditableProduct = {
 
 type Props = {
   product?: EditableProduct;
+  markups?: MarkupRate[];
 };
 
-export function ProductForm({ product }: Props) {
+export function ProductForm({ product, markups = [] }: Props) {
   const editing = Boolean(product);
   const [open, setOpen] = useState(false);
   useDialogBackButton(open, setOpen);
   const [preview, setPreview] = useState(product?.imageUrl ?? "");
   const [gender, setGender] = useState(product?.gender ?? "UNISEX");
+  const [cost, setCost] = useState<number>(product?.baseCostPrice ?? 0);
   const [state, formAction, pending] = useActionState(
     editing ? updateProduct : createProduct,
     null
   );
   const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (open) {
+      setCost(product?.baseCostPrice ?? 0);
+      setPreview(product?.imageUrl ?? "");
+      setGender(product?.gender ?? "UNISEX");
+    }
+  }, [open, product]);
 
   useEffect(() => {
     if (state?.success) {
@@ -189,8 +201,42 @@ export function ProductForm({ product }: Props) {
               id="product-cost"
               name="baseCostPrice"
               defaultValue={product?.baseCostPrice ?? ""}
+              onValueChange={(raw) => setCost(Number(raw) || 0)}
               required
             />
+            {markups.length > 0 && cost > 0 ? (
+              <div className="rounded-lg border border-gold/25 bg-background/80 p-3 space-y-2">
+                <p className="text-xs font-medium text-gold-soft uppercase tracking-wider">
+                  Precios finales según recargo:
+                </p>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                  <div className="rounded-md border border-gold/15 bg-card/60 p-2 text-center">
+                    <span className="block text-[11px] text-muted-foreground">
+                      Cliente ({formatMarkupLabel(findMarkup(markups, "CLIENTE"))})
+                    </span>
+                    <span className="font-semibold text-ivory text-sm">
+                      {formatMoney(priceForRole(cost, markups, "CLIENTE"))}
+                    </span>
+                  </div>
+                  <div className="rounded-md border border-gold/15 bg-card/60 p-2 text-center">
+                    <span className="block text-[11px] text-muted-foreground">
+                      Familiar ({formatMarkupLabel(findMarkup(markups, "FAMILIAR"))})
+                    </span>
+                    <span className="font-semibold text-gold-soft text-sm">
+                      {formatMoney(priceForRole(cost, markups, "FAMILIAR"))}
+                    </span>
+                  </div>
+                  <div className="rounded-md border border-gold/15 bg-card/60 p-2 text-center">
+                    <span className="block text-[11px] text-muted-foreground">
+                      Socio ({formatMarkupLabel(findMarkup(markups, "SOCIO"))})
+                    </span>
+                    <span className="font-semibold text-leaf text-sm">
+                      {formatMoney(priceForRole(cost, markups, "SOCIO"))}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
 
           <div className="space-y-2">

@@ -33,6 +33,7 @@ type Props = {
   placeholder?: string;
   className?: string;
   ariaLabel?: string;
+  onValueChange?: (raw: string) => void;
 };
 
 export function MoneyInput({
@@ -44,6 +45,7 @@ export function MoneyInput({
   placeholder,
   className,
   ariaLabel,
+  onValueChange,
 }: Props) {
   const initialRaw = normalizeDefault(defaultValue);
   const hiddenRef = useRef<HTMLInputElement>(null);
@@ -66,6 +68,7 @@ export function MoneyInput({
           const raw = toRaw(event.currentTarget.value);
           event.currentTarget.value = formatDisplay(raw);
           if (hiddenRef.current) hiddenRef.current.value = raw;
+          onValueChange?.(raw);
         }}
       />
       <input ref={hiddenRef} type="hidden" name={name} defaultValue={initialRaw} />

@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { KeyRound } from "lucide-react";
 import { priceForRole } from "@/lib/pricing";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -53,7 +54,15 @@ export default async function HomePage() {
                   <Link href="#perfumes">Ver catálogo</Link>
                 </Button>
                 {!canOrder && !isPending ? (
-                  <AccessRequestButton variant="outline" />
+                  <>
+                    <Button asChild variant="outline" className="border-gold/30 hover:bg-gold/10">
+                      <Link href="/login">
+                        <KeyRound className="size-4" />
+                        Iniciar sesión
+                      </Link>
+                    </Button>
+                    <AccessRequestButton variant="outline" />
+                  </>
                 ) : null}
                 {canOrder ? (
                   <Button asChild variant="outline">

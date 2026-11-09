@@ -1,4 +1,4 @@
-import type { Role, RoleMarkup } from "@prisma/client";
+import type { Role } from "@prisma/client";
 
 export type MarkupRate = {
   role: string;
@@ -32,4 +32,11 @@ export function priceForRole(
   role: Role | string
 ): number {
   return calcSellPrice(baseCost, findMarkup(markups, role));
+}
+
+export function formatMarkupLabel(markup?: MarkupRate | null): string {
+  if (!markup || markup.markupValue === 0) return "sin recargo";
+  return markup.isPercentage
+    ? `+${markup.markupValue}%`
+    : `+$${markup.markupValue.toLocaleString("es-AR")}`;
 }

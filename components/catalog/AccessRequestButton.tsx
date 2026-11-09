@@ -78,14 +78,21 @@ export function AccessRequestButton({
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="access-phone">WhatsApp (con código de país)</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="access-phone">Celular / WhatsApp</Label>
+              <span className="text-xs text-gold-deep font-medium">Sin 0 ni 15</span>
+            </div>
             <Input
               id="access-phone"
               name="phone"
               type="tel"
-              placeholder="+54 9 11 2345-6789"
+              placeholder="11-5555-5555"
               required
             />
+            <p className="text-xs text-muted-foreground">
+              Ingresá tu celular sin el 0 y sin el 15. Ejemplo:{" "}
+              <strong className="text-gold-soft font-semibold">11-5555-5555</strong>
+            </p>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2">

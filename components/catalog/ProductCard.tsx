@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 import { Loader2, ShoppingBag } from "lucide-react";
 import { createOrder } from "@/app/actions/orders";
@@ -155,6 +156,17 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
                 </span>
               </div>
               <AccessRequestButton className="w-full" variant="outline" />
+              <div className="text-center">
+                <Link
+                  href="/login"
+                  className="text-xs text-muted-foreground transition-colors hover:text-gold-soft"
+                >
+                  ¿Ya tenés cuenta?{" "}
+                  <span className="text-ivory underline underline-offset-2">
+                    Iniciar sesión
+                  </span>
+                </Link>
+              </div>
             </div>
           )}
         </div>

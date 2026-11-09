@@ -22,17 +22,25 @@ export function LoginForm({ expectedRole }: Props) {
   return (
     <form action={formAction} className="space-y-5">
       <div className="space-y-2">
-        <Label htmlFor="login-phone">
-          {expectedRole === "ADMIN" ? "Teléfono de administrador" : "WhatsApp"}
-        </Label>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="login-phone">
+            {expectedRole === "ADMIN" ? "Teléfono de administrador" : "Celular / WhatsApp"}
+          </Label>
+          <span className="text-xs text-gold-deep font-medium">Sin 0 ni 15</span>
+        </div>
         <Input
           id="login-phone"
           name="phone"
           type="tel"
-          placeholder="+54 9 11 2345-6789"
+          placeholder="11-5555-5555"
           autoComplete="username"
           required
         />
+        <p className="text-xs text-muted-foreground">
+          Ingresá tu número con código de área, sin 0 ni 15. Ej.:{" "}
+          <strong className="text-gold-soft font-semibold">11-5555-5555</strong> o{" "}
+          <strong className="text-gold-soft font-semibold">1157069732</strong>.
+        </p>
       </div>
 
       <div className="space-y-2">

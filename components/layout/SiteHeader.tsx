@@ -56,15 +56,15 @@ export async function SiteHeader() {
             </>
           ) : (
             <>
-              <Button asChild variant="ghost" size="sm">
+              <Button asChild variant="outline" size="sm" className="border-gold/30 hover:bg-gold/10">
                 <Link href="/login">
-                  <KeyRound className="size-4" />
+                  <KeyRound className="size-4 mr-1" />
                   Iniciar sesión
                 </Link>
               </Button>
               <AccessRequestButton
                 label="Solicitar acceso"
-                variant="outline"
+                variant="default"
               />
             </>
           )}

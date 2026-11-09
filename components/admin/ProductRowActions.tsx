@@ -3,6 +3,7 @@
 import { Eye, EyeOff, Trash2, Loader2 } from "lucide-react";
 import { toggleProductActive, deleteProduct } from "@/app/actions/products";
 import { useToastAction } from "@/components/admin/ActionToastHost";
+import type { MarkupRate } from "@/lib/pricing";
 import { ProductForm } from "./ProductForm";
 import { Button } from "@/components/ui/button";
 
@@ -20,14 +21,15 @@ type Props = {
     baseCostPrice: number;
     isActive: boolean;
   };
+  markups?: MarkupRate[];
 };
 
-export function ProductRowActions({ product }: Props) {
+export function ProductRowActions({ product, markups }: Props) {
   const [, deleteAction, deletePending] = useToastAction(deleteProduct);
 
   return (
     <div className="flex items-center justify-end gap-1">
-      <ProductForm product={product} />
+      <ProductForm product={product} markups={markups} />
 
       <form action={toggleProductActive}>
         <input type="hidden" name="id" value={product.id} />

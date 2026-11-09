@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { formatDateTime, formatMoney } from "@/lib/format";
+import { priceForRole, findMarkup, formatMarkupLabel } from "@/lib/pricing";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { ProductRowActions } from "@/components/admin/ProductRowActions";
 import { SampleForm, SampleStatusControl } from "@/components/admin/SampleForms";
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminProductsPage() {
-  const [products, samples, clients] = await Promise.all([
+  const [products, samples, clients, markups] = await Promise.all([
     prisma.product.findMany({ orderBy: { codeNumber: "asc" } }),
     prisma.sampleDelivery.findMany({
       orderBy: { createdAt: "desc" },
@@ -32,6 +33,9 @@ export default async function AdminProductsPage() {
       where: { role: { in: ["CLIENTE", "SOCIO", "FAMILIAR"] }, isApproved: true },
       orderBy: { name: "asc" },
       select: { id: true, name: true, lastName: true },
+    }),
+    prisma.roleMarkup.findMany({
+      where: { role: { in: ["CLIENTE", "SOCIO", "FAMILIAR"] } },
     }),
   ]);
 
@@ -44,7 +48,7 @@ export default async function AdminProductsPage() {
             Perfumes, stock y muestras
           </h1>
         </div>
-        <ProductForm />
+        <ProductForm markups={markups} />
       </div>
 
       <section>
@@ -59,6 +63,7 @@ export default async function AdminProductsPage() {
                 <TableHead>Género</TableHead>
                 <TableHead>Stock</TableHead>
                 <TableHead>Costo base</TableHead>
+                <TableHead>Precios por rol</TableHead>
                 <TableHead>Estado</TableHead>
                 <TableHead className="text-right">Acciones</TableHead>
               </TableRow>
@@ -105,8 +110,36 @@ export default async function AdminProductsPage() {
                       {product.stock} u.
                     </span>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className="text-muted-foreground whitespace-nowrap">
                     {formatMoney(product.baseCostPrice)}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-col gap-1 text-xs min-w-[190px]">
+                      <div className="flex items-center justify-between gap-3 border-b border-gold/10 pb-0.5">
+                        <span className="text-muted-foreground">
+                          Cliente <span className="text-[10px] opacity-75">({formatMarkupLabel(findMarkup(markups, "CLIENTE"))})</span>:
+                        </span>
+                        <span className="font-semibold text-ivory">
+                          {formatMoney(priceForRole(product.baseCostPrice, markups, "CLIENTE"))}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between gap-3 border-b border-gold/10 pb-0.5">
+                        <span className="text-muted-foreground">
+                          Familiar <span className="text-[10px] opacity-75">({formatMarkupLabel(findMarkup(markups, "FAMILIAR"))})</span>:
+                        </span>
+                        <span className="font-semibold text-gold-soft">
+                          {formatMoney(priceForRole(product.baseCostPrice, markups, "FAMILIAR"))}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="text-muted-foreground">
+                          Socio <span className="text-[10px] opacity-75">({formatMarkupLabel(findMarkup(markups, "SOCIO"))})</span>:
+                        </span>
+                        <span className="font-semibold text-leaf">
+                          {formatMoney(priceForRole(product.baseCostPrice, markups, "SOCIO"))}
+                        </span>
+                      </div>
+                    </div>
                   </TableCell>
                   <TableCell>
                     <span
@@ -120,7 +153,7 @@ export default async function AdminProductsPage() {
                     </span>
                   </TableCell>
                   <TableCell>
-                    <ProductRowActions product={product} />
+                    <ProductRowActions product={product} markups={markups} />
                   </TableCell>
                 </TableRow>
               ))}
