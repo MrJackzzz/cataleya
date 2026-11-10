@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Package, FlaskConical, User, Phone } from "lucide-react";
+import { Package, FlaskConical, User, Phone, ShoppingBag } from "lucide-react";
 import { requireApprovedClient } from "@/lib/guards";
 import { prisma } from "@/lib/prisma";
-import { formatDateTime, formatMoney } from "@/lib/format";
-import { ORDER_KIND_LABELS } from "@/lib/constants";
+import { formatDateTime, formatMoney, waLink } from "@/lib/format";
+import { ORDER_KIND_LABELS, ROLE_LABELS } from "@/lib/constants";
+import { priceForRole } from "@/lib/pricing";
 import { logoutAction } from "@/app/actions/auth";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { StatusBadge, RoleBadge } from "@/components/StatusBadge";
 import { ChangePasswordForm } from "@/components/account/ChangePasswordForm";
 import { OrderItemEditor } from "@/components/orders/OrderItemEditor";
+import { CatalogGrid } from "@/components/catalog/CatalogGrid";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -20,7 +22,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { waLink } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
 export default async function MyAccountPage() {
   const session = await requireApprovedClient();
 
-  const [user, orders, samples, config] = await Promise.all([
+  const [user, orders, samples, config, products, markups] = await Promise.all([
     prisma.user.findUnique({ where: { id: session.user.id } }),
     prisma.order.findMany({
       where: { userId: session.user.id },
@@ -43,6 +44,13 @@ export default async function MyAccountPage() {
       orderBy: { createdAt: "desc" },
     }),
     prisma.siteConfig.findUnique({ where: { id: "singleton" } }),
+    prisma.product.findMany({
+      where: { isActive: true },
+      orderBy: { codeNumber: "asc" },
+    }),
+    prisma.roleMarkup.findMany({
+      where: { role: { in: ["CLIENTE", "SOCIO", "FAMILIAR"] } },
+    }),
   ]);
 
   if (!user) return null;
@@ -116,7 +124,63 @@ export default async function MyAccountPage() {
           </div>
         </div>
 
-        <section className="mt-10">
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-xl border border-gold/30 bg-gradient-to-r from-plum/20 via-card to-gold/10 p-5">
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="font-display text-2xl text-ivory">Catálogo de fragancias disponible</h2>
+              <span className="rounded-full bg-gold/15 border border-gold/30 px-2.5 py-0.5 text-xs text-gold-soft font-medium">
+                Tarifa {ROLE_LABELS[user.role] ?? user.role}
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground mt-1">
+              Tus precios preferenciales están calculados y listos para hacer pedidos.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild size="default" className="bg-gold-deep text-black font-semibold hover:bg-gold-soft">
+              <a href="#catalogo">
+                <ShoppingBag className="size-4 mr-1.5" />
+                Pedir perfumes
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="default">
+              <Link href="/">
+                Ir a portada
+              </Link>
+            </Button>
+          </div>
+        </div>
+
+        <section id="catalogo" className="mt-12 scroll-mt-24 space-y-6">
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-gold/15 pb-4">
+            <div>
+              <p className="eyebrow text-gold-deep">Hacer un nuevo pedido</p>
+              <h2 className="mt-1 font-display text-3xl text-ivory sm:text-4xl">
+                Catálogo de fragancias
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Precios calculados con tu tarifa de <strong className="text-gold-soft">{ROLE_LABELS[user.role] ?? user.role}</strong>. Elegí tu fragancia, cantidad y generá tu pedido directo.
+              </p>
+            </div>
+          </div>
+
+          {products.length === 0 ? (
+            <div className="rounded-xl border border-gold/15 bg-card p-8 text-center text-muted-foreground">
+              No hay perfumes disponibles en este momento.
+            </div>
+          ) : (
+            <CatalogGrid
+              items={products.map((product) => ({
+                product,
+                displayPrice: priceForRole(product.baseCostPrice, markups, user.role),
+              }))}
+              canOrder={true}
+              isPending={false}
+            />
+          )}
+        </section>
+
+        <section className="mt-12">
           <h2 className="font-display text-3xl text-ivory">Mis pedidos</h2>
           <div className="mt-4 overflow-x-auto rounded-xl border border-gold/15 bg-card">
             {orders.length === 0 ? (

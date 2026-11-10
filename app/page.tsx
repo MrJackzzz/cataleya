@@ -90,10 +90,15 @@ export default async function HomePage() {
                 Fragancias disponibles
               </h2>
             </div>
-            {session?.user ? (
-              <p className="hidden text-sm text-muted-foreground sm:block">
-                Hola, <span className="text-gold-soft">{session.user.name}</span>
-              </p>
+            {session?.user && canOrder ? (
+              <div className="rounded-xl border border-gold/30 bg-gold/10 px-4 py-2 text-right">
+                <p className="text-sm font-medium text-ivory">
+                  Hola, <span className="text-gold-soft font-semibold">{session.user.name}</span>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Precios activos para rol: <span className="font-semibold text-gold-deep">{role}</span>
+                </p>
+              </div>
             ) : null}
           </div>
 

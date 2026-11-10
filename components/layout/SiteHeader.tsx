@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, KeyRound } from "lucide-react";
+import { Phone, KeyRound, ShoppingBag } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { logoutAction } from "@/app/actions/auth";
@@ -32,30 +32,35 @@ export async function SiteHeader() {
         />
 
         <nav className="flex flex-wrap items-center gap-2 sm:gap-3">
-          <Link
-            href="/#perfumes"
-            className="hidden px-2 text-sm text-muted-foreground transition-colors hover:text-gold-soft sm:block"
-          >
-            Catálogo
-          </Link>
-
           {isAdmin ? (
             <Button asChild variant="outline" size="sm">
               <Link href="/admin">Panel</Link>
             </Button>
           ) : isLoggedIn ? (
             <>
+              <Button asChild variant="outline" size="sm" className="border-gold/30 hover:bg-gold/10">
+                <Link href="/#perfumes">
+                  <ShoppingBag className="size-4 mr-1 text-gold-deep" />
+                  Catálogo
+                </Link>
+              </Button>
               <Button asChild variant="ghost" size="sm">
                 <Link href="/mi-cuenta">Mi cuenta</Link>
               </Button>
               <form action={logoutAction}>
-                <Button type="submit" variant="outline" size="sm">
+                <Button type="submit" variant="ghost" size="sm">
                   Salir
                 </Button>
               </form>
             </>
           ) : (
             <>
+              <Link
+                href="/#perfumes"
+                className="px-2 text-sm text-muted-foreground transition-colors hover:text-gold-soft"
+              >
+                Catálogo
+              </Link>
               <Button asChild variant="outline" size="sm" className="border-gold/30 hover:bg-gold/10">
                 <Link href="/login">
                   <KeyRound className="size-4 mr-1" />

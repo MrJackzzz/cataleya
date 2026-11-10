@@ -29,7 +29,7 @@ export default auth((request) => {
   }
 
   if (pathname === "/login" && role && CLIENT_ROLES.includes(role)) {
-    return NextResponse.redirect(new URL("/mi-cuenta", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();

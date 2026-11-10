@@ -65,7 +65,7 @@ export async function loginAction(
     .update({ where: { id: user.id }, data: { lastLoginAt: new Date() } })
     .catch(() => undefined);
 
-  redirect(expectedRole === "ADMIN" ? "/admin" : "/mi-cuenta");
+  redirect(expectedRole === "ADMIN" ? "/admin" : "/");
 }
 
 export async function logoutAction() {
