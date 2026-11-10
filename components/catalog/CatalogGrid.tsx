@@ -96,11 +96,11 @@ export function CatalogGrid({ items, canOrder, isPending }: Props) {
           ))}
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
           {families.length > 1 ? (
             <Select value={family} onValueChange={setFamily}>
               <SelectTrigger
-                className="w-[210px]"
+                className="w-full sm:w-[200px]"
                 aria-label="Filtrar por familia olfativa"
               >
                 <SelectValue />
@@ -116,14 +116,14 @@ export function CatalogGrid({ items, canOrder, isPending }: Props) {
             </Select>
           ) : null}
 
-          <div className="relative">
+          <div className="relative w-full sm:w-auto sm:min-w-[220px]">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Diseñador o fragancia…"
               aria-label="Buscar por diseñador o fragancia"
-              className="min-w-[230px] pr-9 pl-9"
+              className="w-full pr-9 pl-9"
             />
             {query ? (
               <button
@@ -143,7 +143,7 @@ export function CatalogGrid({ items, canOrder, isPending }: Props) {
               variant="ghost"
               size="sm"
               onClick={reset}
-              className="text-muted-foreground hover:text-gold-soft"
+              className="text-muted-foreground hover:text-gold-soft self-start sm:self-auto"
             >
               <X className="size-4" /> Restablecer filtros
             </Button>
@@ -162,7 +162,7 @@ export function CatalogGrid({ items, canOrder, isPending }: Props) {
           </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
           {filtered.map(({ product, displayPrice }) => (
             <ProductCard
               key={product.id}

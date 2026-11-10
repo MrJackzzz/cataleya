@@ -33,16 +33,17 @@ export function QtyStepper({
   const [value, setValue] = useState(() => clamp(defaultValue, min, max));
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 shrink-0">
       <Button
         type="button"
         variant="outline"
         size="icon-sm"
+        className="size-8 border-gold/25 hover:bg-gold/10"
         aria-label="Quitar uno"
         disabled={disabled || value <= min}
         onClick={() => setValue((current) => clamp(current - 1, min, max))}
       >
-        <Minus className="size-4" />
+        <Minus className="size-3.5" />
       </Button>
       <Input
         type="text"
@@ -52,7 +53,7 @@ export function QtyStepper({
         value={value}
         disabled={disabled}
         aria-label={ariaLabel}
-        className="w-14 text-center"
+        className="h-8 w-10 sm:w-11 text-center text-xs font-semibold px-0 border-gold/25"
         onFocus={(event) => event.currentTarget.select()}
         onChange={(event) => {
           const digits = event.currentTarget.value.replace(/\D/g, "");
@@ -68,11 +69,12 @@ export function QtyStepper({
         type="button"
         variant="outline"
         size="icon-sm"
+        className="size-8 border-gold/25 hover:bg-gold/10"
         aria-label="Agregar uno"
         disabled={disabled || (max !== undefined && value >= max)}
         onClick={() => setValue((current) => clamp(current + 1, min, max))}
       >
-        <Plus className="size-4" />
+        <Plus className="size-3.5" />
       </Button>
     </div>
   );

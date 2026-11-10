@@ -40,7 +40,7 @@ export default async function HomePage() {
           <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
             <div>
               <p className="eyebrow text-gold-deep">Contratipos de alta gama</p>
-              <h1 className="mt-4 max-w-3xl font-display text-5xl leading-[1.05] text-ivory sm:text-6xl">
+              <h1 className="mt-4 max-w-3xl font-display text-4xl leading-[1.08] text-ivory sm:text-5xl md:text-6xl">
                 Los grandes clásicos, <span className="text-gradient-gold">reinterpretados</span> en tu piel.
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">

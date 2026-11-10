@@ -30,10 +30,10 @@ export function ProductDetailModal({ product, displayPrice, open, onOpenChange }
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto border-gold/25 bg-card sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle className="font-display text-3xl text-ivory sm:text-4xl">
+          <DialogTitle className="font-display text-2xl sm:text-4xl text-ivory break-words">
             {product.name}
           </DialogTitle>
-          <DialogDescription className="text-base text-gold-deep">
+          <DialogDescription className="text-sm sm:text-base text-gold-deep">
             {product.designer ? `${product.designer} · ` : ""}N° {product.codeNumber}
           </DialogDescription>
         </DialogHeader>
