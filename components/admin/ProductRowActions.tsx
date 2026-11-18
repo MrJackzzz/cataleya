@@ -17,6 +17,7 @@ type Props = {
     imageUrl: string;
     replicaBottleUrl?: string;
     sampleBottleUrl?: string;
+    imageScale?: string;
     gender: string;
     olfactoryFamily: string;
     stock: number;

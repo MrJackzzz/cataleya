@@ -39,6 +39,15 @@ export function ProductDetailModal({
     ? product.sampleBottleUrl || globalSampleBottleUrl || product.imageUrl
     : product.replicaBottleUrl || globalReplicaBottleUrl || product.imageUrl;
 
+  const modalScaleClass =
+    product.imageScale === "compact"
+      ? "p-8 scale-[0.80]"
+      : product.imageScale === "large"
+        ? "p-2 scale-[1.15]"
+        : product.imageScale === "xlarge"
+          ? "p-0 scale-[1.30]"
+          : "p-6 scale-100";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto border-gold/25 bg-card sm:max-w-2xl">
@@ -58,7 +67,7 @@ export function ProductDetailModal({
               alt={`${product.name} - ${isSample ? "Envase muestra" : "Envase réplica"}`}
               fill
               sizes="(max-width: 640px) 100vw, 480px"
-              className="object-contain p-6"
+              className={`object-contain transition-transform duration-300 ${modalScaleClass}`}
             />
           </div>
 

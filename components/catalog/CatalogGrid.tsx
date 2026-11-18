@@ -18,12 +18,15 @@ export type CatalogItem = {
   displayPrice: number | null;
 };
 
+export type CardSize = "compact" | "normal" | "large";
+
 type Props = {
   items: CatalogItem[];
   canOrder: boolean;
   isPending: boolean;
   globalReplicaBottleUrl?: string;
   globalSampleBottleUrl?: string;
+  cardSize?: CardSize;
 };
 
 const GENDERS = [
@@ -45,6 +48,7 @@ export function CatalogGrid({
   isPending,
   globalReplicaBottleUrl,
   globalSampleBottleUrl,
+  cardSize = "normal",
 }: Props) {
   const [gender, setGender] = useState("TODO");
   const [family, setFamily] = useState("TODAS");
@@ -170,7 +174,15 @@ export function CatalogGrid({
           </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+        <div
+          className={`grid ${
+            cardSize === "compact"
+              ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3.5 sm:gap-4"
+              : cardSize === "large"
+                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6"
+          }`}
+        >
           {filtered.map(({ product, displayPrice }) => (
             <ProductCard
               key={product.id}

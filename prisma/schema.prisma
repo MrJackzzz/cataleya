@@ -62,6 +62,7 @@ model Product {
   imageUrl         String
   replicaBottleUrl String      @default("")
   sampleBottleUrl  String      @default("")
+  imageScale       String      @default("normal")
   gender           Gender      @default(UNISEX)
   olfactoryFamily  String      @default("")
   stock            Int         @default(0)
@@ -150,6 +151,7 @@ model SiteConfig {
   logoUrl             String   @default("")
   replicaBottleUrl    String   @default("")
   sampleBottleUrl     String   @default("")
+  cardSize            String   @default("normal")
   catalogEnabled      Boolean  @default(true)
   showDisclaimer      Boolean  @default(true)
   createdAt           DateTime @default(now())

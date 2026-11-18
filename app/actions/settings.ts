@@ -58,6 +58,7 @@ export async function upsertSiteConfig(
     logoUrl,
     replicaBottleUrl,
     sampleBottleUrl,
+    cardSize: formData.get("cardSize") ?? "normal",
   });
 
   if (!parsed.success) {

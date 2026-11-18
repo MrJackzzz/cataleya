@@ -28,6 +28,7 @@ export type CatalogProduct = {
   imageUrl: string;
   replicaBottleUrl?: string;
   sampleBottleUrl?: string;
+  imageScale?: string;
   gender: string;
   stock: number;
   olfactoryFamily: string;
@@ -62,6 +63,15 @@ export function ProductCard({
 
   const hasValidPrice = displayPrice !== null && displayPrice > 0;
 
+  const scaleClass =
+    product.imageScale === "compact"
+      ? "p-4 scale-[0.80]"
+      : product.imageScale === "large"
+        ? "p-0.5 scale-[1.15]"
+        : product.imageScale === "xlarge"
+          ? "p-0 scale-[1.30]"
+          : "p-2 scale-100";
+
   useEffect(() => {
     if (state?.success) toast.success(state.success);
     if (state?.error) toast.error(state.error);
@@ -82,7 +92,7 @@ export function ProductCard({
             alt={`${product.name} - ${kind === "MUESTRA" ? "Muestra" : "Réplica"}`}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+            className={`object-contain transition-transform duration-300 group-hover:scale-105 ${scaleClass}`}
           />
         </div>
 

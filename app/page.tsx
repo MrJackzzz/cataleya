@@ -7,7 +7,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { DisclaimerBanner } from "@/components/catalog/DisclaimerBanner";
 import { AccessRequestButton } from "@/components/catalog/AccessRequestButton";
-import { CatalogGrid } from "@/components/catalog/CatalogGrid";
+import { CatalogGrid, type CardSize } from "@/components/catalog/CatalogGrid";
 import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
@@ -28,6 +28,10 @@ export default async function HomePage() {
   const role = session?.user?.role ? String(session.user.role) : null;
   const canOrder = Boolean(role && ORDERABLE_ROLES.includes(role));
   const isPending = role === "PENDIENTE";
+  const cardSize: CardSize =
+    config?.cardSize === "compact" || config?.cardSize === "large"
+      ? config.cardSize
+      : "normal";
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -123,6 +127,7 @@ export default async function HomePage() {
               isPending={isPending}
               globalReplicaBottleUrl={config?.replicaBottleUrl ?? ""}
               globalSampleBottleUrl={config?.sampleBottleUrl ?? ""}
+              cardSize={cardSize}
             />
           )}
         </section>

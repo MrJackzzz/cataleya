@@ -73,6 +73,7 @@ export const productSchema = z.object({
     .refine((value) => value === "" || !value.startsWith("blob:"), {
       message: "La imagen de envase muestra no se subió correctamente. Volvé a seleccionarla.",
     }),
+  imageScale: z.enum(["compact", "normal", "large", "xlarge"]).default("normal"),
   gender: z.enum(["MASCULINO", "FEMENINO", "UNISEX"], {
     error: "Elegí el género del perfume",
   }),
@@ -275,6 +276,7 @@ export const siteConfigSchema = z.object({
   logoUrl: z.string().trim().max(300).default(""),
   replicaBottleUrl: z.string().trim().max(300).default(""),
   sampleBottleUrl: z.string().trim().max(300).default(""),
+  cardSize: z.enum(["compact", "normal", "large"]).default("normal"),
 });
 
 export const earningsFilterSchema = z.object({

@@ -22,6 +22,7 @@ export type SiteConfigValues = {
   logoUrl: string;
   replicaBottleUrl: string;
   sampleBottleUrl: string;
+  cardSize?: string;
 };
 
 export function SettingsForm({ initial }: { initial: SiteConfigValues }) {
@@ -31,6 +32,7 @@ export function SettingsForm({ initial }: { initial: SiteConfigValues }) {
   );
   const [catalogEnabled, setCatalogEnabled] = useState(initial.catalogEnabled);
   const [showDisclaimer, setShowDisclaimer] = useState(initial.showDisclaimer);
+  const [cardSize, setCardSize] = useState(initial.cardSize || "normal");
   const [logoPreview, setLogoPreview] = useState(initial.logoUrl || DEFAULT_LOGO);
   const logoFileRef = useRef<HTMLInputElement>(null);
   const [replicaBottlePreview, setReplicaBottlePreview] = useState(initial.replicaBottleUrl || "");
@@ -191,6 +193,56 @@ export function SettingsForm({ initial }: { initial: SiteConfigValues }) {
           defaultValue={initial.announcement}
           placeholder="Ej.: Envíos a todo el país · Nueva línea amaderada disponible"
         />
+      </div>
+
+      <div className="space-y-3 rounded-xl border border-gold/15 bg-background/40 p-5">
+        <div>
+          <Label className="text-base text-ivory">Tamaño de tarjetas en el catálogo</Label>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            Elegí cómo se distribuyen y qué tan grandes se ven los perfumes en la grilla del catálogo.
+          </p>
+        </div>
+        <input type="hidden" name="cardSize" value={cardSize} />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {[
+            {
+              value: "compact",
+              title: "Compactas",
+              desc: "Más perfumes por fila (hasta 5 en desktop). Ideal si tenés un catálogo amplio.",
+            },
+            {
+              value: "normal",
+              title: "Estándar (Recomendado)",
+              desc: "Equilibrio visual perfecto (4 por fila en desktop, 2 en mobile).",
+            },
+            {
+              value: "large",
+              title: "Grandes",
+              desc: "Tarjetas destacadas y más amplias (3 por fila en desktop). Máximo detalle.",
+            },
+          ].map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => setCardSize(option.value)}
+              className={`rounded-xl border p-3.5 text-left transition-all ${
+                cardSize === option.value
+                  ? "border-gold bg-gold/15 shadow-sm"
+                  : "border-gold/15 bg-card/60 hover:border-gold/30 hover:bg-card"
+              }`}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-semibold text-sm text-ivory">{option.title}</span>
+                {cardSize === option.value ? (
+                  <span className="size-2 rounded-full bg-gold" />
+                ) : null}
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                {option.desc}
+              </p>
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-4 rounded-xl border border-gold/15 bg-background/40 p-5">

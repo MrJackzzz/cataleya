@@ -22,6 +22,7 @@ export default async function AdminSettingsPage() {
     logoUrl: config?.logoUrl ?? "",
     replicaBottleUrl: config?.replicaBottleUrl ?? "",
     sampleBottleUrl: config?.sampleBottleUrl ?? "",
+    cardSize: config?.cardSize ?? "normal",
   };
 
   return (

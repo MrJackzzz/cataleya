@@ -38,6 +38,7 @@ export type EditableProduct = {
   imageUrl: string;
   replicaBottleUrl?: string;
   sampleBottleUrl?: string;
+  imageScale?: string;
   gender: string;
   olfactoryFamily: string;
   stock: number;
@@ -56,6 +57,7 @@ export function ProductForm({ product, markups = [] }: Props) {
   const [preview, setPreview] = useState(product?.imageUrl ?? "");
   const [replicaPreview, setReplicaPreview] = useState(product?.replicaBottleUrl ?? "");
   const [samplePreview, setSamplePreview] = useState(product?.sampleBottleUrl ?? "");
+  const [imageScale, setImageScale] = useState(product?.imageScale ?? "normal");
   const [gender, setGender] = useState(product?.gender ?? "UNISEX");
   const [cost, setCost] = useState<number>(product?.baseCostPrice ?? 0);
   const [state, formAction, pending] = useActionState(
@@ -70,6 +72,7 @@ export function ProductForm({ product, markups = [] }: Props) {
       setPreview(product?.imageUrl ?? "");
       setReplicaPreview(product?.replicaBottleUrl ?? "");
       setSamplePreview(product?.sampleBottleUrl ?? "");
+      setImageScale(product?.imageScale ?? "normal");
       setGender(product?.gender ?? "UNISEX");
     }
   }, [open, product]);
@@ -112,6 +115,7 @@ export function ProductForm({ product, markups = [] }: Props) {
           <input type="hidden" name="imageUrl" value={preview} />
           <input type="hidden" name="replicaBottleUrl" value={replicaPreview} />
           <input type="hidden" name="sampleBottleUrl" value={samplePreview} />
+          <input type="hidden" name="imageScale" value={imageScale} />
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
@@ -247,8 +251,14 @@ export function ProductForm({ product, markups = [] }: Props) {
             ) : null}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="product-image">Imagen de la fragancia (inspiración)</Label>
+          <div className="space-y-3 rounded-xl border border-gold/20 bg-background/50 p-4">
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="product-image" className="font-semibold text-ivory">
+                Imagen de la fragancia (inspiración)
+              </Label>
+              <span className="text-xs text-gold-soft">Ajuste de tamaño en card</span>
+            </div>
+
             <Input
               id="product-image"
               name="image"
@@ -259,14 +269,52 @@ export function ProductForm({ product, markups = [] }: Props) {
                 if (file) setPreview(URL.createObjectURL(file));
               }}
             />
-            <div className="relative aspect-video overflow-hidden rounded-lg border border-gold/15 bg-background">
+
+            {/* Selector de escala de la fragancia en las cards */}
+            <div className="space-y-1.5">
+              <span className="text-xs text-muted-foreground block">
+                Tamaño visual de esta fragancia en la card:
+              </span>
+              <div className="grid grid-cols-4 gap-1.5">
+                {[
+                  { value: "compact", label: "Compacto", pct: "80%" },
+                  { value: "normal", label: "Normal", pct: "100%" },
+                  { value: "large", label: "Grande", pct: "115%" },
+                  { value: "xlarge", label: "Destacado", pct: "130%" },
+                ].map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => setImageScale(option.value)}
+                    className={`rounded-lg border px-2 py-1.5 text-center transition-all ${
+                      imageScale === option.value
+                        ? "border-gold bg-gold/20 font-semibold text-gold-soft shadow-sm"
+                        : "border-gold/15 bg-card/60 text-muted-foreground hover:border-gold/40 hover:text-ivory"
+                    }`}
+                  >
+                    <span className="block text-xs leading-none">{option.label}</span>
+                    <span className="block text-[10px] opacity-75 mt-0.5">{option.pct}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative aspect-video overflow-hidden rounded-lg border border-gold/15 bg-gradient-to-b from-[#FAF8F5] to-[#F3EFEA]">
               {preview ? (
                 <Image
                   src={preview}
                   alt="Vista previa"
                   fill
                   sizes="(max-width: 640px) 100vw, 480px"
-                  className="object-contain"
+                  className={`object-contain transition-all duration-300 ${
+                    imageScale === "compact"
+                      ? "p-6 scale-[0.80]"
+                      : imageScale === "large"
+                        ? "p-1 scale-[1.15]"
+                        : imageScale === "xlarge"
+                          ? "p-0 scale-[1.30]"
+                          : "p-3 scale-100"
+                  }`}
                 />
               ) : (
                 <div className="flex h-full items-center justify-center text-muted-foreground">
@@ -275,7 +323,7 @@ export function ProductForm({ product, markups = [] }: Props) {
               )}
             </div>
             <p className="text-xs text-muted-foreground">
-              Opcional. Si no subís imagen se usa la genérica.
+              Tip: Si la imagen queda muy chica o con demasiado borde blanco, elegí <strong>Grande</strong> o <strong>Destacado</strong>.
             </p>
           </div>
 

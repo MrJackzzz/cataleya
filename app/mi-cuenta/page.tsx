@@ -12,7 +12,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { StatusBadge, RoleBadge } from "@/components/StatusBadge";
 import { ChangePasswordForm } from "@/components/account/ChangePasswordForm";
 import { OrderItemEditor } from "@/components/orders/OrderItemEditor";
-import { CatalogGrid } from "@/components/catalog/CatalogGrid";
+import { CatalogGrid, type CardSize } from "@/components/catalog/CatalogGrid";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -58,6 +58,11 @@ export default async function MyAccountPage() {
   const totalComprado = orders
     .filter((order) => order.status !== "CANCELADO")
     .reduce((sum, order) => sum + order.total, 0);
+
+  const cardSize: CardSize =
+    config?.cardSize === "compact" || config?.cardSize === "large"
+      ? config.cardSize
+      : "normal";
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -178,6 +183,7 @@ export default async function MyAccountPage() {
               isPending={false}
               globalReplicaBottleUrl={config?.replicaBottleUrl ?? ""}
               globalSampleBottleUrl={config?.sampleBottleUrl ?? ""}
+              cardSize={cardSize}
             />
           )}
         </section>
