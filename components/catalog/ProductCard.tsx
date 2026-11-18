@@ -26,6 +26,8 @@ export type CatalogProduct = {
   designer: string;
   description: string;
   imageUrl: string;
+  replicaBottleUrl?: string;
+  sampleBottleUrl?: string;
   gender: string;
   stock: number;
   olfactoryFamily: string;
@@ -36,13 +38,29 @@ type Props = {
   displayPrice: number | null;
   canOrder: boolean;
   isPending: boolean;
+  globalReplicaBottleUrl?: string;
+  globalSampleBottleUrl?: string;
 };
 
-export function ProductCard({ product, displayPrice, canOrder, isPending }: Props) {
+export function ProductCard({
+  product,
+  displayPrice,
+  canOrder,
+  isPending,
+  globalReplicaBottleUrl,
+  globalSampleBottleUrl,
+}: Props) {
   const [state, formAction, pending] = useActionState(createOrder, null);
   const [kind, setKind] = useState<"REPLICA" | "MUESTRA">("REPLICA");
   const [detailOpen, setDetailOpen] = useState(false);
   const outOfStock = product.stock <= 0;
+
+  const activeImage =
+    kind === "MUESTRA"
+      ? product.sampleBottleUrl || globalSampleBottleUrl || product.imageUrl
+      : product.replicaBottleUrl || globalReplicaBottleUrl || product.imageUrl;
+
+  const hasValidPrice = displayPrice !== null && displayPrice > 0;
 
   useEffect(() => {
     if (state?.success) toast.success(state.success);
@@ -60,8 +78,8 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
       >
         <div className="relative size-full">
           <Image
-            src={product.imageUrl}
-            alt={product.name}
+            src={activeImage}
+            alt={`${product.name} - ${kind === "MUESTRA" ? "Muestra" : "Réplica"}`}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
@@ -132,9 +150,15 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
                   <span className="text-[10px] uppercase tracking-wider text-muted-foreground block">
                     Precio por unidad
                   </span>
-                  <span className="font-display text-2xl sm:text-3xl font-semibold text-gold-soft">
-                    {formatMoney(displayPrice)}
-                  </span>
+                  {hasValidPrice ? (
+                    <span className="font-display text-2xl sm:text-3xl font-semibold text-gold-soft">
+                      {formatMoney(displayPrice)}
+                    </span>
+                  ) : (
+                    <span className="font-display text-lg sm:text-xl font-semibold text-gold-deep">
+                      A consultar
+                    </span>
+                  )}
                 </div>
                 <span className="text-xs text-muted-foreground font-mono">
                   Stock: {product.stock} u.
@@ -168,14 +192,20 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
                   <Button
                     type="submit"
                     className="flex-1 h-8 text-xs font-medium"
-                    disabled={pending || outOfStock}
+                    disabled={pending || outOfStock || !hasValidPrice}
                   >
                     {pending ? (
                       <Loader2 className="size-3.5 animate-spin mr-1" />
                     ) : (
                       <ShoppingBag className="size-3.5 mr-1" />
                     )}
-                    {outOfStock ? "Sin stock" : pending ? "Registrando…" : "Generar pedido"}
+                    {outOfStock
+                      ? "Sin stock"
+                      : !hasValidPrice
+                        ? "Precio a consultar"
+                        : pending
+                          ? "Registrando…"
+                          : "Generar pedido"}
                   </Button>
                 </div>
               </div>
@@ -216,6 +246,8 @@ export function ProductCard({ product, displayPrice, canOrder, isPending }: Prop
         displayPrice={displayPrice}
         open={detailOpen}
         onOpenChange={setDetailOpen}
+        globalReplicaBottleUrl={globalReplicaBottleUrl}
+        globalSampleBottleUrl={globalSampleBottleUrl}
       />
     </article>
   );

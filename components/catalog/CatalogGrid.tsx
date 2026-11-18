@@ -22,6 +22,8 @@ type Props = {
   items: CatalogItem[];
   canOrder: boolean;
   isPending: boolean;
+  globalReplicaBottleUrl?: string;
+  globalSampleBottleUrl?: string;
 };
 
 const GENDERS = [
@@ -37,7 +39,13 @@ const norm = (value: string) =>
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
 
-export function CatalogGrid({ items, canOrder, isPending }: Props) {
+export function CatalogGrid({
+  items,
+  canOrder,
+  isPending,
+  globalReplicaBottleUrl,
+  globalSampleBottleUrl,
+}: Props) {
   const [gender, setGender] = useState("TODO");
   const [family, setFamily] = useState("TODAS");
   const [query, setQuery] = useState("");
@@ -170,6 +178,8 @@ export function CatalogGrid({ items, canOrder, isPending }: Props) {
               displayPrice={displayPrice}
               canOrder={canOrder}
               isPending={isPending}
+              globalReplicaBottleUrl={globalReplicaBottleUrl}
+              globalSampleBottleUrl={globalSampleBottleUrl}
             />
           ))}
         </div>

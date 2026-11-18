@@ -176,6 +176,8 @@ export default async function MyAccountPage() {
               }))}
               canOrder={true}
               isPending={false}
+              globalReplicaBottleUrl={config?.replicaBottleUrl ?? ""}
+              globalSampleBottleUrl={config?.sampleBottleUrl ?? ""}
             />
           )}
         </section>

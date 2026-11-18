@@ -110,36 +110,48 @@ export default async function AdminProductsPage() {
                       {product.stock} u.
                     </span>
                   </TableCell>
-                  <TableCell className="text-muted-foreground whitespace-nowrap">
-                    {formatMoney(product.baseCostPrice)}
+                  <TableCell className="whitespace-nowrap">
+                    {product.baseCostPrice > 0 ? (
+                      <span className="text-muted-foreground">{formatMoney(product.baseCostPrice)}</span>
+                    ) : (
+                      <span className="rounded bg-destructive/15 px-2 py-0.5 text-xs font-semibold text-destructive">
+                        Sin costo
+                      </span>
+                    )}
                   </TableCell>
                   <TableCell>
-                    <div className="flex flex-col gap-1 text-xs min-w-[190px]">
-                      <div className="flex items-center justify-between gap-3 border-b border-gold/10 pb-0.5">
-                        <span className="text-muted-foreground">
-                          Cliente <span className="text-[10px] opacity-75">({formatMarkupLabel(findMarkup(markups, "CLIENTE"))})</span>:
-                        </span>
-                        <span className="font-semibold text-ivory">
-                          {formatMoney(priceForRole(product.baseCostPrice, markups, "CLIENTE"))}
-                        </span>
+                    {product.baseCostPrice > 0 ? (
+                      <div className="flex flex-col gap-1 text-xs min-w-[190px]">
+                        <div className="flex items-center justify-between gap-3 border-b border-gold/10 pb-0.5">
+                          <span className="text-muted-foreground">
+                            Cliente <span className="text-[10px] opacity-75">({formatMarkupLabel(findMarkup(markups, "CLIENTE"))})</span>:
+                          </span>
+                          <span className="font-semibold text-ivory">
+                            {formatMoney(priceForRole(product.baseCostPrice, markups, "CLIENTE"))}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between gap-3 border-b border-gold/10 pb-0.5">
+                          <span className="text-muted-foreground">
+                            Familiar <span className="text-[10px] opacity-75">({formatMarkupLabel(findMarkup(markups, "FAMILIAR"))})</span>:
+                          </span>
+                          <span className="font-semibold text-gold-soft">
+                            {formatMoney(priceForRole(product.baseCostPrice, markups, "FAMILIAR"))}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="text-muted-foreground">
+                            Socio <span className="text-[10px] opacity-75">({formatMarkupLabel(findMarkup(markups, "SOCIO"))})</span>:
+                          </span>
+                          <span className="font-semibold text-leaf">
+                            {formatMoney(priceForRole(product.baseCostPrice, markups, "SOCIO"))}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-center justify-between gap-3 border-b border-gold/10 pb-0.5">
-                        <span className="text-muted-foreground">
-                          Familiar <span className="text-[10px] opacity-75">({formatMarkupLabel(findMarkup(markups, "FAMILIAR"))})</span>:
-                        </span>
-                        <span className="font-semibold text-gold-soft">
-                          {formatMoney(priceForRole(product.baseCostPrice, markups, "FAMILIAR"))}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="text-muted-foreground">
-                          Socio <span className="text-[10px] opacity-75">({formatMarkupLabel(findMarkup(markups, "SOCIO"))})</span>:
-                        </span>
-                        <span className="font-semibold text-leaf">
-                          {formatMoney(priceForRole(product.baseCostPrice, markups, "SOCIO"))}
-                        </span>
-                      </div>
-                    </div>
+                    ) : (
+                      <span className="text-xs text-muted-foreground italic">
+                        Asigná costo base para calcular precios
+                      </span>
+                    )}
                   </TableCell>
                   <TableCell>
                     <span

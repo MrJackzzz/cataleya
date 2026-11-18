@@ -60,6 +60,8 @@ model Product {
   designer         String      @default("")
   description      String
   imageUrl         String
+  replicaBottleUrl String      @default("")
+  sampleBottleUrl  String      @default("")
   gender           Gender      @default(UNISEX)
   olfactoryFamily  String      @default("")
   stock            Int         @default(0)
@@ -146,6 +148,8 @@ model SiteConfig {
   announcement        String   @default("")
   announcementEnabled Boolean  @default(false)
   logoUrl             String   @default("")
+  replicaBottleUrl    String   @default("")
+  sampleBottleUrl     String   @default("")
   catalogEnabled      Boolean  @default(true)
   showDisclaimer      Boolean  @default(true)
   createdAt           DateTime @default(now())

@@ -121,6 +121,8 @@ export default async function HomePage() {
               }))}
               canOrder={canOrder}
               isPending={isPending}
+              globalReplicaBottleUrl={config?.replicaBottleUrl ?? ""}
+              globalSampleBottleUrl={config?.sampleBottleUrl ?? ""}
             />
           )}
         </section>

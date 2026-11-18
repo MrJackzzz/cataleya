@@ -36,6 +36,8 @@ export type EditableProduct = {
   designer: string;
   description: string;
   imageUrl: string;
+  replicaBottleUrl?: string;
+  sampleBottleUrl?: string;
   gender: string;
   olfactoryFamily: string;
   stock: number;
@@ -52,6 +54,8 @@ export function ProductForm({ product, markups = [] }: Props) {
   const [open, setOpen] = useState(false);
   useDialogBackButton(open, setOpen);
   const [preview, setPreview] = useState(product?.imageUrl ?? "");
+  const [replicaPreview, setReplicaPreview] = useState(product?.replicaBottleUrl ?? "");
+  const [samplePreview, setSamplePreview] = useState(product?.sampleBottleUrl ?? "");
   const [gender, setGender] = useState(product?.gender ?? "UNISEX");
   const [cost, setCost] = useState<number>(product?.baseCostPrice ?? 0);
   const [state, formAction, pending] = useActionState(
@@ -64,6 +68,8 @@ export function ProductForm({ product, markups = [] }: Props) {
     if (open) {
       setCost(product?.baseCostPrice ?? 0);
       setPreview(product?.imageUrl ?? "");
+      setReplicaPreview(product?.replicaBottleUrl ?? "");
+      setSamplePreview(product?.sampleBottleUrl ?? "");
       setGender(product?.gender ?? "UNISEX");
     }
   }, [open, product]);
@@ -104,6 +110,8 @@ export function ProductForm({ product, markups = [] }: Props) {
         <form ref={formRef} action={formAction} className="space-y-4">
           {editing ? <input type="hidden" name="id" value={product!.id} /> : null}
           <input type="hidden" name="imageUrl" value={preview} />
+          <input type="hidden" name="replicaBottleUrl" value={replicaPreview} />
+          <input type="hidden" name="sampleBottleUrl" value={samplePreview} />
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
@@ -240,7 +248,7 @@ export function ProductForm({ product, markups = [] }: Props) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="product-image">Imagen (JPG, PNG, WebP · máx. 8MB)</Label>
+            <Label htmlFor="product-image">Imagen de la fragancia (inspiración)</Label>
             <Input
               id="product-image"
               name="image"
@@ -267,9 +275,68 @@ export function ProductForm({ product, markups = [] }: Props) {
               )}
             </div>
             <p className="text-xs text-muted-foreground">
-              Opcional. Si no subís imagen se usa la genérica. Con R2
-              configurado, la imagen elegida se sube a la nube al guardar.
+              Opcional. Si no subís imagen se usa la genérica.
             </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="product-replica-image">Envase Réplica (60 ml)</Label>
+              <Input
+                id="product-replica-image"
+                name="replicaBottleFile"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/avif"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) setReplicaPreview(URL.createObjectURL(file));
+                }}
+              />
+              <div className="relative aspect-video overflow-hidden rounded-lg border border-gold/15 bg-background">
+                {replicaPreview ? (
+                  <Image
+                    src={replicaPreview}
+                    alt="Envase réplica"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 240px"
+                    className="object-contain"
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
+                    Usa envase global
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="product-sample-image">Envase Muestra (5 ml)</Label>
+              <Input
+                id="product-sample-image"
+                name="sampleBottleFile"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/avif"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) setSamplePreview(URL.createObjectURL(file));
+                }}
+              />
+              <div className="relative aspect-video overflow-hidden rounded-lg border border-gold/15 bg-background">
+                {samplePreview ? (
+                  <Image
+                    src={samplePreview}
+                    alt="Envase muestra"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 240px"
+                    className="object-contain"
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
+                    Usa envase global
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           <Button type="submit" className="w-full" disabled={pending}>

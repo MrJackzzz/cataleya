@@ -19,12 +19,25 @@ type Props = {
   displayPrice: number | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  globalReplicaBottleUrl?: string;
+  globalSampleBottleUrl?: string;
 };
 
-export function ProductDetailModal({ product, displayPrice, open, onOpenChange }: Props) {
+export function ProductDetailModal({
+  product,
+  displayPrice,
+  open,
+  onOpenChange,
+  globalReplicaBottleUrl,
+  globalSampleBottleUrl,
+}: Props) {
   const [size, setSize] = useState<"60" | "5">("60");
   const isSample = size === "5";
   useDialogBackButton(open, onOpenChange);
+
+  const activeImage = isSample
+    ? product.sampleBottleUrl || globalSampleBottleUrl || product.imageUrl
+    : product.replicaBottleUrl || globalReplicaBottleUrl || product.imageUrl;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -41,8 +54,8 @@ export function ProductDetailModal({ product, displayPrice, open, onOpenChange }
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="relative aspect-square overflow-hidden rounded-xl border border-gold/15 bg-[#FBF9F5]">
             <Image
-              src={product.imageUrl}
-              alt={product.name}
+              src={activeImage}
+              alt={`${product.name} - ${isSample ? "Envase muestra" : "Envase réplica"}`}
               fill
               sizes="(max-width: 640px) 100vw, 480px"
               className="object-contain p-6"
@@ -104,9 +117,9 @@ export function ProductDetailModal({ product, displayPrice, open, onOpenChange }
                 <dd className="mt-1 font-display text-2xl text-gold-soft">
                   {isSample
                     ? "A consultar"
-                    : displayPrice !== null
+                    : displayPrice !== null && displayPrice > 0
                       ? formatMoney(displayPrice)
-                      : "Reservado"}
+                      : "A consultar"}
                 </dd>
               </div>
             </dl>

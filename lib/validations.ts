@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { PLACEHOLDER_IMAGE } from "./constants";
+import { parseMoneyInput } from "./pricing";
 
 const phoneField = z
   .string()
@@ -58,6 +59,20 @@ export const productSchema = z.object({
       message: "La imagen no se subió correctamente. Volvé a seleccionarla.",
     })
     .transform((value) => (value === "" ? PLACEHOLDER_IMAGE : value)),
+  replicaBottleUrl: z
+    .string()
+    .trim()
+    .default("")
+    .refine((value) => value === "" || !value.startsWith("blob:"), {
+      message: "La imagen de envase réplica no se subió correctamente. Volvé a seleccionarla.",
+    }),
+  sampleBottleUrl: z
+    .string()
+    .trim()
+    .default("")
+    .refine((value) => value === "" || !value.startsWith("blob:"), {
+      message: "La imagen de envase muestra no se subió correctamente. Volvé a seleccionarla.",
+    }),
   gender: z.enum(["MASCULINO", "FEMENINO", "UNISEX"], {
     error: "Elegí el género del perfume",
   }),
@@ -70,9 +85,12 @@ export const productSchema = z.object({
     .number({ error: "Stock inválido" })
     .int("Stock inválido")
     .min(0, "Stock inválido"),
-  baseCostPrice: z.coerce
-    .number({ error: "Costo base inválido" })
-    .min(0, "Costo inválido"),
+  baseCostPrice: z.preprocess(
+    parseMoneyInput,
+    z
+      .number({ error: "Ingresá un costo base válido" })
+      .gt(0, "El costo base debe ser mayor a 0")
+  ),
 });
 
 export const approveUserSchema = z.object({
@@ -123,9 +141,10 @@ export const supplierSchema = z.object({
 export const purchaseSchema = z.object({
   supplierId: z.string().min(1, "Seleccioná un proveedor"),
   item: z.string().trim().min(2, "Ingresá el insumo").max(120),
-  cost: z.coerce
-    .number({ error: "Monto inválido" })
-    .min(0, "Monto inválido"),
+  cost: z.preprocess(
+    parseMoneyInput,
+    z.number({ error: "Monto inválido" }).gt(0, "El monto debe ser mayor a 0")
+  ),
   date: z.string().min(1, "Ingresá la fecha"),
 });
 
@@ -212,9 +231,10 @@ export const sampleReturnSchema = z.object({
 
 export const paymentSchema = z.object({
   orderId: z.string().min(1, "Seleccioná un pedido"),
-  amount: z.coerce
-    .number({ error: "Monto inválido" })
-    .positive("El monto debe ser mayor a 0"),
+  amount: z.preprocess(
+    parseMoneyInput,
+    z.number({ error: "Monto inválido" }).positive("El monto debe ser mayor a 0")
+  ),
   note: z.string().trim().max(200).optional().or(z.literal("")),
   date: z
     .string()
@@ -253,6 +273,8 @@ export const siteConfigSchema = z.object({
   catalogEnabled: z.boolean(),
   showDisclaimer: z.boolean(),
   logoUrl: z.string().trim().max(300).default(""),
+  replicaBottleUrl: z.string().trim().max(300).default(""),
+  sampleBottleUrl: z.string().trim().max(300).default(""),
 });
 
 export const earningsFilterSchema = z.object({

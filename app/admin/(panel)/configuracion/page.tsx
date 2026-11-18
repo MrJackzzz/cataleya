@@ -20,6 +20,8 @@ export default async function AdminSettingsPage() {
     catalogEnabled: config?.catalogEnabled ?? true,
     showDisclaimer: config?.showDisclaimer ?? true,
     logoUrl: config?.logoUrl ?? "",
+    replicaBottleUrl: config?.replicaBottleUrl ?? "",
+    sampleBottleUrl: config?.sampleBottleUrl ?? "",
   };
 
   return (

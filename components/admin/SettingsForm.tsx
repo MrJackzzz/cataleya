@@ -20,6 +20,8 @@ export type SiteConfigValues = {
   catalogEnabled: boolean;
   showDisclaimer: boolean;
   logoUrl: string;
+  replicaBottleUrl: string;
+  sampleBottleUrl: string;
 };
 
 export function SettingsForm({ initial }: { initial: SiteConfigValues }) {
@@ -31,6 +33,10 @@ export function SettingsForm({ initial }: { initial: SiteConfigValues }) {
   const [showDisclaimer, setShowDisclaimer] = useState(initial.showDisclaimer);
   const [logoPreview, setLogoPreview] = useState(initial.logoUrl || DEFAULT_LOGO);
   const logoFileRef = useRef<HTMLInputElement>(null);
+  const [replicaBottlePreview, setReplicaBottlePreview] = useState(initial.replicaBottleUrl || "");
+  const replicaBottleFileRef = useRef<HTMLInputElement>(null);
+  const [sampleBottlePreview, setSampleBottlePreview] = useState(initial.sampleBottleUrl || "");
+  const sampleBottleFileRef = useRef<HTMLInputElement>(null);
 
   return (
     <form action={formAction} className="space-y-6">
@@ -95,6 +101,84 @@ export function SettingsForm({ initial }: { initial: SiteConfigValues }) {
           >
             Restablecer emblema
           </Button>
+        </div>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 rounded-xl border border-gold/15 bg-background/25 p-4">
+        <div className="space-y-2">
+          <Label htmlFor="site-replica-bottle">Envase general Réplica (60 ml)</Label>
+          <input type="hidden" name="replicaBottleUrl" value={replicaBottlePreview} />
+          <div className="flex items-center gap-3">
+            <div className="relative size-16 overflow-hidden rounded-lg border border-gold/25 bg-card shrink-0">
+              {replicaBottlePreview ? (
+                <Image
+                  src={replicaBottlePreview}
+                  alt="Envase réplica"
+                  fill
+                  sizes="64px"
+                  className="object-contain p-1"
+                />
+              ) : (
+                <div className="flex size-full items-center justify-center text-[10px] text-muted-foreground text-center p-1">
+                  Sin foto
+                </div>
+              )}
+            </div>
+            <div className="flex-1 space-y-1">
+              <Input
+                id="site-replica-bottle"
+                ref={replicaBottleFileRef}
+                name="replicaBottleFile"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) setReplicaBottlePreview(URL.createObjectURL(file));
+                }}
+              />
+              <p className="text-[11px] text-muted-foreground">
+                Imagen de envase real para réplicas (60 ml).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="site-sample-bottle">Envase general Muestra (5 ml)</Label>
+          <input type="hidden" name="sampleBottleUrl" value={sampleBottlePreview} />
+          <div className="flex items-center gap-3">
+            <div className="relative size-16 overflow-hidden rounded-lg border border-gold/25 bg-card shrink-0">
+              {sampleBottlePreview ? (
+                <Image
+                  src={sampleBottlePreview}
+                  alt="Envase muestra"
+                  fill
+                  sizes="64px"
+                  className="object-contain p-1"
+                />
+              ) : (
+                <div className="flex size-full items-center justify-center text-[10px] text-muted-foreground text-center p-1">
+                  Sin foto
+                </div>
+              )}
+            </div>
+            <div className="flex-1 space-y-1">
+              <Input
+                id="site-sample-bottle"
+                ref={sampleBottleFileRef}
+                name="sampleBottleFile"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) setSampleBottlePreview(URL.createObjectURL(file));
+                }}
+              />
+              <p className="text-[11px] text-muted-foreground">
+                Imagen de envase real para muestras (5 ml).
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -175,6 +259,5 @@ export function SettingsForm({ initial }: { initial: SiteConfigValues }) {
         {pending ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
         {pending ? "Guardando…" : "Guardar configuración"}
       </Button>
-    </form>
-  );
+    </form>  );
 }

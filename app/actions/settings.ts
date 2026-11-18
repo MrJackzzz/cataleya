@@ -27,6 +27,26 @@ export async function upsertSiteConfig(
     }
   }
 
+  let replicaBottleUrl = String(formData.get("replicaBottleUrl") ?? "");
+  const replicaBottleFile = formData.get("replicaBottleFile");
+  if (replicaBottleFile instanceof File && replicaBottleFile.size > 0) {
+    try {
+      replicaBottleUrl = await uploadImageToR2(replicaBottleFile);
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : "No se pudo subir la imagen de envase réplica." };
+    }
+  }
+
+  let sampleBottleUrl = String(formData.get("sampleBottleUrl") ?? "");
+  const sampleBottleFile = formData.get("sampleBottleFile");
+  if (sampleBottleFile instanceof File && sampleBottleFile.size > 0) {
+    try {
+      sampleBottleUrl = await uploadImageToR2(sampleBottleFile);
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : "No se pudo subir la imagen de envase muestra." };
+    }
+  }
+
   const parsed = siteConfigSchema.safeParse({
     siteName: formData.get("siteName"),
     tagline: formData.get("tagline"),
@@ -36,6 +56,8 @@ export async function upsertSiteConfig(
     catalogEnabled: formData.get("catalogEnabled") === "on",
     showDisclaimer: formData.get("showDisclaimer") === "on",
     logoUrl,
+    replicaBottleUrl,
+    sampleBottleUrl,
   });
 
   if (!parsed.success) {

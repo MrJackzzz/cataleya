@@ -10,6 +10,32 @@ export function roundMoney(value: number): number {
   return Math.round(value * 100) / 100;
 }
 
+export function parseMoneyInput(value: unknown): number {
+  if (typeof value === "number") return Number.isFinite(value) ? value : 0;
+  if (!value || typeof value !== "string") return 0;
+  let clean = value.trim().replace(/[$ \s]/g, "");
+  if (!clean) return 0;
+
+  if (clean.includes(".") && clean.includes(",")) {
+    // Formato con miles y decimales: 15.000,50 -> 15000.50
+    clean = clean.replace(/\./g, "").replace(",", ".");
+  } else if (clean.includes(",")) {
+    // 15000,50 -> 15000.50
+    clean = clean.replace(",", ".");
+  } else if (clean.includes(".")) {
+    // Si tiene puntos: puede ser separador de miles (ej: 15.000 o 1.500.000)
+    const parts = clean.split(".");
+    if (parts.length > 2) {
+      clean = parts.join("");
+    } else if (parts.length === 2 && parts[1].length === 3) {
+      clean = parts.join("");
+    }
+  }
+
+  const num = Number(clean);
+  return Number.isFinite(num) ? num : 0;
+}
+
 export function calcSellPrice(baseCost: number, markup?: MarkupRate | null): number {
   if (!markup) return roundMoney(baseCost);
   const value = markup.markupValue ?? 0;

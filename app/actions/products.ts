@@ -47,12 +47,34 @@ export async function createProduct(
     }
   }
 
+  let replicaBottleUrl = String(formData.get("replicaBottleUrl") ?? "");
+  const replicaBottleFile = formData.get("replicaBottleFile");
+  if (replicaBottleFile instanceof File && replicaBottleFile.size > 0) {
+    try {
+      replicaBottleUrl = await uploadImageToR2(replicaBottleFile);
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : "No se pudo subir la imagen de envase réplica." };
+    }
+  }
+
+  let sampleBottleUrl = String(formData.get("sampleBottleUrl") ?? "");
+  const sampleBottleFile = formData.get("sampleBottleFile");
+  if (sampleBottleFile instanceof File && sampleBottleFile.size > 0) {
+    try {
+      sampleBottleUrl = await uploadImageToR2(sampleBottleFile);
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : "No se pudo subir la imagen de envase muestra." };
+    }
+  }
+
   const parsed = productSchema.safeParse({
     codeNumber: formData.get("codeNumber"),
     name: formData.get("name"),
     designer: formData.get("designer") ?? "",
     description: formData.get("description"),
     imageUrl,
+    replicaBottleUrl,
+    sampleBottleUrl,
     gender: formData.get("gender") ?? "UNISEX",
     olfactoryFamily: formData.get("olfactoryFamily") ?? "",
     stock: formData.get("stock"),
@@ -99,12 +121,34 @@ export async function updateProduct(
     }
   }
 
+  let replicaBottleUrl = String(formData.get("replicaBottleUrl") ?? "");
+  const replicaBottleFile = formData.get("replicaBottleFile");
+  if (replicaBottleFile instanceof File && replicaBottleFile.size > 0) {
+    try {
+      replicaBottleUrl = await uploadImageToR2(replicaBottleFile);
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : "No se pudo subir la imagen de envase réplica." };
+    }
+  }
+
+  let sampleBottleUrl = String(formData.get("sampleBottleUrl") ?? "");
+  const sampleBottleFile = formData.get("sampleBottleFile");
+  if (sampleBottleFile instanceof File && sampleBottleFile.size > 0) {
+    try {
+      sampleBottleUrl = await uploadImageToR2(sampleBottleFile);
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : "No se pudo subir la imagen de envase muestra." };
+    }
+  }
+
   const parsed = productSchema.safeParse({
     codeNumber: formData.get("codeNumber"),
     name: formData.get("name"),
     designer: formData.get("designer") ?? "",
     description: formData.get("description"),
     imageUrl,
+    replicaBottleUrl,
+    sampleBottleUrl,
     gender: formData.get("gender") ?? "UNISEX",
     olfactoryFamily: formData.get("olfactoryFamily") ?? "",
     stock: formData.get("stock"),
